@@ -1,17 +1,13 @@
 import { Navbar } from "@/components/layout/Navbar";
-import { Hero } from "@/components/home/Hero";
-import { About } from "@/components/home/About";
 import { Footer } from "@/components/layout/Footer";
+import { ContactContent } from "@/components/home/ContactContent";
 
-export default function Home() {
+export default function ContactoPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="grow">
-        <Hero />
-        <About />
-        
-        {/* Rest of the landing will go here */}
+        <ContactContent />
       </main>
       <Footer />
     </div>

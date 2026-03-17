@@ -1,17 +1,13 @@
 import { Navbar } from "@/components/layout/Navbar";
-import { Hero } from "@/components/home/Hero";
-import { About } from "@/components/home/About";
 import { Footer } from "@/components/layout/Footer";
+import { WorkWithUsContent } from "@/components/home/WorkWithUsContent";
 
-export default function Home() {
+export default function TrabajaEnSumPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="grow">
-        <Hero />
-        <About />
-        
-        {/* Rest of the landing will go here */}
+        <WorkWithUsContent />
       </main>
       <Footer />
     </div>

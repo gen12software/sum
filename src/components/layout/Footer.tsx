@@ -1,0 +1,108 @@
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import { Phone, Mail, MapPin, Instagram, Facebook, ShieldCheck } from "lucide-react";
+
+export function Footer() {
+  const currentYear = new Date().getFullYear();
+  
+  return (
+    <footer className="bg-primary text-white pt-24 pb-12 overflow-hidden relative">
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          {/* Brand & Mission */}
+          <div className="lg:col-span-1">
+            <Link href="/" className="flex items-center gap-2 mb-6">
+              <div className="w-10 h-10 bg-secondary rounded-xl flex items-center justify-center transform transition-transform hover:scale-110">
+                <span className="text-white font-black text-xl italic leading-none">S</span>
+              </div>
+              <span className="text-2xl font-black tracking-tighter text-white">SUM</span>
+            </Link>
+            <p className="text-white/60 font-medium leading-relaxed mb-6">
+              Servicio Integral de Medicina Prehospitalaria. Cuidando tu vida con excelencia y compromiso desde 1986.
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-secondary transition-all active:scale-90">
+                <Instagram size={20} />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-secondary transition-all active:scale-90">
+                <Facebook size={20} />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-lg font-bold mb-6">Institucional</h4>
+            <ul className="space-y-4">
+              {["Empresa", "Servicios", "Planes", "Preguntas Frecuentes", "Contacto"].map((item) => (
+                <li key={item}>
+                  <Link 
+                    href={item === "Empresa" ? "/#empresa" : `/${item.toLowerCase()}`} 
+                    className="text-white/60 hover:text-white transition-colors font-medium text-sm flex items-center gap-2 group"
+                  >
+                    <div className="w-1 h-1 bg-secondary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h4 className="text-lg font-bold mb-6">Contacto</h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <MapPin size={18} className="text-secondary shrink-0 mt-0.5" />
+                <span className="text-white/60 text-sm font-medium">Plaza Italia 183. LA PLATA<br/>Provincia de Buenos Aires</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone size={18} className="text-secondary shrink-0" />
+                <a href="tel:02214216002" className="text-white/60 text-sm font-medium hover:text-white transition-colors">(0221) 421-6002</a>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail size={18} className="text-secondary shrink-0" />
+                <a href="mailto:infosum@sumsa.com.ar" className="text-white/60 text-sm font-medium hover:text-white transition-colors">infosum@sumsa.com.ar</a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Emergency & Certificates */}
+          <div className="space-y-8">
+            <div className="p-6 bg-white/10 rounded-2xl border border-white/10">
+              <h4 className="text-xs font-black uppercase tracking-widest text-secondary mb-2">EMERGENCIAS 24H</h4>
+              <a href="tel:08003337867" className="text-xl font-bold hover:text-secondary transition-colors">0800 333-7867</a>
+            </div>
+            <div className="flex gap-4 items-center">
+              <div className="bg-white p-2 rounded-lg w-12 h-12 flex items-center justify-center">
+                <span className="text-primary font-black text-[10px] italic leading-tight">IRAM</span>
+              </div>
+              <div className="bg-white p-2 rounded-lg w-12 h-12 flex items-center justify-center">
+                <span className="text-primary font-black text-[10px] italic leading-tight">IQNET</span>
+              </div>
+              <div className="bg-white p-2 rounded-lg h-12 flex items-center px-2">
+                <span className="text-primary font-black text-[8px] uppercase leading-tight">Data<br/>Fiscal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">
+            © {currentYear} SUM S.A. | Todos los derechos reservados.
+          </p>
+          <div className="flex gap-8">
+            <Link href="#" className="text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Términos y condiciones</Link>
+            <Link href="#" className="text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Solicitud de Baja</Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-linear-to-l from-white/5 to-transparent pointer-events-none" />
+    </footer>
+  );
+}
