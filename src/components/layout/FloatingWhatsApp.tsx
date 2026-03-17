@@ -2,12 +2,13 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export function FloatingWhatsApp() {
   return (
     <div className="fixed bottom-8 right-8 z-50 pointer-events-none">
       <motion.a
-        href="https://wa.me/5492216754608"
+        href={WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
         initial={{ scale: 0, opacity: 0 }}

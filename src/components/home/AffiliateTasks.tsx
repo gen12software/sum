@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { submitAffiliateTask } from "@/app/actions";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   UserCog, 
@@ -58,18 +59,16 @@ export function AffiliateTasks() {
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
-    
-    // Simulate API call to a specific endpoint
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setStatus("success");
-    setTimeout(() => {
+    const result = await submitAffiliateTask(new FormData(e.currentTarget));
+    if (result.success) {
+      setStatus("success");
+      setTimeout(() => { setStatus("idle"); setActiveTask(null); }, 2000);
+    } else {
       setStatus("idle");
-      setActiveTask(null);
-    }, 2000);
+    }
   };
 
   return (
@@ -83,7 +82,7 @@ export function AffiliateTasks() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {TASKS.map((task) => (
           <motion.div
             key={task.id}
@@ -145,14 +144,16 @@ export function AffiliateTasks() {
                       </div>
                    ) : (
                       <form onSubmit={handleSubmit} className="space-y-6">
+                         <input type="hidden" name="formType" value={activeTask.formType} />
                          {/* Common Identification Field */}
                          <div className="space-y-2 border-b border-border pb-6 mb-6">
                             <label className="text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Identificación Obligatoria</label>
-                            <input 
-                              type="text" 
-                              placeholder="Número de Afiliado (ej: 12345/00)" 
-                              className="w-full bg-surface border-2 border-secondary/20 p-4 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-black text-primary placeholder:text-primary/20" 
-                              required 
+                            <input
+                              type="text"
+                              name="affiliateNumber"
+                              placeholder="Número de Afiliado (ej: 12345/00)"
+                              className="w-full bg-surface border-2 border-secondary/20 p-4 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-black text-primary placeholder:text-primary/20"
+                              required
                             />
                          </div>
 
@@ -160,11 +161,11 @@ export function AffiliateTasks() {
                             <>
                                <div className="space-y-2">
                                   <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Nuevo Teléfono de Contacto</label>
-                                  <input type="tel" placeholder="(221) 123-4567" className="w-full bg-surface border border-border p-4 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-primary" required />
+                                  <input type="tel" name="phone" placeholder="(221) 123-4567" className="w-full bg-surface border border-border p-4 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-primary" required />
                                </div>
                                <div className="space-y-2">
                                   <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Nuevo Email</label>
-                                  <input type="email" placeholder="usuario@ejemplo.com" className="w-full bg-surface border border-border p-4 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-primary" required />
+                                  <input type="email" name="email" placeholder="usuario@ejemplo.com" className="w-full bg-surface border border-border p-4 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-primary" required />
                                </div>
                             </>
                          )}
@@ -173,12 +174,12 @@ export function AffiliateTasks() {
                             <>
                                <div className="space-y-2">
                                   <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">DNI del Titular</label>
-                                  <input type="text" placeholder="DNI sin puntos" className="w-full bg-surface border border-border p-4 rounded-xl focus:ring-2 focus:ring-secondary/20" required />
+                                  <input type="text" name="dni" placeholder="DNI sin puntos" className="w-full bg-surface border border-border p-4 rounded-xl focus:ring-2 focus:ring-secondary/20" required />
                                </div>
                                <div className="space-y-2">
                                   <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Datos de Tarjeta o CBU</label>
                                   <div className="relative">
-                                     <input type="text" placeholder="CBU (22 dígitos) o Nº Tarjeta" className="w-full bg-surface border border-border p-4 pl-12 rounded-xl focus:ring-2 focus:ring-secondary/20" required />
+                                     <input type="text" name="cardOrCbu" placeholder="CBU (22 dígitos) o Nº Tarjeta" className="w-full bg-surface border border-border p-4 pl-12 rounded-xl focus:ring-2 focus:ring-secondary/20" required />
                                      <CardIcon size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-primary/30" />
                                   </div>
                                </div>
@@ -189,7 +190,7 @@ export function AffiliateTasks() {
                             <>
                                <div className="space-y-2">
                                   <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Importe de la Transferencia</label>
-                                  <input type="number" placeholder="$ 0.00" className="w-full bg-surface border border-border p-4 rounded-xl focus:ring-2 focus:ring-secondary/20" required />
+                                  <input type="number" name="amount" placeholder="$ 0.00" className="w-full bg-surface border border-border p-4 rounded-xl focus:ring-2 focus:ring-secondary/20" required />
                                </div>
                                <div className="p-8 border-2 border-dashed border-border rounded-2xl text-center space-y-2 hover:border-secondary/20 transition-colors cursor-pointer bg-surface">
                                   <FileUp className="mx-auto text-secondary/40" size={32} />

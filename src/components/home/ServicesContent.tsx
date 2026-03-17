@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY } from "@/lib/contact";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Stethoscope, 
@@ -9,14 +10,10 @@ import {
   Activity, 
   PhoneCall, 
   Building2, 
-  ChevronRight,
-  ShieldCheck,
   HeartPulse,
   Smartphone,
   Clock,
-  Calendar,
   AlertCircle,
-  FileText,
   MapPin,
   ClipboardList
 } from "lucide-react";
@@ -243,8 +240,8 @@ export function ServicesContent() {
               <HeartPulse className="mb-4 text-white/40" size={32} />
               <h4 className="text-lg font-black mb-1 italic">¿Emergencia?</h4>
               <p className="text-white/80 text-xs font-medium mb-4">Atención inmediata las 24 horas.</p>
-              <a href="tel:08003337867" className="block w-full text-center bg-white text-secondary py-2 rounded-xl text-sm font-black hover:scale-105 transition-transform active:scale-95 shadow-lg">
-                0800 333-7867
+              <a href={`tel:${EMERGENCY_PHONE}`} className="block w-full text-center bg-white text-secondary py-2 rounded-xl text-sm font-black hover:scale-105 transition-transform active:scale-95 shadow-lg">
+                {EMERGENCY_PHONE_DISPLAY}
               </a>
             </div>
           </div>
@@ -393,8 +390,4 @@ export function ServicesContent() {
       </section>
     </section>
   );
-}
-
-function CheckCircleIcon({ catId }: { catId: string }) {
-  return <ChevronRight size={24} />;
 }

@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  PhoneCall, 
-  Mail, 
-  MapPin, 
-  MessageSquare, 
-  Clock, 
+import {
+  PhoneCall,
+  Mail,
+  MapPin,
+  Clock,
   ChevronRight,
   Send,
   Building,
@@ -16,46 +15,29 @@ import {
   SearchCheck,
   Smartphone
 } from "lucide-react";
+import { DEPARTMENTS as DEPT_DATA, QUICK_WHATSAPP as QUICK_WA } from "@/lib/contact";
+import { submitContactForm } from "@/app/actions";
 
 const DEPARTMENTS = [
-  {
-    name: "Comercial / Atención al Socio",
-    icon: <UserCheck size={20} className="text-secondary" />,
-    tel: "(0221) 483-9797",
-    whatsapp: "+54 9 221 675-4608",
-    email: "afiliaciones@sumsa.com.ar",
-    hours: "Lun a Vie de 9 a 17 h."
-  },
-  {
-    name: "Administración General",
-    icon: <Building size={20} className="text-secondary" />,
-    tel: "(0221) 421-6002",
-    email: "infosum@sumsa.com.ar",
-    hours: "Lun a Vie de 9 a 17 h."
-  },
-  {
-    name: "Cobranzas",
-    icon: <CreditCard size={20} className="text-secondary" />,
-    tel: "(0221) 483-9121",
-    email: "cobranzas@sumsa.com.ar",
-    hours: "Lun a Vie de 9 a 17 h."
-  },
-  {
-    name: "Área de Calidad",
-    icon: <SearchCheck size={20} className="text-secondary" />,
-    tel: "(0221) 483-9797",
-    hours: "Lun a Vie de 9 a 17 h."
-  }
+  { ...DEPT_DATA[0], icon: <UserCheck size={20} className="text-secondary" /> },
+  { ...DEPT_DATA[1], icon: <Building size={20} className="text-secondary" /> },
+  { ...DEPT_DATA[2], icon: <CreditCard size={20} className="text-secondary" /> },
+  { ...DEPT_DATA[3], icon: <SearchCheck size={20} className="text-secondary" /> },
 ];
 
-const QUICK_WHATSAPP = [
-  { title: "Informar un Pago", number: "+54 9 221 411-1800", hours: "8:30 a 16:30 h." },
-  { title: "Pedir Factura", number: "+54 9 221 671-0641", hours: "8:30 a 16:30 h." },
-  { title: "Consultar Deuda", number: "+54 9 221 593-0000", hours: "8:30 a 16:30 h." },
-  { title: "Baja de Servicio", number: "+54 9 221 675-4608", hours: "9:00 a 17:00 h." },
-];
+const QUICK_WHATSAPP = [...QUICK_WA];
 
 export function ContactContent() {
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success">("idle");
+
+  const handleContactSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus("loading");
+    const result = await submitContactForm(new FormData(e.currentTarget));
+    setFormStatus(result.success ? "success" : "idle");
+    if (result.success) setTimeout(() => setFormStatus("idle"), 3000);
+  };
+
   return (
     <section className="bg-white min-h-screen">
       {/* Header Section */}
@@ -158,34 +140,44 @@ export function ContactContent() {
             {/* Contact Form */}
             <div className="bg-surface rounded-4xl p-10 border border-border shadow-soft">
               <h3 className="text-2xl font-black text-primary uppercase mb-8 italic">Envianos un <span className="text-secondary">mensaje</span></h3>
-              <form className="space-y-6">
+              <form onSubmit={handleContactSubmit} className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Nombre y Apellido</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
+                    name="name"
                     placeholder="Escribí tu nombre..."
+                    required
                     className="w-full bg-white border border-border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Correo Electrónico</label>
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
+                    name="email"
                     placeholder="email@ejemplo.com"
+                    required
                     className="w-full bg-white border border-border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Mensaje</label>
-                  <textarea 
+                  <textarea
+                    name="message"
                     rows={4}
                     placeholder="¿En qué podemos ayudarte?"
+                    required
                     className="w-full bg-white border border-border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm resize-none"
                   />
                 </div>
-                <button className="w-full bg-primary text-white py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-primary-dark hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg flex items-center justify-center gap-3">
+                <button
+                  type="submit"
+                  disabled={formStatus === "loading"}
+                  className="w-full bg-primary text-white py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-primary-dark hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg flex items-center justify-center gap-3 disabled:opacity-50"
+                >
                   <Send size={18} />
-                  Enviar Mensaje
+                  {formStatus === "loading" ? "Enviando..." : formStatus === "success" ? "¡Mensaje enviado!" : "Enviar Mensaje"}
                 </button>
               </form>
             </div>

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Menu, X, PhoneCall, ChevronDown } from "lucide-react";
+import { EMERGENCY_PHONE } from "@/lib/contact";
 
 const NAV_LINKS = [
   { name: "Inicio", href: "/" },
@@ -54,9 +55,7 @@ export function Navbar() {
             <div className="w-10 h-10 bg-secondary rounded-xl flex items-center justify-center shadow-lg transform transition-transform hover:scale-110">
               <span className="text-white font-black text-xl italic leading-none">S</span>
             </div>
-            <span className={`text-2xl font-black tracking-tighter transition-colors ${
-              isScrolled ? "text-primary" : "text-primary"
-            }`}>
+            <span className="text-2xl font-black tracking-tighter text-primary">
               SUM
             </span>
           </Link>
@@ -101,7 +100,7 @@ export function Navbar() {
               Área Afiliados
             </Link>
             <a
-              href="tel:0800-XXX-XXXX"
+              href={`tel:${EMERGENCY_PHONE}`}
               className="flex items-center justify-center w-11 h-11 rounded-full bg-secondary text-white hover:bg-secondary-dark transition-all shadow-md animate-pulse"
             >
               <PhoneCall size={20} />
@@ -165,7 +164,7 @@ export function Navbar() {
                 Mi Gestión
               </Link>
               <a
-                href="tel:0800-XXX-XXXX"
+                href={`tel:${EMERGENCY_PHONE}`}
                 className="flex items-center justify-center gap-2 w-full py-4 rounded-xl border-2 border-secondary text-secondary font-bold"
               >
                 <PhoneCall size={20} />

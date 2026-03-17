@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Check, Info, Phone, BadgePercent, MapPin, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, WHATSAPP_URL } from "@/lib/contact";
 
 const PLANS = [
   {
@@ -126,7 +127,7 @@ export function Pricing() {
               </div>
 
               <Link
-                href="https://wa.me/5492216754608"
+                href={WHATSAPP_URL}
                 className={`w-full py-4 rounded-2xl font-black text-center transition-all flex items-center justify-center gap-2 ${
                   plan.highlight 
                   ? "bg-white text-primary hover:bg-surface" 
@@ -175,8 +176,8 @@ export function Pricing() {
                 Lunes a Viernes de 9 a 17 horas para consultas sobre afiliaciones.
               </p>
               <div className="flex gap-4">
-                <a href="tel:08003337867" className="text-sm font-black underline underline-offset-4 hover:text-accent transition-colors">0800 333-7867</a>
-                <a href="https://wa.me/5492216754608" className="text-sm font-black underline underline-offset-4 hover:text-accent transition-colors">WhatsApp</a>
+                <a href={`tel:${EMERGENCY_PHONE}`} className="text-sm font-black underline underline-offset-4 hover:text-accent transition-colors">{EMERGENCY_PHONE_DISPLAY}</a>
+                <a href={WHATSAPP_URL} className="text-sm font-black underline underline-offset-4 hover:text-accent transition-colors">WhatsApp</a>
               </div>
             </div>
           </motion.div>
