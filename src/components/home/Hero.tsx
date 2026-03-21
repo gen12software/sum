@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, ShieldCheck, Activity, Clock, User } from "lucide-react";
+import { ArrowRight, ShieldCheck, Activity, Clock } from "lucide-react";
 
 export function Hero() {
   return (
@@ -42,22 +42,22 @@ export function Hero() {
             </h1>
             
             <p className="text-lg md:text-xl text-primary mb-10 max-w-xl leading-relaxed font-medium">
-              En SUM combinamos tecnología avanzada y calidez humana para brindarte el mejor servicio de salud. Gestioná todo desde nuestra nueva plataforma inteligente.
+              En SUM combinamos tecnología avanzada y calidez humana para brindarte el mejor servicio de salud prehospitalaria desde 1986.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="/gestion"
+                href="/planes"
                 className="group flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white rounded-2xl font-bold text-lg hover:bg-primary-dark transition-all shadow-premium hover:-translate-y-1"
               >
-                Acceso mi Gestión
+                Ver Planes
                 <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
-                href="/planes"
+                href="/contacto"
                 className="flex items-center justify-center gap-2 px-8 py-4 bg-white text-primary border-2 border-primary/10 rounded-2xl font-bold text-lg hover:bg-surface transition-all shadow-sm hover:border-primary/30"
               >
-                Ver Planes
+                Contactanos
               </Link>
             </div>
 

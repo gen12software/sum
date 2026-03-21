@@ -2,7 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { Phone, Mail, MapPin, Instagram, Facebook, ShieldCheck } from "lucide-react";
+import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
+import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, DEPARTMENTS } from "@/lib/contact";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -23,12 +24,12 @@ export function Footer() {
               Servicio Integral de Medicina Prehospitalaria. Cuidando tu vida con excelencia y compromiso desde 1986.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-secondary transition-all active:scale-90">
+              <span className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center opacity-40 cursor-default" title="Próximamente">
                 <Instagram size={20} />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-secondary transition-all active:scale-90">
+              </span>
+              <span className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center opacity-40 cursor-default" title="Próximamente">
                 <Facebook size={20} />
-              </a>
+              </span>
             </div>
           </div>
 
@@ -36,14 +37,20 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-bold mb-6">Institucional</h4>
             <ul className="space-y-4">
-              {["Empresa", "Servicios", "Planes", "Preguntas Frecuentes", "Contacto"].map((item) => (
-                <li key={item}>
-                  <Link 
-                    href={item === "Empresa" ? "/#empresa" : `/${item.toLowerCase()}`} 
+              {[
+                { name: "Empresa", href: "/#empresa" },
+                { name: "Servicios", href: "/servicios" },
+                { name: "Planes", href: "/planes" },
+                { name: "Emergencias", href: "/emergencias" },
+                { name: "Contacto", href: "/contacto" },
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
                     className="text-white/60 hover:text-white transition-colors font-medium text-sm flex items-center gap-2 group"
                   >
                     <div className="w-1 h-1 bg-secondary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                    {item}
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -60,7 +67,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={18} className="text-secondary shrink-0" />
-                <a href="tel:02214216002" className="text-white/60 text-sm font-medium hover:text-white transition-colors">(0221) 421-6002</a>
+                <a href={`tel:${DEPARTMENTS[1].tel.replace(/[^0-9]/g, '')}`} className="text-white/60 text-sm font-medium hover:text-white transition-colors">{DEPARTMENTS[1].tel}</a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={18} className="text-secondary shrink-0" />
@@ -73,7 +80,7 @@ export function Footer() {
           <div className="space-y-8">
             <div className="p-6 bg-white/10 rounded-2xl border border-white/10">
               <h4 className="text-xs font-black uppercase tracking-widest text-secondary mb-2">EMERGENCIAS 24H</h4>
-              <a href="tel:08003337867" className="text-xl font-bold hover:text-secondary transition-colors">0800 333-7867</a>
+              <a href={`tel:${EMERGENCY_PHONE}`} className="text-xl font-bold hover:text-secondary transition-colors">{EMERGENCY_PHONE_DISPLAY}</a>
             </div>
             <div className="flex gap-4 items-center">
               <div className="bg-white p-2 rounded-lg w-12 h-12 flex items-center justify-center">
@@ -95,8 +102,8 @@ export function Footer() {
             © {currentYear} SUM S.A. | Todos los derechos reservados.
           </p>
           <div className="flex gap-8">
-            <Link href="#" className="text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Términos y condiciones</Link>
-            <Link href="#" className="text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Solicitud de Baja</Link>
+            <Link href="/contacto" className="text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Términos y condiciones</Link>
+            <Link href="/contacto" className="text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Solicitud de Baja</Link>
           </div>
         </div>
       </div>

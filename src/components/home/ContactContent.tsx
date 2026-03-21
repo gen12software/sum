@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import {
   PhoneCall,
   Mail,
-  MapPin,
   Clock,
   ChevronRight,
   Send,
@@ -184,16 +183,13 @@ export function ContactContent() {
 
             {/* Sede Central / Map Visual */}
             <div className="bg-white rounded-4xl border border-border overflow-hidden group">
-              <div className="h-64 bg-slate-200 relative">
-                {/* Simplified Map UI Placeholder */}
-                <div className="absolute inset-0 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=-34.9126,-57.9482&zoom=16&size=600x400&markers=color:red%7C-34.9126,-57.9482&key=')] bg-cover bg-center">
-                   <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors" />
-                </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                   <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center shadow-2xl animate-pulse">
-                      <MapPin className="text-white" size={24} />
-                   </div>
-                </div>
+              <div className="h-64 relative overflow-hidden">
+                <iframe
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=-57.9502%2C-34.9136%2C-57.9462%2C-34.9116&layer=mapnik&marker=-34.9126%2C-57.9482"
+                  className="w-full h-full border-0"
+                  title="Ubicación SUM - Plaza Italia 183, La Plata"
+                />
+                <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors pointer-events-none" />
               </div>
               <div className="p-8">
                 <div className="flex items-center gap-2 text-secondary mb-2">

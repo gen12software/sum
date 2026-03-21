@@ -2,17 +2,17 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { 
-  CreditCard, 
-  Smartphone, 
-  Mail, 
-  PhoneCall, 
-  CheckCircle2, 
+import {
+  CreditCard,
+  Smartphone,
+  Mail,
+  PhoneCall,
+  CheckCircle2,
   AlertCircle,
   Clock,
-  ChevronDown,
   Building
 } from "lucide-react";
+import { DEPARTMENTS, QUICK_WHATSAPP } from "@/lib/contact";
 
 const DATA_NEEDED = [
   "Apellido y nombre del/los afiliados",
@@ -25,10 +25,10 @@ const DATA_NEEDED = [
 ];
 
 const CONTACTS = [
-  { name: "Administración", tel: "(0221) 421-6002", email: "infosum@sumsa.com.ar", hours: "Lun a Vie de 9 a 17 h." },
-  { name: "Departamento Cobranzas", tel: "(0221) 483-9121", email: "cobranzas@sumsa.com.ar", hours: "Lun a Vie de 9 a 17 h." },
-  { name: "Informar Pago (WhatsApp)", tel: "+54 9 221 411-1800", hours: "8:30 a 16:30 h." },
-  { name: "Pedir Factura (WhatsApp)", tel: "+54 9 221 671-0641", hours: "8:30 a 16:30 h." },
+  { name: "Administración", tel: DEPARTMENTS[1].tel, email: DEPARTMENTS[1].email, hours: DEPARTMENTS[1].hours },
+  { name: "Departamento Cobranzas", tel: DEPARTMENTS[2].tel, email: DEPARTMENTS[2].email, hours: DEPARTMENTS[2].hours },
+  { name: "Informar Pago (WhatsApp)", tel: QUICK_WHATSAPP[0].number, hours: QUICK_WHATSAPP[0].hours },
+  { name: "Pedir Factura (WhatsApp)", tel: QUICK_WHATSAPP[1].number, hours: QUICK_WHATSAPP[1].hours },
 ];
 
 export function PaymentModesContent() {
@@ -109,8 +109,8 @@ export function PaymentModesContent() {
                   <h3 className="text-xl font-bold text-primary mb-2">Informar un Pago</h3>
                   <p className="text-primary/60 text-sm font-medium mb-6">Si realizaste una transferencia, envianos el comprobante directamente por WhatsApp.</p>
                   <div className="flex flex-col gap-2">
-                     <a href="tel:5492214111800" className="text-secondary font-black text-lg">+54 9 221 411-1800</a>
-                     <span className="text-[10px] font-black text-primary/30 uppercase tracking-widest">8:30 a 16:30 h.</span>
+                     <a href={`https://wa.me/${QUICK_WHATSAPP[0].number.replace(/[^0-9]/g, '')}`} className="text-secondary font-black text-lg">{QUICK_WHATSAPP[0].number}</a>
+                     <span className="text-[10px] font-black text-primary/30 uppercase tracking-widest">{QUICK_WHATSAPP[0].hours}</span>
                   </div>
                </div>
                <div className="p-8 bg-surface rounded-4xl border border-border group hover:border-secondary/20 transition-all">
@@ -118,8 +118,8 @@ export function PaymentModesContent() {
                   <h3 className="text-xl font-bold text-primary mb-2">Pedir Factura</h3>
                   <p className="text-primary/60 text-sm font-medium mb-6">Solicitá tu factura mensual de forma digital para tu control personal o de empresa.</p>
                   <div className="flex flex-col gap-2">
-                     <a href="tel:5492216710641" className="text-secondary font-black text-lg">+54 9 221 671-0641</a>
-                     <span className="text-[10px] font-black text-primary/30 uppercase tracking-widest">8:30 a 16:30 h.</span>
+                     <a href={`https://wa.me/${QUICK_WHATSAPP[1].number.replace(/[^0-9]/g, '')}`} className="text-secondary font-black text-lg">{QUICK_WHATSAPP[1].number}</a>
+                     <span className="text-[10px] font-black text-primary/30 uppercase tracking-widest">{QUICK_WHATSAPP[1].hours}</span>
                   </div>
                </div>
             </div>

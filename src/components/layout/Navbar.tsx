@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Menu, X, PhoneCall, ChevronDown } from "lucide-react";
+import { Menu, X, PhoneCall, ChevronDown } from "lucide-react";
 import { EMERGENCY_PHONE } from "@/lib/contact";
 
 const NAV_LINKS = [
@@ -92,13 +92,6 @@ export function Navbar() {
 
           {/* Action Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <Link
-              href="/gestion"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm bg-primary text-white hover:bg-primary-dark transition-all shadow-md active:scale-95"
-            >
-              <User size={18} />
-              Área Afiliados
-            </Link>
             <a
               href={`tel:${EMERGENCY_PHONE}`}
               className="flex items-center justify-center w-11 h-11 rounded-full bg-secondary text-white hover:bg-secondary-dark transition-all shadow-md animate-pulse"
@@ -155,14 +148,6 @@ export function Navbar() {
                 </div>
               ))}
               <div className="h-px bg-border" />
-              <Link
-                href="/gestion"
-                className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-primary text-white font-bold"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <User size={20} />
-                Mi Gestión
-              </Link>
               <a
                 href={`tel:${EMERGENCY_PHONE}`}
                 className="flex items-center justify-center gap-2 w-full py-4 rounded-xl border-2 border-secondary text-secondary font-bold"
