@@ -1,114 +1,132 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, ShieldCheck, Activity, Clock } from "lucide-react";
+import Link from "next/link";
+import { PhoneCall, ArrowRight } from "lucide-react";
+import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, WHATSAPP_URL } from "@/lib/contact";
+
+// Apple-style: blur-to-sharp + fade-up, staggered
+const appleReveal = (delay: number, blur = 16) => ({
+  initial: { opacity: 0, y: 20, filter: `blur(${blur}px)` },
+  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+  transition: { duration: 1.1, delay, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] },
+});
 
 export function Hero() {
   return (
-    <section className="relative min-h-[95vh] flex items-center pt-32 pb-24 overflow-hidden bg-white">
-      {/* Background Pattern/Image */}
-      <div className="absolute inset-0 z-0 opacity-10">
-        <Image
-          src="/hero-bg.png"
-          alt="Hero Background"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-linear-to-r from-white via-white/80 to-transparent" />
-      </div>
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#00112b]">
 
-      {/* Abstract Shapes */}
-      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-accent/20 rounded-full blur-3xl opacity-50" />
-      <div className="absolute bottom-1/4 -left-20 w-72 h-72 bg-primary/10 rounded-full blur-2xl opacity-50" />
+      {/* Background: base gradient + animated blobs */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2 }}
+        aria-hidden
+        className="absolute inset-0"
+      >
+        {/* Static radial base */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(0,80,160,0.35),transparent)]" />
 
-      <div className="container px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+        {/* Animated blobs */}
+        <div className="hero-blob hero-blob-1" />
+        <div className="hero-blob hero-blob-2" />
+        <div className="hero-blob hero-blob-3" />
+        <div className="hero-blob hero-blob-4" />
+      </motion.div>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto">
+
+        {/* Main title — bigger blur, more drama */}
+        <motion.h1
+          {...appleReveal(0.45, 28)}
+          className="text-[clamp(5rem,18vw,12rem)] font-black text-white leading-[0.85] tracking-tighter mb-8 select-none"
+        >
+          SUM
+        </motion.h1>
+
+        {/* Tagline — word by word */}
+        <div className="text-[clamp(1.3rem,3vw,2.5rem)] font-medium text-white/60 mb-16 leading-snug">
+          <motion.span
+            {...appleReveal(0.75, 12)}
+            className="block"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold mb-6 tracking-wide border border-primary/20">
-              <ShieldCheck size={14} />
-              TU SEGURIDAD ES NUESTRA PRIORIDAD
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl font-black text-primary mb-6 leading-[1.1]">
-              Cuidado de <span className="text-secondary">Emergencia</span> de Próxima Generación
-            </h1>
-            
-            <p className="text-lg md:text-xl text-primary mb-10 max-w-xl leading-relaxed font-medium">
-              En SUM combinamos tecnología avanzada y calidez humana para brindarte el mejor servicio de salud prehospitalaria desde 1986.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/planes"
-                className="group flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white rounded-2xl font-bold text-lg hover:bg-primary-dark transition-all shadow-premium hover:-translate-y-1"
-              >
-                Ver Planes
-                <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link
-                href="/contacto"
-                className="flex items-center justify-center gap-2 px-8 py-4 bg-white text-primary border-2 border-primary/10 rounded-2xl font-bold text-lg hover:bg-surface transition-all shadow-sm hover:border-primary/30"
-              >
-                Contactanos
-              </Link>
-            </div>
-
-            {/* Stats/Badges */}
-            <div className="mt-12 grid grid-cols-3 gap-6 pt-12 border-t border-border/50">
-              <div>
-                <div className="flex items-center gap-2 text-primary font-bold mb-1">
-                  <Clock size={18} />
-                  15 min
-                </div>
-                <div className="text-[10px] text-primary/60 font-bold uppercase tracking-wider">Respuesta Promedio</div>
-              </div>
-              <div>
-                <div className="flex items-center gap-2 text-primary font-bold mb-1">
-                  <Activity size={18} />
-                  24/7
-                </div>
-                <div className="text-[10px] text-primary/60 font-bold uppercase tracking-wider">Disponibilidad</div>
-              </div>
-              <div>
-                <div className="flex items-center gap-2 text-primary font-bold mb-1">
-                  <ShieldCheck size={18} />
-                  +30 años
-                </div>
-                <div className="text-[10px] text-primary/60 font-bold uppercase tracking-wider">Experiencia</div>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="hidden lg:block relative"
+            Siempre listos.
+          </motion.span>
+          <motion.span
+            {...appleReveal(0.95, 12)}
+            className="block"
           >
-            <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white">
-              <Image
-                src="/hero-bg.png"
-                alt="SUM Medical Service"
-                width={800}
-                height={600}
-                className="object-cover aspect-4/3"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-primary/40 to-transparent" />
-            </div>
-            
-            {/* Background elements for depth */}
-            <div className="absolute -z-10 -top-6 -right-6 w-full h-full border-2 border-primary/10 rounded-[2.5rem]" />
-          </motion.div>
+            Siempre cerca.
+          </motion.span>
         </div>
+
+        {/* CTAs */}
+        <motion.div
+          {...appleReveal(1.2, 8)}
+          className="flex flex-col sm:flex-row items-center gap-4"
+        >
+          <a
+            href={`tel:${EMERGENCY_PHONE}`}
+            className="flex items-center gap-3 px-8 py-4 bg-secondary text-white rounded-2xl font-bold text-lg hover:bg-secondary-dark transition-all shadow-lg hover:-translate-y-0.5"
+          >
+            <PhoneCall size={20} />
+            {EMERGENCY_PHONE_DISPLAY}
+          </a>
+
+          <Link
+            href="/planes"
+            className="flex items-center gap-2 px-8 py-4 bg-white/10 text-white border border-white/15 rounded-2xl font-bold text-lg hover:bg-white/20 transition-all"
+          >
+            Ver Planes
+            <ArrowRight size={18} />
+          </Link>
+
+          <a
+            href={WHATSAPP_URL}
+            className="flex items-center gap-2 px-8 py-4 text-white/50 font-bold text-base hover:text-white transition-colors"
+          >
+            Hablá con nosotros
+          </a>
+        </motion.div>
+
+        {/* Stats */}
+        <motion.div
+          {...appleReveal(1.45, 6)}
+          className="mt-20 flex items-center gap-12 text-center"
+        >
+          {[
+            { value: "+30", label: "Años" },
+            { value: "24/7", label: "Disponibilidad" },
+            { value: "15 min", label: "Respuesta" },
+          ].map((stat) => (
+            <div key={stat.label}>
+              <div className="text-2xl font-black text-white">{stat.value}</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-white/30 mt-1">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.2 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+      >
+        <div className="w-px h-14 bg-white/10 relative overflow-hidden rounded-full">
+          <div
+            className="absolute inset-x-0 h-1/2 bg-linear-to-b from-transparent via-white/50 to-transparent"
+            style={{ animation: "scroll-line 1.8s linear infinite" }}
+          />
+        </div>
+        <span className="text-white/20 text-[9px] font-bold uppercase tracking-[0.3em]">
+          Scroll
+        </span>
+      </motion.div>
     </section>
   );
 }

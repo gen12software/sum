@@ -1,6 +1,19 @@
+import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { EmergenciesContent } from "@/components/home/EmergenciesContent";
+
+export const metadata: Metadata = {
+  title: "Emergencias",
+  description:
+    "Servicio de emergencias médicas 24 hs de SUM. Ambulancias equipadas y médicos especializados listos para atenderte. Llamá al 0800 333-7867.",
+  alternates: { canonical: "/emergencias" },
+  openGraph: {
+    title: "Emergencias | SUM",
+    description: "Emergencias médicas 24 hs. Ambulancias equipadas. Llamá al 0800 333-7867.",
+    url: "/emergencias",
+  },
+};
 
 export default function EmergenciasPage() {
   return (

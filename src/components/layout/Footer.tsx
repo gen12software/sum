@@ -9,7 +9,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-primary text-white pt-24 pb-12 overflow-hidden relative">
+    <footer className="bg-[#000d1f] text-white pt-24 pb-12 overflow-hidden relative border-t border-white/5">
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand & Mission */}
@@ -38,7 +38,6 @@ export function Footer() {
             <h4 className="text-lg font-bold mb-6">Institucional</h4>
             <ul className="space-y-4">
               {[
-                { name: "Empresa", href: "/#empresa" },
                 { name: "Servicios", href: "/servicios" },
                 { name: "Planes", href: "/planes" },
                 { name: "Emergencias", href: "/emergencias" },
@@ -97,14 +96,10 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">
+        <div className="pt-12 border-t border-white/10">
+          <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest text-center">
             © {currentYear} SUM S.A. | Todos los derechos reservados.
           </p>
-          <div className="flex gap-8">
-            <Link href="/contacto" className="text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Términos y condiciones</Link>
-            <Link href="/contacto" className="text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Solicitud de Baja</Link>
-          </div>
         </div>
       </div>
 

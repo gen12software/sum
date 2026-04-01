@@ -12,134 +12,82 @@ import {
   UserCheck,
   CreditCard,
   SearchCheck,
-  Smartphone
+  Smartphone,
+  CheckCircle2,
+  Stethoscope,
+  Truck,
+  Users,
+  Baby,
+  MapPin,
+  MessageCircle,
 } from "lucide-react";
-import { DEPARTMENTS as DEPT_DATA, QUICK_WHATSAPP as QUICK_WA } from "@/lib/contact";
+import { DEPARTMENTS as DEPT_DATA, QUICK_WHATSAPP as QUICK_WA, EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, WHATSAPP_URL, WHATSAPP_MAIN_DISPLAY } from "@/lib/contact";
 import { submitContactForm } from "@/app/actions";
 
 const DEPARTMENTS = [
-  { ...DEPT_DATA[0], icon: <UserCheck size={20} className="text-secondary" /> },
-  { ...DEPT_DATA[1], icon: <Building size={20} className="text-secondary" /> },
-  { ...DEPT_DATA[2], icon: <CreditCard size={20} className="text-secondary" /> },
-  { ...DEPT_DATA[3], icon: <SearchCheck size={20} className="text-secondary" /> },
+  { ...DEPT_DATA[0], icon: <UserCheck size={18} className="text-secondary" /> },
+  { ...DEPT_DATA[1], icon: <Building size={18} className="text-secondary" /> },
+  { ...DEPT_DATA[2], icon: <CreditCard size={18} className="text-secondary" /> },
+  { ...DEPT_DATA[3], icon: <SearchCheck size={18} className="text-secondary" /> },
 ];
 
-const QUICK_WHATSAPP = [...QUICK_WA];
-
 export function ContactContent() {
-  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+  const formRef = React.useRef<HTMLFormElement>(null);
 
   const handleContactSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus("loading");
+    setErrorMsg("");
     const result = await submitContactForm(new FormData(e.currentTarget));
-    setFormStatus(result.success ? "success" : "idle");
-    if (result.success) setTimeout(() => setFormStatus("idle"), 3000);
+    if (result.success) {
+      setFormStatus("success");
+      formRef.current?.reset();
+      setTimeout(() => setFormStatus("idle"), 4000);
+    } else {
+      setFormStatus("error");
+      setErrorMsg(result.message);
+      setTimeout(() => setFormStatus("idle"), 5000);
+    }
   };
 
   return (
     <section className="bg-white min-h-screen">
-      {/* Header Section */}
+
+      {/* Header */}
       <div className="pt-32 pb-16 bg-linear-to-b from-primary/5 to-white">
         <div className="container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <h1 className="text-4xl md:text-7xl font-black text-primary mb-6 uppercase tracking-tighter">
-              Estamos <span className="text-secondary">Conectados</span>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <h1 className="text-4xl md:text-7xl font-black text-primary mb-4 uppercase tracking-tighter">
+              Contacto
             </h1>
-            <p className="text-xl text-primary/70 max-w-2xl mx-auto font-medium">
-              Elegí el canal que prefieras para realizar tus trámites o consultas. Nuestro equipo está para ayudarte.
+            <p className="text-lg text-primary/50 max-w-xl mx-auto font-medium">
+              Escribinos, llamanos o pasá por nuestra sede.
             </p>
           </motion.div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          
-          {/* Main Info Column */}
-          <div className="lg:col-span-12 xl:col-span-8 space-y-12">
-            
-            {/* Departments Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {DEPARTMENTS.map((dept, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-8 bg-surface rounded-4xl border border-border group hover:border-secondary/20 hover:shadow-premium transition-all"
-                >
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm border border-border group-hover:scale-110 transition-transform">
-                      {dept.icon}
-                    </div>
-                    <h3 className="text-lg font-black text-primary uppercase tracking-tight leading-tight">{dept.name}</h3>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3 text-primary/60 font-bold text-sm">
-                      <PhoneCall size={16} className="text-primary/30" />
-                      <a href={`tel:${dept.tel}`} className="hover:text-secondary transition-colors">{dept.tel}</a>
-                    </div>
-                    {dept.whatsapp && (
-                      <div className="flex items-center gap-3 text-primary/60 font-bold text-sm">
-                        <Smartphone size={16} className="text-primary/30" />
-                        <a href={`https://wa.me/${dept.whatsapp.replace(/[^0-9]/g, '')}`} className="hover:text-secondary transition-colors">{dept.whatsapp}</a>
-                      </div>
-                    )}
-                    {dept.email && (
-                      <div className="flex items-center gap-3 text-primary/60 font-bold text-sm">
-                        <Mail size={16} className="text-primary/30" />
-                        <a href={`mailto:${dept.email}`} className="hover:text-secondary transition-colors">{dept.email}</a>
-                      </div>
-                    )}
-                    <div className="flex items-center gap-3 text-[10px] font-black uppercase text-primary/30 tracking-widest pt-2">
-                      <Clock size={12} />
-                      {dept.hours}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+      {/* FORM + QUICK CONTACTS */}
+      <div className="container mx-auto px-4 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-            {/* Quick Actions (WhatsApp Focus) */}
-            <div className="bg-primary rounded-5xl p-10 text-white relative overflow-hidden shadow-2xl">
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-10 h-10 bg-secondary rounded-xl flex items-center justify-center">
-                    <Smartphone size={20} className="animate-bounce" />
-                  </div>
-                  <h3 className="text-2xl font-black uppercase tracking-tight italic">Gestión Rápida por WhatsApp</h3>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-                  {QUICK_WHATSAPP.map((q, i) => (
-                    <a 
-                      key={i}
-                      href={`https://wa.me/${q.number.replace(/[^0-9]/g, '')}`}
-                      className="p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
-                    >
-                      <p className="text-xs font-black text-secondary uppercase tracking-widest mb-1">{q.title}</p>
-                      <p className="text-lg font-bold mb-2 group-hover:translate-x-1 transition-transform">{q.number}</p>
-                      <p className="text-[10px] text-white/40 font-bold uppercase">{q.hours}</p>
-                    </a>
-                  ))}
-                </div>
+          {/* Form — protagonista */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-7 bg-surface rounded-4xl p-10 border border-border"
+          >
+            <h2 className="text-2xl font-black text-primary mb-8">
+              Envianos un <span className="text-secondary">mensaje</span>
+            </h2>
+            <form ref={formRef} onSubmit={handleContactSubmit} className="space-y-5">
+              <div aria-hidden="true" style={{ display: "none" }}>
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" />
               </div>
-              <div className="absolute top-0 right-0 w-64 h-full bg-linear-to-l from-white/5 to-transparent pointer-events-none" />
-            </div>
-          </div>
-
-          {/* Form and Map Column */}
-          <div className="lg:col-span-12 xl:col-span-4 space-y-8">
-            {/* Contact Form */}
-            <div className="bg-surface rounded-4xl p-10 border border-border shadow-soft">
-              <h3 className="text-2xl font-black text-primary uppercase mb-8 italic">Envianos un <span className="text-secondary">mensaje</span></h3>
-              <form onSubmit={handleContactSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Nombre y Apellido</label>
                   <input
@@ -160,73 +108,318 @@ export function ContactContent() {
                     className="w-full bg-white border border-border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Mensaje</label>
-                  <textarea
-                    name="message"
-                    rows={4}
-                    placeholder="¿En qué podemos ayudarte?"
-                    required
-                    className="w-full bg-white border border-border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm resize-none"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={formStatus === "loading"}
-                  className="w-full bg-primary text-white py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-primary-dark hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg flex items-center justify-center gap-3 disabled:opacity-50"
-                >
-                  <Send size={18} />
-                  {formStatus === "loading" ? "Enviando..." : formStatus === "success" ? "¡Mensaje enviado!" : "Enviar Mensaje"}
-                </button>
-              </form>
-            </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Mensaje</label>
+                <textarea
+                  name="message"
+                  rows={6}
+                  placeholder="¿En qué podemos ayudarte?"
+                  required
+                  className="w-full bg-white border border-border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm resize-none"
+                />
+              </div>
+              {formStatus === "error" && (
+                <p className="text-sm font-bold text-red-500 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                  {errorMsg}
+                </p>
+              )}
+              <button
+                type="submit"
+                disabled={formStatus === "loading" || formStatus === "success"}
+                className="w-full bg-primary text-white py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-primary-dark hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg flex items-center justify-center gap-3 disabled:opacity-50"
+              >
+                <Send size={18} />
+                {formStatus === "loading" ? "Enviando..." : formStatus === "success" ? "¡Mensaje enviado!" : "Enviar Mensaje"}
+              </button>
+            </form>
+          </motion.div>
 
-            {/* Sede Central / Map Visual */}
-            <div className="bg-white rounded-4xl border border-border overflow-hidden group">
-              <div className="h-64 relative overflow-hidden">
+          {/* Quick contacts — lateral */}
+          <div className="lg:col-span-5 flex flex-col gap-4">
+            <motion.a
+              href={`tel:${EMERGENCY_PHONE}`}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.15 }}
+              className="flex items-center gap-5 p-6 bg-secondary text-white rounded-3xl hover:bg-secondary-dark transition-all group"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                <PhoneCall size={22} />
+              </div>
+              <div>
+                <div className="text-[10px] font-black uppercase tracking-widest text-white/70 mb-1">Emergencias 24H</div>
+                <div className="text-xl font-black">{EMERGENCY_PHONE_DISPLAY}</div>
+              </div>
+            </motion.a>
+
+            <motion.a
+              href={WHATSAPP_URL}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.25 }}
+              className="flex items-center gap-5 p-6 bg-surface border border-border rounded-3xl hover:border-secondary/30 hover:shadow-premium transition-all group"
+            >
+              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm border border-border group-hover:scale-110 transition-transform">
+                <MessageCircle size={22} className="text-secondary" />
+              </div>
+              <div>
+                <div className="text-[10px] font-black uppercase tracking-widest text-primary/40 mb-1">WhatsApp</div>
+                <div className="text-base font-black text-primary">{WHATSAPP_MAIN_DISPLAY}</div>
+                <div className="text-xs text-primary/40 font-medium mt-0.5">Lun a Vie de 9 a 17 h.</div>
+              </div>
+            </motion.a>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.35 }}
+              className="rounded-3xl border border-border overflow-hidden group"
+            >
+              <div className="h-48 relative overflow-hidden">
                 <iframe
                   src="https://www.openstreetmap.org/export/embed.html?bbox=-57.9502%2C-34.9136%2C-57.9462%2C-34.9116&layer=mapnik&marker=-34.9126%2C-57.9482"
                   className="w-full h-full border-0"
                   title="Ubicación SUM - Plaza Italia 183, La Plata"
                 />
-                <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors pointer-events-none" />
               </div>
-              <div className="p-8">
-                <div className="flex items-center gap-2 text-secondary mb-2">
-                   <Building size={16} />
-                   <span className="text-[10px] font-black uppercase tracking-widest">Sede Central</span>
+              <div className="p-5 bg-surface flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <MapPin size={16} className="text-secondary shrink-0" />
+                  <div>
+                    <div className="font-black text-primary text-sm">Plaza Italia 183</div>
+                    <div className="text-xs text-primary/50">La Plata, Buenos Aires</div>
+                  </div>
                 </div>
-                <h4 className="text-xl font-black text-primary mb-2">Plaza Italia 183</h4>
-                <p className="text-sm font-medium text-primary/60 mb-6">B1900 La Plata, Provincia de Buenos Aires</p>
-                <a 
-                  href="https://www.google.com/maps/dir//Pl.+Italia+183,+B1900+La+Plata,+Provincia+de+Buenos+Aires" 
+                <a
+                  href="https://www.google.com/maps/dir//Pl.+Italia+183,+B1900+La+Plata,+Provincia+de+Buenos+Aires"
                   target="_blank"
-                  className="flex items-center gap-2 text-secondary font-black text-sm hover:translate-x-1 transition-transform"
+                  className="flex items-center gap-1 text-secondary font-black text-xs hover:translate-x-0.5 transition-transform"
                 >
-                  Cómo llegar <ChevronRight size={16} />
+                  Cómo llegar <ChevronRight size={14} />
                 </a>
               </div>
-            </div>
-
+            </motion.div>
           </div>
         </div>
       </div>
 
-      {/* Institutional Legal Banner */}
-      <div className="py-12 bg-surface border-y border-border">
-        <div className="container mx-auto px-4">
-           <div className="flex flex-col md:flex-row justify-between items-center gap-8 opacity-40 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-              <p className="text-[10px] font-black text-primary uppercase tracking-widest text-center md:text-left">
-                SUM S.A. CUIT: 30-61140404-9 | Superintendencia de Servicios de Salud:<br/>RNEMP Nº 1-1469-7 | Tel. 0800 222 SALUD (72583)
-              </p>
-              <div className="flex gap-8">
-                <span className="font-black italic text-primary text-sm">siem</span>
-                <span className="font-black italic text-primary text-sm">IRAM</span>
-                <span className="font-black italic text-primary text-sm">IQNET</span>
+      {/* Departamentos */}
+      <div className="container mx-auto px-4 pb-20">
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-2xl font-black text-primary uppercase tracking-tight mb-8"
+        >
+          Áreas de Atención
+        </motion.h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {DEPARTMENTS.map((dept, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="p-6 bg-surface rounded-3xl border border-border hover:border-secondary/20 hover:shadow-premium transition-all group"
+            >
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-border mb-4 group-hover:scale-110 transition-transform">
+                {dept.icon}
               </div>
-           </div>
+              <h3 className="text-sm font-black text-primary uppercase tracking-tight leading-tight mb-3">{dept.name}</h3>
+              <div className="space-y-2">
+                <a href={`tel:${dept.tel}`} className="flex items-center gap-2 text-xs font-bold text-primary/60 hover:text-secondary transition-colors">
+                  <PhoneCall size={12} className="text-primary/30" />{dept.tel}
+                </a>
+                {dept.whatsapp && (
+                  <a href={`https://wa.me/${dept.whatsapp.replace(/[^0-9]/g, '')}`} className="flex items-center gap-2 text-xs font-bold text-primary/60 hover:text-secondary transition-colors">
+                    <Smartphone size={12} className="text-primary/30" />{dept.whatsapp}
+                  </a>
+                )}
+                {dept.email && (
+                  <a href={`mailto:${dept.email}`} className="flex items-center gap-2 text-xs font-bold text-primary/60 hover:text-secondary transition-colors">
+                    <Mail size={12} className="text-primary/30" />{dept.email}
+                  </a>
+                )}
+                <div className="flex items-center gap-2 text-[10px] font-black uppercase text-primary/30 tracking-wide pt-1">
+                  <Clock size={10} />{dept.hours}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Quick WhatsApp */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-6 bg-primary rounded-4xl p-8 text-white"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <Smartphone size={18} className="text-secondary" />
+            <h3 className="font-black uppercase tracking-tight">Gestión Rápida por WhatsApp</h3>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {QUICK_WA.map((q, i) => (
+              <a
+                key={i}
+                href={`https://wa.me/${q.number.replace(/[^0-9]/g, '')}`}
+                className="p-5 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
+              >
+                <p className="text-[10px] font-black text-secondary uppercase tracking-widest mb-1">{q.title}</p>
+                <p className="text-sm font-bold group-hover:translate-x-0.5 transition-transform">{q.number}</p>
+                <p className="text-[10px] text-white/40 font-bold uppercase mt-1">{q.hours}</p>
+              </a>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Modos de Pago */}
+      <div className="bg-surface border-y border-border py-20">
+        <div className="container mx-auto px-4">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-8">
+            <div className="flex items-center gap-3 mb-1">
+              <CreditCard size={18} className="text-secondary" />
+              <h2 className="text-2xl font-black text-primary uppercase tracking-tight">Modos de Pago</h2>
+            </div>
+            <p className="text-primary/50 font-medium text-sm">Adhesión al débito automático y gestión de pagos.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-primary rounded-4xl p-8 text-white"
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <Mail size={16} className="text-secondary" />
+                <h3 className="font-black uppercase tracking-tight text-sm">Adhesión Débito Automático</h3>
+              </div>
+              <p className="text-white/70 text-sm font-medium mb-4 leading-relaxed">
+                Enviá un mail a <strong className="text-white">computos@sumsa.com.ar</strong> con el asunto <em>&quot;Solicitud Adhesión Débito Automático&quot;</em> incluyendo:
+              </p>
+              <ul className="space-y-2">
+                {["Nombre/s del/los afiliados y DNI del titular", "Número/s de afiliado", "Tipo de tarjeta (VISA Crédito o Electrón) + 16 dígitos + vencimiento", "CBU (22 dígitos), banco y titular (si es cuenta bancaria)"].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-xs text-white/70 font-medium">
+                    <CheckCircle2 size={12} className="text-secondary shrink-0 mt-0.5" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="grid grid-cols-2 gap-4"
+            >
+              {[
+                { title: "Informar un Pago", number: "+54 9 221 411-1800", hours: "8:30 a 16:30 h." },
+                { title: "Pedir Factura", number: "+54 9 221 671-0641", hours: "8:30 a 16:30 h." },
+                { title: "Consultar Deuda", number: "+54 9 221 593-0000", hours: "8:30 a 16:30 h." },
+                { title: "Solicitud de Baja", number: "+54 9 221 675-4608", hours: "9:00 a 17:00 h." },
+              ].map((q) => (
+                <a
+                  key={q.title}
+                  href={`https://wa.me/${q.number.replace(/[^0-9]/g, "")}`}
+                  className="p-5 bg-white border border-border rounded-2xl hover:border-secondary/30 hover:shadow-premium transition-all group"
+                >
+                  <Smartphone size={14} className="text-secondary mb-2 group-hover:scale-110 transition-transform" />
+                  <p className="text-[10px] font-black text-primary uppercase tracking-wider mb-1">{q.title}</p>
+                  <p className="text-sm font-bold text-primary/70">{q.number}</p>
+                  <p className="text-[10px] text-primary/30 font-bold uppercase mt-1">{q.hours}</p>
+                </a>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
+
+      {/* Trabajá en SUM */}
+      <div className="container mx-auto px-4 py-20">
+        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-8">
+          <div className="flex items-center gap-3 mb-1">
+            <Users size={18} className="text-secondary" />
+            <h2 className="text-2xl font-black text-primary uppercase tracking-tight">Trabajá en SUM</h2>
+          </div>
+          <p className="text-primary/50 font-medium text-sm">Buscamos profesionales comprometidos con la salud y la excelencia.</p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          {[
+            { Icon: Stethoscope, title: "Médicos", desc: "Emergencias, UTI, Cardiología, Clínica, Pediatría.", email: "rrhh@sumsa.com.ar", tel: "(0221) 489-4699" },
+            { Icon: Baby, title: "Médicos de UTIM", desc: "Guardias de 12 y 24 hs. Zona La Plata.", email: "info@sumsa.com.ar", tel: "(0221) 489-4699" },
+            { Icon: Truck, title: "Enfermeros", desc: "Con experiencia en UTI/UC/UTIM y carnet D.3.", email: "rrhh@sumsa.com.ar", tel: "(0221) 489-4699" },
+            { Icon: Users, title: "Psicólogos", desc: "Tareas administrativas. Jornada de 6 hs.", email: "info@sumsa.com.ar" },
+            { Icon: Users, title: "Médicos Regionales", desc: "Zonas: Brandsen, Guernica y San Vicente.", email: "rrhh@sumsa.com.ar" },
+            { Icon: Users, title: "Médicos de Temporada", desc: "Revisación médica de ingreso a natatorio.", email: "info@sumsa.com.ar" },
+          ].map(({ Icon, title, desc, email, tel }, i) => (
+            <motion.div
+              key={title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.07 }}
+              className="p-6 bg-surface rounded-2xl border border-border hover:border-secondary/20 hover:shadow-premium transition-all group"
+            >
+              <div className="w-9 h-9 bg-white rounded-xl flex items-center justify-center shadow-sm border border-border mb-3 group-hover:scale-110 transition-transform">
+                <Icon size={16} className="text-secondary" />
+              </div>
+              <h3 className="font-black text-primary mb-1 text-sm uppercase tracking-tight">{title}</h3>
+              <p className="text-xs text-primary/50 font-medium leading-relaxed mb-3">{desc}</p>
+              <div className="space-y-1.5 pt-3 border-t border-border">
+                {tel && (
+                  <a href={`tel:${tel.replace(/[^0-9]/g, "")}`} className="flex items-center gap-2 text-xs font-bold text-primary/60 hover:text-secondary transition-colors">
+                    <PhoneCall size={11} />{tel}
+                  </a>
+                )}
+                <a href={`mailto:${email}`} className="flex items-center gap-2 text-xs font-bold text-primary/60 hover:text-secondary transition-colors">
+                  <Mail size={11} />{email}
+                </a>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="p-8 bg-primary rounded-4xl text-white flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <div>
+            <h3 className="text-xl font-black uppercase mb-1">¿No encontrás tu vacante?</h3>
+            <p className="text-white/60 text-sm font-medium">Enviá tu CV de forma espontánea a todas las áreas.</p>
+          </div>
+          <a
+            href="mailto:rrhh@sumsa.com.ar"
+            className="shrink-0 bg-white text-primary px-8 py-3 rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform shadow-lg"
+          >
+            Enviar CV
+          </a>
+        </motion.div>
+      </div>
+
+      {/* Legal */}
+      <div className="py-10 bg-surface border-t border-border">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 opacity-40 hover:opacity-100 transition-opacity">
+            <p className="text-[10px] font-black text-primary uppercase tracking-widest text-center md:text-left">
+              SUM S.A. CUIT: 30-61140404-9 | RNEMP Nº 1-1469-7 | Tel. 0800 222 SALUD (72583)
+            </p>
+            <div className="flex gap-6 text-[10px] font-black italic text-primary">
+              <span>siem</span><span>IRAM</span><span>IQNET</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </section>
   );
 }

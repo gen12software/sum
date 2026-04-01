@@ -1,6 +1,8 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/home/Hero";
-import { About } from "@/components/home/About";
+import { PlanesSection } from "@/components/home/PlanesSection";
+import { ServiciosSection } from "@/components/home/ServiciosSection";
+import { ContactoSection } from "@/components/home/ContactoSection";
 import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {
@@ -9,9 +11,9 @@ export default function Home() {
       <Navbar />
       <main className="grow">
         <Hero />
-        <About />
-        
-        {/* Rest of the landing will go here */}
+        <PlanesSection />
+        <ServiciosSection />
+        <ContactoSection />
       </main>
       <Footer />
     </div>
