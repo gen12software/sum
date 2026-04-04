@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, PhoneCall } from "lucide-react";
@@ -39,7 +40,6 @@ export function Navbar() {
     ? "text-white/80 hover:text-white"
     : "text-primary hover:text-secondary";
 
-  const logoColor = isDark ? "text-white" : "text-primary";
   const mobileToggleColor = isDark ? "text-white" : "text-primary";
 
   return (
@@ -51,13 +51,15 @@ export function Navbar() {
       <div className="container px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-secondary rounded-xl flex items-center justify-center shadow-lg transform transition-transform hover:scale-110">
-              <span className="text-white font-black text-xl italic leading-none">S</span>
-            </div>
-            <span className={`text-2xl font-black tracking-tighter transition-colors duration-300 ${logoColor}`}>
-              SUM
-            </span>
+          <Link href="/" className="flex items-center">
+            <Image
+              src={isDark ? "/images/logo_blanco.png" : "/images/logo_celeste.png"}
+              alt="SUM Logo"
+              width={404}
+              height={101}
+              className="h-12 w-auto object-contain transition-all duration-300 hover:opacity-80"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}

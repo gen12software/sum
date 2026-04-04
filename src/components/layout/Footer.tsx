@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
 import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, DEPARTMENTS } from "@/lib/contact";
 
@@ -14,11 +15,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand & Mission */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-secondary rounded-xl flex items-center justify-center transform transition-transform hover:scale-110">
-                <span className="text-white font-black text-xl italic leading-none">S</span>
-              </div>
-              <span className="text-2xl font-black tracking-tighter text-white">SUM</span>
+            <Link href="/" className="flex items-center mb-6">
+              <Image
+                src="/images/logo_blanco.png"
+                alt="SUM Logo"
+                width={404}
+                height={101}
+                className="h-12 w-auto object-contain hover:opacity-80 transition-opacity"
+              />
             </Link>
             <p className="text-white/60 font-medium leading-relaxed mb-6">
               Servicio Integral de Medicina Prehospitalaria. Cuidando tu vida con excelencia y compromiso desde 1986.
