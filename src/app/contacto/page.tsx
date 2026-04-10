@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contacto" },
   openGraph: {
     title: "Contacto | SUM",
-    description: "Contactate con SUM por teléfono, email o WhatsApp. Atención Lun a Vie de 9 a 17 h.",
+    description: "Contactate con SUM por teléfono, email o WhatsApp. Atención Lun a Vie de 8:30 a 16:30 h.",
     url: "/contacto",
   },
 };

@@ -87,10 +87,10 @@ export function Footer() {
             </div>
             <div className="flex gap-4 items-center">
               <div className="bg-white p-2 rounded-lg w-12 h-12 flex items-center justify-center">
-                <span className="text-primary font-black text-[10px] italic leading-tight">IRAM</span>
+                <span className="text-primary font-black text-[10px] not-italic leading-tight">IRAM</span>
               </div>
               <div className="bg-white p-2 rounded-lg w-12 h-12 flex items-center justify-center">
-                <span className="text-primary font-black text-[10px] italic leading-tight">IQNET</span>
+                <span className="text-primary font-black text-[10px] not-italic leading-tight">IQNET</span>
               </div>
               <div className="bg-white p-2 rounded-lg h-12 flex items-center px-2">
                 <span className="text-primary font-black text-[8px] uppercase leading-tight">Data<br/>Fiscal</span>

@@ -8,7 +8,7 @@ import Image from "next/image";
 const CALL_STEPS = [
   "Indicar el número de teléfono desde el cual se está llamando.",
   "Decir: 'Estamos en una emergencia'.",
-  "Indicar número de afiliado o convenio al que pertenece el paciente.",
+  "Indicar DNI o convenio al que pertenece el paciente.",
   "Brindar nombre del paciente y de la persona que llama.",
   "Indicar correctamente su dirección.",
   "No apresurarse en cortar la comunicación.",
@@ -20,11 +20,11 @@ const CALL_STEPS = [
 const CODES = [
   {
     type: "ROJO",
-    color: "bg-secondary",
-    icon: <AlertTriangle className="text-secondary" />,
+    color: "bg-red-600",
+    icon: <AlertTriangle className="text-red-600" />,
     title: "Emergencias Médicas 24H",
     desc: "Situaciones con riesgo inminente de vida. Máxima prioridad.",
-    tel: "(0221) 421-2234 / 421-1226"
+    tel: "(0221) 421-1226 / 421-2234"
   },
   {
     type: "AMARILLO",
@@ -32,7 +32,7 @@ const CODES = [
     icon: <Info className="text-yellow-500" />,
     title: "Urgencias Médicas 24H",
     desc: "Menor prioridad que la emergencia. Situaciones sin riesgo inminente.",
-    tel: "(0221) 421-2234 / 421-1226"
+    tel: "(0221) 421-1226 / 421-2234"
   },
   {
     type: "VERDE",
@@ -66,10 +66,10 @@ export function EmergenciesContent() {
                   Para afiliados, atención inmediata las 24 horas, los 365 días del año.
                 </p>
                 <a 
-                  href="tel:08003337867" 
+                  href="tel:02214211226"
                   className="inline-flex items-center gap-4 bg-secondary hover:bg-secondary-dark text-white px-8 py-4 rounded-2xl text-2xl font-black transition-all transform hover:scale-105 active:scale-95 shadow-lg"
                 >
-                  0800 333-7867
+                  (0221) 421-1226 / 421-2234
                 </a>
               </div>
               <div className="w-full md:w-2/5 flex justify-center">
@@ -175,7 +175,7 @@ export function EmergenciesContent() {
                  <div className="w-px h-16 bg-border" />
                  <div className="text-left py-2">
                     <p className="text-[10px] font-black text-secondary">ALTA COMPLEJIDAD</p>
-                    <p className="text-xl font-black text-primary italic">UTIM</p>
+                    <p className="text-xl font-black text-primary not-italic">UTIM</p>
                  </div>
                 </div>
                 <h4 className="text-xl font-bold text-primary mb-2">Cuidado Intensivo</h4>

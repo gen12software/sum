@@ -10,11 +10,12 @@ const PLANS = [
   {
     id: "basico",
     name: "Plan Básico",
+    copago: true,
     description: "Cobertura fundamental para emergencias y urgencias.",
     features: [
       { name: "Emergencias Médicas (Código Rojo)", included: true },
       { name: "Urgencias Médicas (Código Amarillo)", included: true },
-      { name: "Visita Programada (Código Verde)", included: true, detail: "Con Copago" },
+      { name: "Visita Programada (Código Verde)", included: true },
       { name: "Urgencias Odontológicas", included: false },
       { name: "Gabinete de Enfermería", included: false },
       { name: "Red SIEM Nacional", included: false },
@@ -25,11 +26,12 @@ const PLANS = [
   {
     id: "integral",
     name: "Plan Integral",
+    copago: true,
     description: "La mejor relación costo-beneficio para tu tranquilidad.",
     features: [
       { name: "Emergencias Médicas (Código Rojo)", included: true },
       { name: "Urgencias Médicas (Código Amarillo)", included: true },
-      { name: "Visita Programada (Código Verde)", included: true, detail: "Sin Copago" },
+      { name: "Visita Programada (Código Verde)", included: true },
       { name: "Urgencias Odontológicas", included: true },
       { name: "Gabinete de Enfermería", included: true },
       { name: "Red SIEM Nacional", included: true },
@@ -40,6 +42,7 @@ const PLANS = [
   {
     id: "premium",
     name: "Plan Premium",
+    copago: false,
     description: "Cobertura total con servicios exclusivos a domicilio.",
     features: [
       { name: "Todo lo incluido en Plan Integral", included: true },
@@ -96,6 +99,13 @@ export function Pricing() {
               )}
               
               <h3 className="text-2xl font-black mb-2">{plan.name}</h3>
+              <div className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 ${
+                plan.copago
+                  ? (plan.highlight ? "bg-white/10 text-white/70" : "bg-primary/10 text-primary/60")
+                  : (plan.highlight ? "bg-secondary/30 text-secondary" : "bg-secondary/10 text-secondary")
+              }`}>
+                {plan.copago ? "Con Copago" : "Sin Copago"}
+              </div>
               <p className={`text-sm mb-8 ${plan.highlight ? "text-white/70" : "text-primary/60"} font-medium`}>
                 {plan.description}
               </p>
@@ -114,13 +124,6 @@ export function Pricing() {
                       <span className={`text-sm font-bold ${!feature.included && "opacity-40"}`}>
                         {feature.name}
                       </span>
-                      {feature.detail && (
-                        <div className={`text-[10px] font-bold uppercase tracking-wider ${
-                          plan.highlight ? "text-white/60" : "text-primary/40"
-                        }`}>
-                          {feature.detail}
-                        </div>
-                      )}
                     </div>
                   </div>
                 ))}
@@ -150,7 +153,7 @@ export function Pricing() {
             className="p-8 bg-surface rounded-4xl border border-border flex flex-col md:flex-row gap-6 items-center"
           >
             <div className="w-20 h-20 shrink-0 bg-white rounded-2xl shadow-sm p-4 flex items-center justify-center">
-              <span className="text-2xl font-black italic text-secondary group-hover:scale-110 transition-transform">siem</span>
+              <span className="text-2xl font-black not-italic text-secondary group-hover:scale-110 transition-transform">siem</span>
             </div>
             <div>
               <h4 className="text-xl font-bold text-primary mb-2">Cobertura Internacional (SIEM)</h4>
@@ -173,7 +176,7 @@ export function Pricing() {
             <div>
               <h4 className="text-xl font-bold mb-2">Asesoramiento Comercial</h4>
               <p className="text-sm text-white/70 leading-relaxed font-medium mb-4">
-                Lunes a Viernes de 9 a 17 horas para consultas sobre afiliaciones.
+                Lunes a Viernes de 8:30 a 16:30 horas para consultas sobre afiliaciones.
               </p>
               <div className="flex gap-4">
                 <a href={`tel:${EMERGENCY_PHONE}`} className="text-sm font-black underline underline-offset-4 hover:text-accent transition-colors">{EMERGENCY_PHONE_DISPLAY}</a>

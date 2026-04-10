@@ -155,9 +155,15 @@ const SERVICES_CATEGORIES: Category[] = [
         extra: "Protocolos adaptados a marcos epidemiológicos."
       },
       { 
-        name: "Capacitaciones In Company", 
+        name: "Capacitaciones In Company",
         desc: "Cursos de RCP y Primeros Auxilios certificados por Cruz Roja Argentina.",
         phone: "483-9781"
+      },
+      {
+        name: "DEA – Desfibrilador Externo Automático",
+        desc: "Provisión, instalación y mantenimiento de DEA en su establecimiento. Incluye capacitación al personal para su correcto uso ante una emergencia cardíaca.",
+        phone: "483-9797",
+        extra: "Consulte disponibilidad y planes de cobertura para su empresa."
       },
     ]
   }
@@ -195,7 +201,7 @@ export function ServicesContent() {
                 <Truck size={24} />
                 <span className="font-black text-primary text-xs tracking-widest uppercase">Flota UTIM</span>
               </div>
-              <p className="text-primary/60 text-xs font-bold leading-relaxed mb-6 italic">
+              <p className="text-primary/60 text-xs font-bold leading-relaxed mb-6 not-italic">
                 &quot;Categorizamos nuestros traslados en 3 niveles de complejidad para tu seguridad.&quot;
               </p>
               <div className="space-y-3">
@@ -238,7 +244,7 @@ export function ServicesContent() {
             {/* Emergency Side CTA */}
             <div className="mt-8 p-6 bg-secondary rounded-3xl text-white shadow-premium relative overflow-hidden hidden lg:block">
               <HeartPulse className="mb-4 text-white/40" size={32} />
-              <h4 className="text-lg font-black mb-1 italic">¿Emergencia?</h4>
+              <h4 className="text-lg font-black mb-1 not-italic">¿Emergencia?</h4>
               <p className="text-white/80 text-xs font-medium mb-4">Atención inmediata las 24 horas.</p>
               <a href={`tel:${EMERGENCY_PHONE}`} className="block w-full text-center bg-white text-secondary py-2 rounded-xl text-sm font-black hover:scale-105 transition-transform active:scale-95 shadow-lg">
                 {EMERGENCY_PHONE_DISPLAY}
@@ -288,7 +294,7 @@ export function ServicesContent() {
                             )}
 
                             {service.extra && (
-                              <p className="text-[11px] font-bold text-primary italic leading-tight">
+                              <p className="text-[11px] font-bold text-primary not-italic leading-tight">
                                 &quot;{service.extra}&quot;
                               </p>
                             )}
@@ -315,7 +321,7 @@ export function ServicesContent() {
                         <Baby className="text-primary" size={48} />
                       </div>
                       <div className="relative z-10">
-                        <h4 className="text-2xl font-black italic mb-2 uppercase tracking-tight">Especialidad Neonatológica</h4>
+                        <h4 className="text-2xl font-black not-italic mb-2 uppercase tracking-tight">Especialidad Neonatológica</h4>
                         <p className="text-white/80 font-medium leading-relaxed text-sm mb-4">
                           Unidades equipadas con incubadora de traslado, respirador de transporte, bombas de infusión y monitoreo avanzado. Profesionales altamente calificados en pediatría de alto riesgo.
                         </p>
@@ -377,7 +383,7 @@ export function ServicesContent() {
                   <div className="p-8 bg-white rounded-3xl border border-border shadow-sm">
                      <Clock className="text-primary mb-4" />
                      <h4 className="font-bold text-primary mb-2">Horario Administración</h4>
-                     <p className="text-sm text-primary/60 font-medium">Lunes a Viernes de 9:00 a 17:00 h.</p>
+                     <p className="text-sm text-primary/60 font-medium">Lunes a Viernes de 8:30 a 16:30 h.</p>
                   </div>
                   <div className="p-8 bg-white rounded-3xl border border-border shadow-sm">
                      <Smartphone className="text-secondary mb-4" />

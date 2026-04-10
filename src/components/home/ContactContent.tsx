@@ -166,7 +166,7 @@ export function ContactContent() {
               <div>
                 <div className="text-[10px] font-black uppercase tracking-widest text-primary/40 mb-1">WhatsApp</div>
                 <div className="text-base font-black text-primary">{WHATSAPP_MAIN_DISPLAY}</div>
-                <div className="text-xs text-primary/40 font-medium mt-0.5">Lun a Vie de 9 a 17 h.</div>
+                <div className="text-xs text-primary/40 font-medium mt-0.5">Lun a Vie de 8:30 a 16:30 h.</div>
               </div>
             </motion.a>
 
@@ -194,6 +194,7 @@ export function ContactContent() {
                 <a
                   href="https://www.google.com/maps/dir//Pl.+Italia+183,+B1900+La+Plata,+Provincia+de+Buenos+Aires"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-1 text-secondary font-black text-xs hover:translate-x-0.5 transition-transform"
                 >
                   Cómo llegar <ChevronRight size={14} />
@@ -250,31 +251,6 @@ export function ContactContent() {
           ))}
         </div>
 
-        {/* Quick WhatsApp */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-6 bg-primary rounded-4xl p-8 text-white"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <Smartphone size={18} className="text-secondary" />
-            <h3 className="font-black uppercase tracking-tight">Gestión Rápida por WhatsApp</h3>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {QUICK_WA.map((q, i) => (
-              <a
-                key={i}
-                href={`https://wa.me/${q.number.replace(/[^0-9]/g, '')}`}
-                className="p-5 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
-              >
-                <p className="text-[10px] font-black text-secondary uppercase tracking-widest mb-1">{q.title}</p>
-                <p className="text-sm font-bold group-hover:translate-x-0.5 transition-transform">{q.number}</p>
-                <p className="text-[10px] text-white/40 font-bold uppercase mt-1">{q.hours}</p>
-              </a>
-            ))}
-          </div>
-        </motion.div>
       </div>
 
       {/* Modos de Pago */}
@@ -300,10 +276,10 @@ export function ContactContent() {
                 <h3 className="font-black uppercase tracking-tight text-sm">Adhesión Débito Automático</h3>
               </div>
               <p className="text-white/70 text-sm font-medium mb-4 leading-relaxed">
-                Enviá un mail a <strong className="text-white">computos@sumsa.com.ar</strong> con el asunto <em>&quot;Solicitud Adhesión Débito Automático&quot;</em> incluyendo:
+                Enviá un mail a <strong className="text-white">computos@sumsa.com.ar</strong> con el asunto &quot;Solicitud Adhesión Débito Automático&quot; incluyendo:
               </p>
               <ul className="space-y-2">
-                {["Nombre/s del/los afiliados y DNI del titular", "Número/s de afiliado", "Tipo de tarjeta (VISA Crédito o Electrón) + 16 dígitos + vencimiento", "CBU (22 dígitos), banco y titular (si es cuenta bancaria)"].map((item) => (
+                {["Nombre/s del/los afiliados y DNI", "Tipo de tarjeta (VISA Crédito o Electrón) + 16 dígitos + vencimiento", "CBU (22 dígitos), banco y titular (si es cuenta bancaria)"].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-xs text-white/70 font-medium">
                     <CheckCircle2 size={12} className="text-secondary shrink-0 mt-0.5" />
                     {item}
@@ -323,7 +299,7 @@ export function ContactContent() {
                 { title: "Informar un Pago", number: "+54 9 221 411-1800", hours: "8:30 a 16:30 h." },
                 { title: "Pedir Factura", number: "+54 9 221 671-0641", hours: "8:30 a 16:30 h." },
                 { title: "Consultar Deuda", number: "+54 9 221 593-0000", hours: "8:30 a 16:30 h." },
-                { title: "Solicitud de Baja", number: "+54 9 221 675-4608", hours: "9:00 a 17:00 h." },
+                { title: "Solicitud de Baja", number: "+54 9 221 675-4608", hours: "8:30 a 16:30 h." },
               ].map((q) => (
                 <a
                   key={q.title}
@@ -413,7 +389,7 @@ export function ContactContent() {
             <p className="text-[10px] font-black text-primary uppercase tracking-widest text-center md:text-left">
               SUM S.A. CUIT: 30-61140404-9 | RNEMP Nº 1-1469-7 | Tel. 0800 222 SALUD (72583)
             </p>
-            <div className="flex gap-6 text-[10px] font-black italic text-primary">
+            <div className="flex gap-6 text-[10px] font-black not-italic text-primary">
               <span>siem</span><span>IRAM</span><span>IQNET</span>
             </div>
           </div>

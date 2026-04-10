@@ -16,7 +16,7 @@ export function ContactoSection() {
       {/* Subtle bg accent */}
       <div
         aria-hidden
-        className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/[0.04] to-transparent pointer-events-none"
+        className="absolute top-0 right-0 w-1/2 h-full bg-linear-to-l from-white/4 to-transparent pointer-events-none"
       />
 
       <div className="container px-8 relative z-10">
@@ -43,7 +43,7 @@ export function ContactoSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="p-10 bg-secondary rounded-[2rem] flex flex-col items-center text-center gap-5 hover:bg-secondary-dark transition-all group cursor-pointer"
+            className="p-10 bg-secondary rounded-4xl flex flex-col items-center text-center gap-5 hover:bg-secondary-dark transition-all group cursor-pointer"
           >
             <PhoneCall
               size={32}
@@ -64,7 +64,7 @@ export function ContactoSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="p-10 bg-white/8 rounded-[2rem] border border-white/10 flex flex-col items-center text-center gap-5 hover:bg-white/14 transition-all group cursor-pointer"
+            className="p-10 bg-white/8 rounded-4xl border border-white/10 flex flex-col items-center text-center gap-5 hover:bg-white/14 transition-all group cursor-pointer"
           >
             <MessageCircle
               size={32}
@@ -75,7 +75,7 @@ export function ContactoSection() {
                 WhatsApp
               </div>
               <div className="text-xl font-black">{WHATSAPP_MAIN_DISPLAY}</div>
-              <div className="text-xs text-white/40 mt-2">Lun a Vie de 9 a 17 h.</div>
+              <div className="text-xs text-white/40 mt-2">Lun a Vie de 8:30 a 16:30 h.</div>
             </div>
           </motion.a>
 
@@ -85,7 +85,7 @@ export function ContactoSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="p-10 bg-white/8 rounded-[2rem] border border-white/10 flex flex-col items-center text-center gap-5"
+            className="p-10 bg-white/8 rounded-4xl border border-white/10 flex flex-col items-center text-center gap-5"
           >
             <MapPin size={32} />
             <div>

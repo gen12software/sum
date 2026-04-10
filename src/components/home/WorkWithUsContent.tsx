@@ -120,7 +120,7 @@ export function WorkWithUsContent() {
               
               <ul className="space-y-3 mb-8 grow">
                 {pos.requirements.map((req, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-sm font-medium text-primary/60 leading-tight italic">
+                  <li key={idx} className="flex items-start gap-3 text-sm font-medium text-primary/60 leading-tight not-italic">
                     <ChevronRight size={14} className="text-secondary shrink-0 mt-0.5" />
                     {req}
                   </li>
@@ -149,7 +149,7 @@ export function WorkWithUsContent() {
         {/* CV Submission Banner */}
         <div className="mt-20 p-12 bg-primary rounded-5xl text-white relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="relative z-10 max-w-xl">
-            <h3 className="text-3xl font-black italic uppercase mb-4">¿No encontrás tu vacante?</h3>
+            <h3 className="text-3xl font-black not-italic uppercase mb-4">¿No encontrás tu vacante?</h3>
             <p className="text-white/70 font-medium">Enviá tu CV de forma espontánea y lo tendremos en cuenta para futuras búsquedas en todas nuestras áreas: técnica, administrativa y de servicios.</p>
           </div>
           <a href="mailto:rrhh@sumsa.com.ar" className="relative z-10 bg-white text-primary px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform shadow-xl active:scale-95">

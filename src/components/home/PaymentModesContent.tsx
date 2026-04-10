@@ -16,8 +16,7 @@ import { DEPARTMENTS, QUICK_WHATSAPP } from "@/lib/contact";
 
 const DATA_NEEDED = [
   "Apellido y nombre del/los afiliados",
-  "DNI del titular",
-  "Número/s de afiliado/s",
+  "DNI del/los afiliado/s",
   "Tipo de Tarjeta (VISA Crédito o Electrón)",
   "Número de la tarjeta (16 dígitos)",
   "Fecha de vencimiento",
@@ -65,7 +64,7 @@ export function PaymentModesContent() {
                     <CreditCard size={28} />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-black uppercase tracking-tight italic">Adhesión al Débito Automático</h2>
+                    <h2 className="text-3xl font-black uppercase tracking-tight not-italic">Adhesión al Débito Automático</h2>
                     <p className="text-white/60 font-medium">Gestioná tu pago de forma cómoda y segura (VISA o CBU).</p>
                   </div>
                 </div>
@@ -75,7 +74,7 @@ export function PaymentModesContent() {
                     <Mail size={20} />
                     <span className="text-sm font-black uppercase tracking-widest">Procedimiento por Mail</span>
                   </div>
-                  <p className="text-white/80 font-medium leading-relaxed mb-6 italic">
+                  <p className="text-white/80 font-medium leading-relaxed mb-6 not-italic">
                     Para adherirte, enviá un correo electrónico a <strong>computos@sumsa.com.ar</strong> con el asunto: <strong>&quot;Solicitud Adhesión Débito Automático&quot;</strong>.
                   </p>
                   
@@ -94,7 +93,7 @@ export function PaymentModesContent() {
 
                 <div className="flex items-center gap-4 p-6 bg-secondary/20 rounded-2xl border border-secondary/20">
                    <AlertCircle size={20} className="text-secondary" />
-                   <p className="text-xs font-bold italic leading-relaxed">
+                   <p className="text-xs font-bold not-italic leading-relaxed">
                       Recordá que podés gestionar esta adhesión en cualquier momento del mes. Impactará en la próxima liquidación de tu cuota.
                    </p>
                 </div>
@@ -131,7 +130,7 @@ export function PaymentModesContent() {
             <div className="bg-surface rounded-4xl p-8 border border-border shadow-soft h-full">
               <div className="flex items-center gap-3 mb-8">
                 <Building className="text-primary" />
-                <h3 className="text-xl font-black text-primary uppercase italic">Gestión Administrativa</h3>
+                <h3 className="text-xl font-black text-primary uppercase not-italic">Gestión Administrativa</h3>
               </div>
               
               <div className="space-y-10">
@@ -140,7 +139,7 @@ export function PaymentModesContent() {
                     <h4 className="text-xs font-black text-primary/40 uppercase tracking-widest">{contact.name}</h4>
                     <div className="flex items-center gap-3 text-lg font-bold text-primary">
                       <PhoneCall size={18} className="text-secondary" />
-                      <a href={`tel:${contact.tel.replace(/[^0-9]/g, '')}`} className="hover:text-secondary transition-colors italic">{contact.tel}</a>
+                      <a href={`tel:${contact.tel.replace(/[^0-9]/g, '')}`} className="hover:text-secondary transition-colors not-italic">{contact.tel}</a>
                     </div>
                     {contact.email && (
                       <div className="flex items-center gap-3 text-sm font-bold text-primary/60">

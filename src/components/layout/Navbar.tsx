@@ -64,17 +64,25 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map((link) => (
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+              return (
               <div key={link.name} className="relative group">
                 <Link
                   href={link.href}
-                  className={`text-sm font-bold transition-colors duration-300 py-2 ${linkColor}`}
+                  className={`text-sm font-bold transition-colors duration-300 py-2 ${
+                    isActive
+                      ? isDark ? "text-white" : "text-secondary"
+                      : linkColor
+                  }`}
                 >
                   {link.name}
                 </Link>
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full" />
+                <span className={`absolute bottom-0 left-0 h-0.5 bg-secondary transition-all ${
+                  isActive ? "w-full" : "w-0 group-hover:w-full"
+                }`} />
               </div>
-            ))}
+            )})}
           </div>
 
           {/* Action Buttons */}
@@ -111,7 +119,9 @@ export function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-lg font-black text-primary uppercase tracking-tight hover:text-secondary transition-colors"
+                  className={`text-lg font-black uppercase tracking-tight transition-colors ${
+                    pathname === link.href ? "text-secondary" : "text-primary hover:text-secondary"
+                  }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}

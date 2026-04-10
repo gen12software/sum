@@ -5,8 +5,8 @@
   --color-foreground: var(--foreground);
   --color-primary: #003366;
   --color-primary-dark: #002244;
-  --color-secondary: #e31b23;
-  --color-secondary-dark: #c1121c;
+  --color-secondary: #0055a4;
+  --color-secondary-dark: #003d7a;
   --color-accent: #00a0e3;
   --color-surface: #f8fafc;
   --color-border: #e2e8f0;
@@ -85,7 +85,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 25%;
   width: 45%;
   height: 45%;
-  background: radial-gradient(circle, rgba(227, 27, 35, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 85, 164, 0.12) 0%, transparent 70%);
   animation: blob-drift 11s ease-in-out infinite 4s;
 }
 

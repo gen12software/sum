@@ -53,11 +53,10 @@ export function PlanesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={`relative p-10 rounded-[2rem] flex flex-col gap-5 transition-all ${
-                plan.featured
+              className={`relative p-10 rounded-4xl flex flex-col gap-5 transition-all ${plan.featured
                   ? "bg-primary text-white shadow-2xl md:scale-[1.04] z-10"
                   : "bg-surface border border-border hover:shadow-premium"
-              }`}
+                }`}
             >
               {plan.featured && (
                 <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-secondary text-white text-[10px] font-black uppercase tracking-widest px-5 py-1.5 rounded-full shadow-lg">
@@ -66,34 +65,30 @@ export function PlanesSection() {
               )}
 
               <h3
-                className={`text-3xl font-black tracking-tight ${
-                  plan.featured ? "text-white" : "text-primary"
-                }`}
+                className={`text-3xl font-black tracking-tight ${plan.featured ? "text-white" : "text-primary"
+                  }`}
               >
                 {plan.name}
               </h3>
 
               <p
-                className={`text-sm font-medium leading-relaxed ${
-                  plan.featured ? "text-white/60" : "text-primary/50"
-                }`}
+                className={`text-sm font-medium leading-relaxed ${plan.featured ? "text-white/60" : "text-primary/50"
+                  }`}
               >
                 {plan.description}
               </p>
 
               <div
-                className={`mt-auto pt-5 border-t flex items-start gap-3 ${
-                  plan.featured ? "border-white/10" : "border-border"
-                }`}
+                className={`mt-auto pt-5 border-t flex items-start gap-3 ${plan.featured ? "border-white/10" : "border-border"
+                  }`}
               >
                 <Check
                   size={16}
                   className={`shrink-0 mt-0.5 ${plan.featured ? "text-accent" : "text-secondary"}`}
                 />
                 <span
-                  className={`text-sm font-bold ${
-                    plan.featured ? "text-white/80" : "text-primary"
-                  }`}
+                  className={`text-sm font-bold ${plan.featured ? "text-white/80" : "text-primary"
+                    }`}
                 >
                   {plan.highlight}
                 </span>
