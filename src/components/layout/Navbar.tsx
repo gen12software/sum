@@ -53,11 +53,11 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
-              src={isDark ? "/images/logo_blanco.png" : "/images/logo_celeste.png"}
+              src={isDark ? "/images/nuevoLogoBlanco.png" : "/images/nuevoLogoCeleste.png"}
               alt="SUM Logo"
-              width={404}
-              height={101}
-              className="h-12 w-auto object-contain transition-all duration-300 hover:opacity-80"
+              width={1054}
+              height={249}
+              className="h-16 w-auto object-contain transition-all duration-300 hover:opacity-80"
               priority
             />
           </Link>

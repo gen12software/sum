@@ -67,9 +67,9 @@ export const metadata: Metadata = {
     canonical: siteUrl,
   },
   icons: {
-    icon: "/images/logo_celeste.png",
-    shortcut: "/images/logo_celeste.png",
-    apple: "/images/logo_celeste.png",
+    icon: "/images/nuevoLogoCeleste.png",
+    shortcut: "/images/nuevoLogoCeleste.png",
+    apple: "/images/nuevoLogoCeleste.png",
   },
 };
 

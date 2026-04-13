@@ -17,11 +17,11 @@ export function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center mb-6">
               <Image
-                src="/images/logo_blanco.png"
+                src="/images/nuevoLogoBlanco.png"
                 alt="SUM Logo"
-                width={404}
-                height={101}
-                className="h-12 w-auto object-contain hover:opacity-80 transition-opacity"
+                width={1054}
+                height={249}
+                className="h-16 w-auto object-contain hover:opacity-80 transition-opacity"
               />
             </Link>
             <p className="text-white/60 font-medium leading-relaxed mb-6">

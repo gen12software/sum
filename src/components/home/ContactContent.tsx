@@ -34,13 +34,31 @@ const DEPARTMENTS = [
 export function ContactContent() {
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; message?: string }>({});
   const formRef = React.useRef<HTMLFormElement>(null);
 
   const handleContactSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const name = (data.get("name") as string)?.trim();
+    const email = (data.get("email") as string)?.trim();
+    const message = (data.get("message") as string)?.trim();
+
+    const errors: { name?: string; email?: string; message?: string } = {};
+    if (!name) errors.name = "Por favor ingresá tu nombre.";
+    if (!email) errors.email = "Por favor ingresá tu correo electrónico.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "El correo ingresado no es válido.";
+    if (!message) errors.message = "Por favor escribí tu mensaje.";
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+    setFieldErrors({});
     setFormStatus("loading");
     setErrorMsg("");
-    const result = await submitContactForm(new FormData(e.currentTarget));
+    const result = await submitContactForm(data);
     if (result.success) {
       setFormStatus("success");
       formRef.current?.reset();
@@ -94,19 +112,19 @@ export function ContactContent() {
                     type="text"
                     name="name"
                     placeholder="Escribí tu nombre..."
-                    required
-                    className="w-full bg-white border border-border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm"
+                    className={`w-full bg-white border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm ${fieldErrors.name ? "border-red-400" : "border-border"}`}
                   />
+                  {fieldErrors.name && <p className="text-xs font-bold text-red-500 ml-1">{fieldErrors.name}</p>}
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-primary/40 ml-1">Correo Electrónico</label>
                   <input
-                    type="email"
+                    type="text"
                     name="email"
                     placeholder="email@ejemplo.com"
-                    required
-                    className="w-full bg-white border border-border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm"
+                    className={`w-full bg-white border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm ${fieldErrors.email ? "border-red-400" : "border-border"}`}
                   />
+                  {fieldErrors.email && <p className="text-xs font-bold text-red-500 ml-1">{fieldErrors.email}</p>}
                 </div>
               </div>
               <div className="space-y-2">
@@ -115,9 +133,9 @@ export function ContactContent() {
                   name="message"
                   rows={6}
                   placeholder="¿En qué podemos ayudarte?"
-                  required
-                  className="w-full bg-white border border-border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm resize-none"
+                  className={`w-full bg-white border p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-medium text-primary text-sm resize-none ${fieldErrors.message ? "border-red-400" : "border-border"}`}
                 />
+                {fieldErrors.message && <p className="text-xs font-bold text-red-500 ml-1">{fieldErrors.message}</p>}
               </div>
               {formStatus === "error" && (
                 <p className="text-sm font-bold text-red-500 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
@@ -181,7 +199,10 @@ export function ContactContent() {
                   src="https://www.openstreetmap.org/export/embed.html?bbox=-57.9502%2C-34.9136%2C-57.9462%2C-34.9116&layer=mapnik&marker=-34.9126%2C-57.9482"
                   className="w-full h-full border-0"
                   title="Ubicación SUM - Plaza Italia 183, La Plata"
+                  style={{ filter: "invert(90%) hue-rotate(180deg) grayscale(20%) brightness(85%)" }}
                 />
+                {/* Overlay para bloquear navegación */}
+                <div className="absolute inset-0" />
               </div>
               <div className="p-5 bg-surface flex items-center justify-between">
                 <div className="flex items-center gap-3">
