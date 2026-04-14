@@ -19,7 +19,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
       "font-src 'self' fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
-      "frame-src 'self' www.openstreetmap.org",
+      "frame-src 'self' www.google.com",
       "connect-src 'self' https:",
     ].join("; "),
   },

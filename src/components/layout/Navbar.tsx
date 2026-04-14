@@ -57,13 +57,13 @@ export function Navbar() {
               alt="SUM Logo"
               width={1054}
               height={249}
-              className="h-16 w-auto object-contain transition-all duration-300 hover:opacity-80"
+              className="h-10 w-auto object-contain transition-all duration-300 hover:opacity-80"
               priority
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation — centrado absoluto */}
+          <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
               return (

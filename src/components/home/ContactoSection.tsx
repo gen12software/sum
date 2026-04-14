@@ -75,7 +75,7 @@ export function ContactoSection() {
                 WhatsApp
               </div>
               <div className="text-xl font-black">{WHATSAPP_MAIN_DISPLAY}</div>
-              <div className="text-xs text-white/40 mt-2">Lun a Vie de 8:30 a 16:30 h.</div>
+              <div className="text-xs text-white/40 mt-2">Lun a Vie de 9:00 a 16:00 h.</div>
             </div>
           </motion.a>
 

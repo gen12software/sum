@@ -17,7 +17,7 @@
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
   
-  --shadow-premium: 0 20px 50px -12px rgba(0, 51, 102, 0.15), 0 8px 15px -5px rgba(0, 51, 102, 0.05);
+  --shadow-premium: 0 20px 50px -12px rgba(100, 140, 180, 0.15), 0 8px 15px -5px rgba(100, 140, 180, 0.08);
 
   --breakpoint-2xl: 1400px;
 }

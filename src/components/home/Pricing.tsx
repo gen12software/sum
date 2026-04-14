@@ -62,15 +62,6 @@ export function Pricing() {
     <section id="planes" className="py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-sm font-bold mb-4"
-          >
-            <BadgePercent size={16} />
-            15% OFF PARA SOCIOS CLUB LOS TILOS
-          </motion.div>
           <h2 className="text-4xl md:text-6xl font-black text-primary mb-6">Planes a tu Medida</h2>
           <p className="text-xl text-primary/70 max-w-2xl mx-auto font-medium">
             Encontrá la cobertura que mejor se adapta a tus necesidades y las de tu familia. 
@@ -152,8 +143,9 @@ export function Pricing() {
             viewport={{ once: true }}
             className="p-8 bg-surface rounded-4xl border border-border flex flex-col md:flex-row gap-6 items-center"
           >
-            <div className="w-20 h-20 shrink-0 bg-white rounded-2xl shadow-sm p-4 flex items-center justify-center">
-              <span className="text-2xl font-black not-italic text-secondary group-hover:scale-110 transition-transform">siem</span>
+            <div className="w-20 h-20 shrink-0 bg-white rounded-2xl shadow-sm p-2 flex items-center justify-center overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/siem.png" alt="SIEM" className="w-full h-full object-contain" />
             </div>
             <div>
               <h4 className="text-xl font-bold text-primary mb-2">Cobertura Internacional (SIEM)</h4>
@@ -176,10 +168,9 @@ export function Pricing() {
             <div>
               <h4 className="text-xl font-bold mb-2">Asesoramiento Comercial</h4>
               <p className="text-sm text-white/70 leading-relaxed font-medium mb-4">
-                Lunes a Viernes de 8:30 a 16:30 horas para consultas sobre afiliaciones.
+                Lunes a Viernes de 9:00 a 16:00 horas para consultas sobre afiliaciones.
               </p>
               <div className="flex gap-4">
-                <a href={`tel:${EMERGENCY_PHONE}`} className="text-sm font-black underline underline-offset-4 hover:text-accent transition-colors">{EMERGENCY_PHONE_DISPLAY}</a>
                 <a href={WHATSAPP_URL} className="text-sm font-black underline underline-offset-4 hover:text-accent transition-colors">WhatsApp</a>
               </div>
             </div>

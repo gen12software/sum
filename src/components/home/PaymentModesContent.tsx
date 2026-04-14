@@ -17,9 +17,7 @@ import { DEPARTMENTS, QUICK_WHATSAPP } from "@/lib/contact";
 const DATA_NEEDED = [
   "Apellido y nombre del/los afiliados",
   "DNI del/los afiliado/s",
-  "Tipo de Tarjeta (VISA Crédito o Electrón)",
-  "Número de la tarjeta (16 dígitos)",
-  "Fecha de vencimiento",
+  "Tipo de Tarjeta (VISA Crédito o Electrón) + 16 dígitos + vencimiento + banco",
   "CBU (22 dígitos), Banco y Titular (si es cuenta bancaria)"
 ];
 

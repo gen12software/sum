@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY } from "@/lib/contact";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -48,22 +49,20 @@ const SERVICES_CATEGORIES: Category[] = [
       },
       { 
         name: "Traslados Programados", 
-        desc: "Categorizados en Baja, Mediana (con médico) y Alta Complejidad (UTIM).",
+        desc: "Categorizados en Baja Complejidad (sin médico) o Alta Complejidad (UTIM - Unidad de Terapia Intensiva Móvil).",
         phone: "483-9781",
         extra: "Se abona una tarifa preferencial según el tipo de traslado."
       },
       { 
         name: "Visita Médica Domiciliaria", 
         desc: "Atención de patologías que no constituyen emergencia con cita previa.",
-        hours: "8:00 a 20:00 h.",
         phone: "483-9781",
-        extra: "Requiere copago (excepto en Plan AB Premium)."
+        extra: "Requiere copago (excepto en Plan Premium)."
       },
-      { 
-        name: "Telemedicina", 
+      {
+        name: "Telemedicina",
         desc: "Consultas médicas telefónicas inmediatas para patologías leves (Código Verde).",
         phone: "483-9781",
-        hours: "Disponible 24hs para urgencias menores."
       },
     ]
   },
@@ -75,18 +74,13 @@ const SERVICES_CATEGORIES: Category[] = [
       { 
         name: "Urgencias Odontológicas", 
         desc: "Servicio de Guardia en la Sociedad Odontológica (Av. 13 Nº680). Requiere autorización previa de SUM.",
-        hours: "Lun-Vie 14-20h | Sáb-Dom-Fer 9-18h",
+        hours: "Lun a Vie de 9:00 a 16:00 h.",
         phone: "483-9781 / 421-1226"
       },
       { 
-        name: "Kinesiología Domiciliaria", 
-        desc: "Rehabilitación personalizada post-quirúrgica, funcional y deportiva en la comodidad de tu hogar." 
-      },
-      { 
-        name: "Diagnóstico COVID-19", 
-        desc: "Hisopados nasofaríngeos (PCR), test rápidos y anticuerpos con control epidemiológico.",
-        phone: "422-8278",
-        extra: "Incluye seguimiento hasta el alta médica."
+        name: "Kinesiología Domiciliaria",
+        desc: "Rehabilitación personalizada post-quirúrgica, funcional y deportiva en la comodidad de tu hogar.",
+        phone: "+54 9 2216 74-9056"
       },
     ]
   },
@@ -97,9 +91,8 @@ const SERVICES_CATEGORIES: Category[] = [
     highlight: "pediatric",
     services: [
       { 
-        name: "Traslado Neonatal y Pediátrico", 
-        desc: "Unidades UTIM altamente capacitadas para el traslado de bebés y niños de alto riesgo.",
-        phone: "438-0234 (WhatsApp)",
+        name: "Traslado Neonatal y Pediátrico",
+        desc: "Servicio programado. Unidades UTIM altamente capacitadas para el traslado de bebés y niños de alto riesgo.",
         extra: "Médicos neonatólogos y enfermeros especializados en pediatría."
       }
     ]
@@ -112,16 +105,16 @@ const SERVICES_CATEGORIES: Category[] = [
       { 
         name: "Enfermería Programada", 
         desc: "Inyecciones, presión, nebulizaciones y curaciones. Requiere orden médica.",
-        hours: "Hábil de 8:00 a 19:00 h.",
+        hours: "8:00 a 18:00 h.",
         phone: "483-9781",
         requirements: ["Orden médica sin excepción", "Carencia de 30 días para socios nuevos"]
       },
       { 
-        name: "ECG a domicilio", 
+        name: "ECG a domicilio",
         desc: "Electrocardiogramas realizados por profesionales en tu domicilio.",
         hours: "8:00 a 16:00 h.",
         phone: "421-1226 / 421-2234",
-        requirements: ["Orden médica especificando domicilio"]
+        requirements: ["Orden médica especificando domicilio", "Sin informe médico (puede solicitarlo en Plaza Italia 183)"]
       },
       { 
         name: "Gabinete Sede Central", 
@@ -137,27 +130,23 @@ const SERVICES_CATEGORIES: Category[] = [
     icon: <Building2 size={20} />,
     services: [
       { 
-        name: "Área Protegida", 
+        name: "Área Protegida",
         desc: "Cobertura de emergencia inmediata para todas las personas dentro de tu establecimiento, permanentes u ocasionales.",
-        phone: "483-9797",
+        whatsapp: "5492216754608",
+        whatsappDisplay: "+54 9 221 675-4608",
         extra: "Solicite promotor para asesoramiento comercial."
       },
       { 
-        name: "Medicina Laboral", 
+        name: "Medicina Laboral",
         desc: "Control de ausentismo y exámenes preocupacionales exhaustivos.",
-        phone: "483-9797",
+        whatsapp: "5492216754608",
+        whatsappDisplay: "+54 9 221 675-4608",
         extra: "Consúltenos por planes a medida para su empresa."
-      },
-      { 
-        name: "Control de Ingresos", 
-        desc: "Control de ingresos en plantas con personal de enfermería, bioseguridad y medición de temperatura.",
-        phone: "483-9797",
-        extra: "Protocolos adaptados a marcos epidemiológicos."
       },
       { 
         name: "Capacitaciones In Company",
         desc: "Cursos de RCP y Primeros Auxilios certificados por Cruz Roja Argentina.",
-        phone: "483-9781"
+        phone: "483-9797"
       },
       {
         name: "DEA – Desfibrilador Externo Automático",
@@ -195,7 +184,7 @@ export function ServicesContent() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="hidden lg:block p-10 bg-white rounded-4xl shadow-premium border border-secondary/10 max-w-xs rotate-3"
+              className="hidden lg:block p-10 bg-white rounded-4xl shadow-premium border border-secondary/10 max-w-xs"
             >
               <div className="flex items-center gap-3 mb-4 text-secondary">
                 <Truck size={24} />
@@ -205,7 +194,7 @@ export function ServicesContent() {
                 &quot;Categorizamos nuestros traslados en 3 niveles de complejidad para tu seguridad.&quot;
               </p>
               <div className="space-y-3">
-                {["Baja", "Mediana", "Alta"].map(t => (
+                {["Baja", "Alta"].map(t => (
                   <div key={t} className="flex items-center gap-3 text-[10px] font-black uppercase text-primary/40">
                     <div className="w-2 h-2 rounded-full bg-secondary shadow-sm" /> {t} Complejidad
                   </div>
@@ -308,6 +297,15 @@ export function ServicesContent() {
                                 </a>
                               </div>
                             )}
+                            {service.whatsapp && (
+                              <div className="flex items-center justify-between">
+                                <div className="text-[10px] font-black text-primary/40 uppercase tracking-widest">WhatsApp</div>
+                                <a href={`https://wa.me/${service.whatsapp}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-secondary font-black hover:scale-105 transition-transform">
+                                  <PhoneCall size={14} />
+                                  {service.whatsappDisplay}
+                                </a>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
@@ -327,7 +325,6 @@ export function ServicesContent() {
                         </p>
                         <div className="flex gap-4">
                            <a href="tel:4380234" className="px-6 py-2 bg-secondary rounded-xl text-xs font-black shadow-lg hover:bg-secondary-dark transition-colors">438-0234</a>
-                           <div className="px-4 py-2 bg-white/10 rounded-xl text-xs font-bold border border-white/20">WhatsApp disponible</div>
                         </div>
                       </div>
                       <div className="absolute top-0 right-0 w-1/3 h-full bg-linear-to-l from-white/10 to-transparent pointer-events-none" />
@@ -340,17 +337,13 @@ export function ServicesContent() {
                            <Truck className="text-secondary shrink-0" size={48} />
                            <div>
                               <h4 className="text-primary font-black text-xl mb-2">Clasificación de Traslados</h4>
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                  <div>
                                     <p className="text-xs font-black text-secondary uppercase mb-1">Baja Complejidad</p>
                                     <p className="text-[11px] text-primary/60 font-medium leading-tight">Sin acompañamiento médico: controles, rehabilitación o estudios.</p>
                                  </div>
                                  <div>
-                                    <p className="text-xs font-black text-secondary uppercase mb-1">Mediana / Común</p>
-                                    <p className="text-[11px] text-primary/60 font-medium leading-tight">Cuadros que requieren acompañamiento médico para control o asistencia primaria.</p>
-                                 </div>
-                                 <div>
-                                    <p className="text-xs font-black text-secondary uppercase mb-1">Alta / UTIM</p>
+                                    <p className="text-xs font-black text-secondary uppercase mb-1">UTIM</p>
                                     <p className="text-[11px] text-primary/60 font-medium leading-tight">Patologías graves que requieren monitoreo y atención intensiva constante.</p>
                                  </div>
                               </div>
@@ -376,19 +369,14 @@ export function ServicesContent() {
                   </div>
                   <h3 className="text-3xl font-black text-primary mb-4 leading-tight">Plaza Italia 183,<br/>La Plata</h3>
                   <p className="text-primary/60 font-medium leading-relaxed mb-6">
-                     Nuestra sede central no solo es el núcleo administrativo, sino que alberga el gabinete de enfermería para socios y afiliados.
+                     Nuestra sede central no sólo es el núcleo administrativo, sino que alberga el gabinete de enfermería para socios y afiliados.
                   </p>
                </div>
                <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="p-8 bg-white rounded-3xl border border-border shadow-sm">
                      <Clock className="text-primary mb-4" />
                      <h4 className="font-bold text-primary mb-2">Horario Administración</h4>
-                     <p className="text-sm text-primary/60 font-medium">Lunes a Viernes de 8:30 a 16:30 h.</p>
-                  </div>
-                  <div className="p-8 bg-white rounded-3xl border border-border shadow-sm">
-                     <Smartphone className="text-secondary mb-4" />
-                     <h4 className="font-bold text-primary mb-2">Central SIEM</h4>
-                     <p className="text-sm text-primary/60 font-medium">Llamadas a emergencias y gestión remota las 24 horas.</p>
+                     <p className="text-sm text-primary/60 font-medium">Lunes a Viernes de 9:00 a 16:00 h.</p>
                   </div>
                </div>
             </div>
