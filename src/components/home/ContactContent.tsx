@@ -351,7 +351,7 @@ export function ContactContent() {
             { Icon: Users, title: "Psicólogos", desc: "Tareas administrativas. Jornada de 6 hs.", email: "rrhh@sumsa.com.ar" },
             { Icon: Users, title: "Médicos Regionales", desc: "Zonas: Brandsen, Guernica y San Vicente.", email: "rrhh@sumsa.com.ar" },
             { Icon: Users, title: "Médicos de Temporada", desc: "Revisación médica de ingreso a natatorio.", email: "rrhh@sumsa.com.ar" },
-          ].map(({ Icon, title, desc, email }, i) => (
+          ].map(({ Icon, title, desc, email, tel }: { Icon: React.ElementType; title: string; desc: string; email: string; tel?: string }, i) => (
             <motion.div
               key={title}
               initial={{ opacity: 0, y: 16 }}
