@@ -137,7 +137,7 @@ export function PaymentModesContent() {
                     <h4 className="text-xs font-black text-primary/40 uppercase tracking-widest">{contact.name}</h4>
                     <div className="flex items-center gap-3 text-lg font-bold text-primary">
                       <PhoneCall size={18} className="text-secondary" />
-                      <a href={`tel:${contact.tel.replace(/[^0-9]/g, '')}`} className="hover:text-secondary transition-colors not-italic">{contact.tel}</a>
+                      {contact.tel && <a href={`tel:${contact.tel.replace(/[^0-9]/g, '')}`} className="hover:text-secondary transition-colors not-italic">{contact.tel}</a>}
                     </div>
                     {contact.email && (
                       <div className="flex items-center gap-3 text-sm font-bold text-primary/60">

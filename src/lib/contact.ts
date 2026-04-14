@@ -9,7 +9,7 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_MAIN}`;
 
 export interface Department {
   name: string;
-  tel: string;
+  tel?: string;
   hours: string;
   whatsapp?: string;
   email?: string;

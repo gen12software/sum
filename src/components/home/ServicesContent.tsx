@@ -26,6 +26,8 @@ interface ServiceDetail {
   hours?: string;
   requirements?: string[];
   extra?: string;
+  whatsapp?: string;
+  whatsappDisplay?: string;
 }
 
 interface Category {

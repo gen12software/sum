@@ -1,20 +1,27 @@
 "use server";
 
 import { Resend } from "resend";
+import { headers } from "next/headers";
 
 export type ActionResult = { success: boolean; message: string };
 
-// Simple in-memory rate limiter: max 3 submissions per IP per 10 minutes
+const NAME_MAX = 100;
+const EMAIL_MAX = 200;
+const MESSAGE_MAX = 5000;
+
+// Best-effort in-memory rate limiter. Note: in serverless this resets on cold
+// starts and is per-instance, so it only mitigates casual abuse. For stronger
+// guarantees, back this with Upstash Redis or a similar shared store.
 const rateLimit = new Map<string, { count: number; firstRequest: number }>();
 const RATE_LIMIT_MAX = 3;
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 
-function checkRateLimit(ip: string): boolean {
+function checkRateLimit(key: string): boolean {
   const now = Date.now();
-  const entry = rateLimit.get(ip);
+  const entry = rateLimit.get(key);
 
   if (!entry || now - entry.firstRequest > RATE_LIMIT_WINDOW_MS) {
-    rateLimit.set(ip, { count: 1, firstRequest: now });
+    rateLimit.set(key, { count: 1, firstRequest: now });
     return true;
   }
 
@@ -22,6 +29,22 @@ function checkRateLimit(ip: string): boolean {
 
   entry.count++;
   return true;
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+async function getClientIp(): Promise<string> {
+  const h = await headers();
+  const forwarded = h.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0].trim();
+  return h.get("x-real-ip") ?? "unknown";
 }
 
 export async function submitContactForm(formData: FormData): Promise<ActionResult> {
@@ -41,6 +64,10 @@ export async function submitContactForm(formData: FormData): Promise<ActionResul
       return { success: false, message: "Completá todos los campos." };
     }
 
+    if (name.length > NAME_MAX || email.length > EMAIL_MAX || message.length > MESSAGE_MAX) {
+      return { success: false, message: "Alguno de los campos excede el largo máximo permitido." };
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return { success: false, message: "El correo electrónico no es válido." };
@@ -50,10 +77,14 @@ export async function submitContactForm(formData: FormData): Promise<ActionResul
       return { success: false, message: "El mensaje es demasiado corto." };
     }
 
-    // Rate limiting by email as identifier
-    if (!checkRateLimit(email)) {
+    const ip = await getClientIp();
+    if (!checkRateLimit(ip)) {
       return { success: false, message: "Demasiados intentos. Esperá unos minutos e intentá nuevamente." };
     }
+
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeMessage = escapeHtml(message);
 
     const resendApiKey = process.env.RESEND_API_KEY;
     const toEmail = process.env.CONTACT_EMAIL_TO;
@@ -70,7 +101,7 @@ export async function submitContactForm(formData: FormData): Promise<ActionResul
       from: fromEmail,
       to: [toEmail],
       replyTo: email,
-      subject: `Consulta web de ${name}`,
+      subject: `Consulta web de ${safeName}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1a1a2e; border-bottom: 2px solid #e63946; padding-bottom: 8px;">
@@ -79,15 +110,15 @@ export async function submitContactForm(formData: FormData): Promise<ActionResul
           <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
             <tr>
               <td style="padding: 8px; font-weight: bold; width: 120px; color: #555;">Nombre</td>
-              <td style="padding: 8px;">${name}</td>
+              <td style="padding: 8px;">${safeName}</td>
             </tr>
             <tr style="background: #f9f9f9;">
               <td style="padding: 8px; font-weight: bold; color: #555;">Email</td>
-              <td style="padding: 8px;"><a href="mailto:${email}">${email}</a></td>
+              <td style="padding: 8px;"><a href="mailto:${safeEmail}">${safeEmail}</a></td>
             </tr>
             <tr>
               <td style="padding: 8px; font-weight: bold; color: #555; vertical-align: top;">Mensaje</td>
-              <td style="padding: 8px; white-space: pre-wrap;">${message}</td>
+              <td style="padding: 8px; white-space: pre-wrap;">${safeMessage}</td>
             </tr>
           </table>
           <p style="margin-top: 24px; font-size: 12px; color: #999;">
