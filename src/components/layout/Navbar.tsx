@@ -16,7 +16,7 @@ const NAV_LINKS = [
   { name: "Contacto", href: "/contacto" },
 ];
 
-export function Navbar() {
+function NavbarInner() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -142,3 +142,5 @@ export function Navbar() {
     </nav>
   );
 }
+
+export { NavbarInner as NavbarClient };

@@ -66,7 +66,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#00112b]">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#002d5f]">
 
       {/* Background: gradiente + blobs */}
       <motion.div
@@ -84,7 +84,7 @@ export function Hero() {
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-16 px-6 max-w-7xl mx-auto w-full text-center lg:text-left">
+      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-8 px-6 max-w-[1400px] mx-auto w-full text-center lg:text-left">
 
         {/* Left: text content */}
         <div className="flex-1 flex flex-col items-center lg:items-start">
@@ -196,10 +196,10 @@ export function Hero() {
         {/* Right: image carousel — landscape */}
         <motion.div
           {...appleReveal(0.5, 20)}
-          className="hidden lg:flex shrink-0 flex-col gap-3"
-          style={{ width: "520px" }}
+          className="hidden lg:flex shrink-0 flex-col gap-3 mt-20"
+          style={{ width: "820px" }}
         >
-          <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
+          <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "16/10" }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={imageIndex}
@@ -219,9 +219,9 @@ export function Hero() {
               </motion.div>
             </AnimatePresence>
             {/* Fade overlays */}
-            <div className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-[#00112b] to-transparent pointer-events-none z-10" />
-            <div className="absolute inset-y-0 left-0 w-10 bg-linear-to-r from-[#00112b] to-transparent pointer-events-none z-10" />
-            <div className="absolute inset-y-0 right-0 w-10 bg-linear-to-l from-[#00112b] to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-[#002d5f] to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-y-0 left-0 w-10 bg-linear-to-r from-[#002d5f] to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-y-0 right-0 w-10 bg-linear-to-l from-[#002d5f] to-transparent pointer-events-none z-10" />
           </div>
 
           {/* Dots del carrusel */}

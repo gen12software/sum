@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Home, PhoneCall } from "lucide-react";
-import { Navbar } from "@/components/layout/Navbar";
+import { Navbar } from "@/components/layout/NavbarWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY } from "@/lib/contact";
 

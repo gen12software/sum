@@ -3,10 +3,10 @@
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-primary: #003366;
-  --color-primary-dark: #002244;
-  --color-secondary: #0055a4;
-  --color-secondary-dark: #003d7a;
+  --color-primary: #005599;
+  --color-primary-dark: #003d7a;
+  --color-secondary: #0077cc;
+  --color-secondary-dark: #005599;
   --color-accent: #00a0e3;
   --color-surface: #f8fafc;
   --color-border: #e2e8f0;
