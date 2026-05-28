@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Phone, Mail, MapPin, Instagram, Facebook, ExternalLink } from "lucide-react";
-import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, DEPARTMENTS, WHATSAPP_MAIN } from "@/lib/contact";
+import { DEPARTMENTS, WHATSAPP_MAIN } from "@/lib/contact";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();

@@ -2,34 +2,13 @@
 
 import { Resend } from "resend";
 import { headers } from "next/headers";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export type ActionResult = { success: boolean; message: string };
 
 const NAME_MAX = 100;
 const EMAIL_MAX = 200;
 const MESSAGE_MAX = 5000;
-
-// Best-effort in-memory rate limiter. Note: in serverless this resets on cold
-// starts and is per-instance, so it only mitigates casual abuse. For stronger
-// guarantees, back this with Upstash Redis or a similar shared store.
-const rateLimit = new Map<string, { count: number; firstRequest: number }>();
-const RATE_LIMIT_MAX = 3;
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-
-function checkRateLimit(key: string): boolean {
-  const now = Date.now();
-  const entry = rateLimit.get(key);
-
-  if (!entry || now - entry.firstRequest > RATE_LIMIT_WINDOW_MS) {
-    rateLimit.set(key, { count: 1, firstRequest: now });
-    return true;
-  }
-
-  if (entry.count >= RATE_LIMIT_MAX) return false;
-
-  entry.count++;
-  return true;
-}
 
 function escapeHtml(value: string): string {
   return value
@@ -57,6 +36,8 @@ export async function submitContactForm(formData: FormData): Promise<ActionResul
 
     // Reject silently if honeypot is filled (bot)
     if (honeypot) {
+      const ip = await getClientIp();
+      console.warn("[ContactForm] Honeypot triggered — possible bot:", { ip, name, email });
       return { success: true, message: "¡Mensaje enviado! Te respondemos a la brevedad." };
     }
 

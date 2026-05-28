@@ -2,13 +2,12 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { 
-  Stethoscope, 
-  Truck, 
-  Baby, 
-  Activity, 
-  PhoneCall, 
-  Mail, 
+import {
+  Stethoscope,
+  Truck,
+  Activity,
+  PhoneCall,
+  Mail,
   ChevronRight,
   Briefcase,
   Users,

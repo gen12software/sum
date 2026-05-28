@@ -5,14 +5,13 @@ import Image from "next/image";
 import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY } from "@/lib/contact";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Stethoscope, 
-  Truck, 
-  Baby, 
-  Activity, 
-  PhoneCall, 
-  Building2, 
+  Stethoscope,
+  Truck,
+  Baby,
+  Activity,
+  PhoneCall,
+  Building2,
   HeartPulse,
-  Smartphone,
   Clock,
   AlertCircle,
   MapPin,
@@ -401,7 +400,7 @@ export function ServicesContent() {
                           Unidades equipadas con incubadora de traslado, respirador de transporte, bombas de infusión y monitoreo avanzado. Profesionales altamente calificados en pediatría de alto riesgo.
                         </p>
                         <div className="flex gap-4">
-                           <a href="tel:4380234" className="px-6 py-2 bg-secondary rounded-xl text-xs font-black shadow-lg hover:bg-secondary-dark transition-colors">438-0234</a>
+                           <a href="tel:2216749056" className="px-6 py-2 bg-secondary rounded-xl text-xs font-black shadow-lg hover:bg-secondary-dark transition-colors">221 674-9056</a>
                         </div>
                       </div>
                       <div className="absolute top-0 right-0 w-1/3 h-full bg-linear-to-l from-white/10 to-transparent pointer-events-none" />

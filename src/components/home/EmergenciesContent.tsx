@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Phone, Clock, Shield, CheckCircle2, AlertTriangle, Info, Truck } from "lucide-react";
-import Image from "next/image";
 
 const CALL_STEPS = [
   "Indicar el número de teléfono desde el cual se está llamando.",

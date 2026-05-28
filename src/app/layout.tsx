@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
+import { JsonLd } from "@/components/JsonLd";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -78,11 +79,44 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalOrganization",
+    name: "SUM S.A.",
+    alternateName: "SUM Servicios de Urgencias Médicas",
+    url: siteUrl,
+    logo: `${siteUrl}/images/nuevoLogoCeleste.png`,
+    telephone: ["(0221) 421-1226", "(0221) 421-2234"],
+    email: "info@sumsa.com.ar",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Plaza Italia 183",
+      addressLocality: "La Plata",
+      addressRegion: "Buenos Aires",
+      addressCountry: "AR",
+    },
+    areaServed: {
+      "@type": "GeoCircle",
+      geoMidpoint: {
+        "@type": "GeoCoordinates",
+        latitude: -34.9211,
+        longitude: -57.9544,
+      },
+      geoRadius: "100000",
+    },
+    openingHours: "Mo-Su 00:00-24:00",
+    sameAs: [
+      "https://www.facebook.com/sumsaargentina",
+      "https://www.instagram.com/sumsaargentina",
+    ],
+  };
+
   return (
     <html lang="es" className="scroll-smooth">
       <body
         className={`${inter.variable} ${outfit.variable} antialiased selection:bg-primary selection:text-white`}
       >
+        <JsonLd data={organizationSchema} />
         <div className="flex min-h-screen flex-col">
           {children}
         </div>

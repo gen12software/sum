@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { PhoneCall, ArrowRight, Zap, HeartPulse, ShieldCheck } from "lucide-react";
 import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, WHATSAPP_URL } from "@/lib/contact";
 import { useState, useEffect, useRef } from "react";
@@ -12,11 +13,23 @@ const appleReveal = (delay: number, blur = 16) => ({
   transition: { duration: 1.1, delay, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] },
 });
 
-const VIDEOS = [
-  "/video/videoInicio.mp4",
-  "/video/videoInicio2.mp4",
-  "/video/videoInicio3.mp4",
+const HERO_IMAGES = [
+  "/images/hero/ambulancia-1986.jpg",
+  "/images/hero/ambulancia-30-anios.jpg",
+  "/images/hero/ambulancia-2019-alta.png",
+  "/images/hero/2018-picurba-02.png",
+  "/images/hero/la-victoria-polo-2021.jpg",
+  "/images/hero/sum-anotador-recetario.jpg",
 ];
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 const INFO_SLIDES = [
   { icon: Zap,         title: "Comercialización de DEA",  desc: "Venta e instalación de desfibriladores automáticos externos." },
@@ -25,24 +38,26 @@ const INFO_SLIDES = [
 ];
 
 export function Hero() {
-  const [videoIndex, setVideoIndex] = useState(0);
+  const [shuffledImages, setShuffledImages] = useState(HERO_IMAGES);
+  const [imageIndex, setImageIndex] = useState(0);
   const [slideIndex, setSlideIndex] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Pasar al siguiente video cuando termina (carrusel)
-  const handleVideoEnded = () => {
-    if (VIDEOS.length > 1) {
-      setVideoIndex(i => (i + 1) % VIDEOS.length);
-    }
+  const startInterval = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setImageIndex(i => (i + 1) % shuffledImages.length);
+    }, 5000);
   };
 
-  // Reiniciar video al cambiar índice
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.play().catch(() => {});
-    }
-  }, [videoIndex]);
+    setShuffledImages(shuffleArray(HERO_IMAGES));
+    startInterval();
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Auto-rotación info slides cada 4s
   useEffect(() => {
@@ -69,7 +84,7 @@ export function Hero() {
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-12 px-6 max-w-6xl mx-auto w-full text-center lg:text-left">
+      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-16 px-6 max-w-7xl mx-auto w-full text-center lg:text-left">
 
         {/* Left: text content */}
         <div className="flex-1 flex flex-col items-center lg:items-start">
@@ -109,12 +124,6 @@ export function Hero() {
               <ArrowRight size={16} />
             </Link>
 
-            <a
-              href={WHATSAPP_URL}
-              className="flex items-center gap-2 px-4 py-3.5 text-white/50 font-bold text-sm whitespace-nowrap hover:text-white transition-colors"
-            >
-              Hablá con nosotros
-            </a>
           </motion.div>
 
           <motion.div
@@ -132,6 +141,13 @@ export function Hero() {
                 </div>
               </div>
             ))}
+            <div className="w-px h-8 bg-white/10 hidden sm:block" />
+            <a
+              href={WHATSAPP_URL}
+              className="text-white/40 font-semibold text-sm whitespace-nowrap hover:text-white/80 transition-colors"
+            >
+              Hablá con nosotros →
+            </a>
           </motion.div>
 
           {/* Info slides strip */}
@@ -177,50 +193,51 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Right: video vertical integrado */}
+        {/* Right: image carousel — landscape */}
         <motion.div
           {...appleReveal(0.5, 20)}
-          className="hidden lg:block shrink-0 relative"
-          style={{ width: "340px" }}
+          className="hidden lg:flex shrink-0 flex-col gap-3"
+          style={{ width: "520px" }}
         >
-          <div className="relative overflow-hidden rounded-3xl" style={{ aspectRatio: "9/16" }}>
+          <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
             <AnimatePresence mode="wait">
-              <motion.video
-                key={videoIndex}
-                ref={videoRef}
-                src={VIDEOS[videoIndex]}
-                autoPlay
-                muted
-                playsInline
-                onEnded={handleVideoEnded}
+              <motion.div
+                key={imageIndex}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.8 }}
-                className="w-full h-full object-cover"
-                loop={VIDEOS.length === 1}
-              />
+                className="absolute inset-0"
+              >
+                <Image
+                  src={shuffledImages[imageIndex]}
+                  alt="SUM Servicios de Urgencias Médicas"
+                  fill
+                  className="object-cover"
+                  priority={imageIndex === 0}
+                />
+              </motion.div>
             </AnimatePresence>
-            {/* Fade overlays en los 4 bordes */}
-            <div className="absolute inset-x-0 top-0 h-16 bg-linear-to-b from-[#00112b] to-transparent pointer-events-none" />
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-[#00112b] to-transparent pointer-events-none" />
-            <div className="absolute inset-y-0 left-0 w-10 bg-linear-to-r from-[#00112b] to-transparent pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-16 bg-linear-to-l from-[#00112b] to-transparent pointer-events-none" />
+            {/* Fade overlays */}
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-[#00112b] to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-y-0 left-0 w-10 bg-linear-to-r from-[#00112b] to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-y-0 right-0 w-10 bg-linear-to-l from-[#00112b] to-transparent pointer-events-none z-10" />
           </div>
 
-          {/* Dots del carrusel de videos (solo si hay más de 1) */}
-          {VIDEOS.length > 1 && (
-            <div className="flex justify-center gap-2 mt-3">
-              {VIDEOS.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setVideoIndex(i)}
-                  className={`rounded-full transition-all ${i === videoIndex ? "w-4 h-1.5 bg-white/70" : "w-1.5 h-1.5 bg-white/25 hover:bg-white/40"}`}
-                  aria-label={`Video ${i + 1}`}
-                />
-              ))}
-            </div>
-          )}
+          {/* Dots del carrusel */}
+          <div className="flex justify-center gap-2">
+            {shuffledImages.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setImageIndex(i);
+                  startInterval();
+                }}
+                className={`rounded-full transition-all ${i === imageIndex ? "w-4 h-1.5 bg-white/70" : "w-1.5 h-1.5 bg-white/25 hover:bg-white/40"}`}
+                aria-label={`Imagen ${i + 1}`}
+              />
+            ))}
+          </div>
         </motion.div>
       </div>
 

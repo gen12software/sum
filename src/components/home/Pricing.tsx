@@ -2,9 +2,9 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Check, Info, Phone, BadgePercent, MapPin, ExternalLink } from "lucide-react";
+import { Check, Phone, ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, WHATSAPP_URL } from "@/lib/contact";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 const PLANS = [
   {
@@ -137,11 +137,14 @@ export function Pricing() {
 
         {/* SIEM & Regional Coverage */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <motion.div
+          <motion.a
+            href="https://siem.org.ar/"
+            target="_blank"
+            rel="noopener noreferrer"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="p-8 bg-surface rounded-4xl border border-border flex flex-col md:flex-row gap-6 items-center"
+            className="p-8 bg-surface rounded-4xl border border-border flex flex-col md:flex-row gap-6 items-center cursor-pointer hover:shadow-md transition-shadow"
           >
             <div className="w-20 h-20 shrink-0 bg-white rounded-2xl shadow-sm p-2 flex items-center justify-center overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -150,11 +153,11 @@ export function Pricing() {
             <div>
               <h4 className="text-xl font-bold text-primary mb-2">Cobertura Internacional (SIEM)</h4>
               <p className="text-sm text-primary/60 leading-relaxed font-medium">
-                Contás con la red más grande de América Latina con más de 180 empresas en 17 países. 
+                Contás con la red más grande de América Latina con más de 180 empresas en 17 países.
                 Tu seguridad te acompaña a donde vayas.
               </p>
             </div>
-          </motion.div>
+          </motion.a>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}

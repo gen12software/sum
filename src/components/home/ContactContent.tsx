@@ -19,9 +19,8 @@ import {
   Users,
   Baby,
   MapPin,
-  MessageCircle,
 } from "lucide-react";
-import { DEPARTMENTS as DEPT_DATA, QUICK_WHATSAPP as QUICK_WA, EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, WHATSAPP_URL, WHATSAPP_MAIN_DISPLAY } from "@/lib/contact";
+import { DEPARTMENTS as DEPT_DATA, EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY } from "@/lib/contact";
 import { submitContactForm } from "@/app/actions";
 
 const DEPARTMENTS = [
