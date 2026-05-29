@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -17,47 +17,21 @@ const NAV_LINKS = [
 ];
 
 function NavbarInner() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  // Only the homepage has a dark hero — all other pages have light backgrounds
-  const isHome = pathname === "/";
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Transparent over dark hero (home, not scrolled) → white text
-  // Everything else → dark text
-  const isDark = isHome && !isScrolled;
-
-  const linkColor = isDark
-    ? "text-white/80 hover:text-white"
-    : "text-primary hover:text-secondary";
-
-  const mobileToggleColor = isDark ? "text-white" : "text-primary";
-
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isDark ? "py-6 bg-transparent" : "py-3 glass shadow-premium"
-      }`}
-    >
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-primary py-3 shadow-md font-heading">
       <div className="container px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
-              src={isDark ? "/images/nuevoLogoBlanco.png" : "/images/nuevoLogoCeleste.png"}
+              src="/images/nuevoLogoBlanco.png"
               alt="SUM Logo"
               width={1054}
               height={249}
-              className="h-10 w-auto object-contain transition-all duration-300 hover:opacity-80"
+              className="h-10 w-auto object-contain hover:opacity-80 transition-opacity duration-300"
               priority
             />
           </Link>
@@ -67,22 +41,21 @@ function NavbarInner() {
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
               return (
-              <div key={link.name} className="relative group">
-                <Link
-                  href={link.href}
-                  className={`text-sm font-bold transition-colors duration-300 py-2 ${
-                    isActive
-                      ? isDark ? "text-white" : "text-secondary"
-                      : linkColor
-                  }`}
-                >
-                  {link.name}
-                </Link>
-                <span className={`absolute bottom-0 left-0 h-0.5 bg-secondary transition-all ${
-                  isActive ? "w-full" : "w-0 group-hover:w-full"
-                }`} />
-              </div>
-            )})}
+                <div key={link.name} className="relative group">
+                  <Link
+                    href={link.href}
+                    className={`text-sm font-bold transition-colors duration-300 py-2 ${
+                      isActive ? "text-white" : "text-white/70 hover:text-white"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-secondary transition-all ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`} />
+                </div>
+              );
+            })}
           </div>
 
           {/* Action Buttons */}
@@ -97,7 +70,7 @@ function NavbarInner() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className={`md:hidden p-2 transition-colors duration-300 ${mobileToggleColor}`}
+            className="md:hidden p-2 text-white transition-colors duration-300"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -112,7 +85,7 @@ function NavbarInner() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass border-t border-border mt-3 overflow-hidden"
+            className="md:hidden bg-primary border-t border-white/10 mt-3 overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-6">
               {NAV_LINKS.map((link) => (
@@ -120,14 +93,14 @@ function NavbarInner() {
                   key={link.name}
                   href={link.href}
                   className={`text-lg font-black uppercase tracking-tight transition-colors ${
-                    pathname === link.href ? "text-secondary" : "text-primary hover:text-secondary"
+                    pathname === link.href ? "text-white" : "text-white/70 hover:text-white"
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
                 </Link>
               ))}
-              <div className="h-px bg-border" />
+              <div className="h-px bg-white/10" />
               <a
                 href={`tel:${EMERGENCY_PHONE}`}
                 className="flex items-center justify-center gap-2 w-full py-4 rounded-xl border-2 border-secondary text-secondary font-bold"

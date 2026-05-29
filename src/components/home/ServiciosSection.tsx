@@ -29,7 +29,7 @@ const SERVICES = [
 
 export function ServiciosSection() {
   return (
-    <section className="py-36 bg-surface">
+    <section className="py-16 bg-surface">
       <div className="container px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -54,7 +54,7 @@ export function ServiciosSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="p-10 bg-white rounded-[2rem] border border-border hover:shadow-premium transition-all group"
+              className="p-10 bg-white rounded-4xl border border-border hover:shadow-premium transition-all group"
             >
               <div className="mb-6 text-secondary group-hover:scale-110 transition-transform inline-block">
                 <Icon size={34} />

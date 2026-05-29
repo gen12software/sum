@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
 import { JsonLd } from "@/components/JsonLd";
@@ -10,10 +10,11 @@ const inter = Inter({
   display: "swap",
 });
 
-const outfit = Outfit({
+const poppins = Poppins({
   variable: "--font-outfit",
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.sumsa.com.ar";
@@ -118,7 +119,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${outfit.variable} antialiased selection:bg-primary selection:text-white`}
+        className={`${inter.variable} ${poppins.variable} antialiased selection:bg-primary selection:text-white`}
       >
         <JsonLd data={organizationSchema} />
         <div className="flex min-h-screen flex-col">

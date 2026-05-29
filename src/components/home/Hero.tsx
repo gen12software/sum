@@ -3,114 +3,160 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { PhoneCall, ArrowRight, Zap, HeartPulse, ShieldCheck } from "lucide-react";
+import { PhoneCall, ArrowRight } from "lucide-react";
 import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, WHATSAPP_URL } from "@/lib/contact";
 import { useState, useEffect, useRef } from "react";
 
-const appleReveal = (delay: number, blur = 16) => ({
-  initial: { opacity: 0, y: 20, filter: `blur(${blur}px)` },
-  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-  transition: { duration: 1.1, delay, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] },
-});
-
-const HERO_IMAGES = [
-  "/images/hero/ambulancia-1986.jpg",
-  "/images/hero/ambulancia-30-anios.jpg",
-  "/images/hero/ambulancia-2019-alta.png",
-  "/images/hero/2018-picurba-02.png",
-  "/images/hero/la-victoria-polo-2021.jpg",
-  "/images/hero/sum-anotador-recetario.jpg",
-];
-
-function shuffleArray<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-const INFO_SLIDES = [
-  { icon: Zap,         title: "Comercialización de DEA",  desc: "Venta e instalación de desfibriladores automáticos externos." },
-  { icon: HeartPulse,  title: "Cursos de RCP",             desc: "Capacitación en reanimación para empresas e instituciones." },
-  { icon: ShieldCheck, title: "Emergencias 24H",           desc: "Cobertura médica inmediata los 365 días del año." },
+const HERO_SLIDES = [
+  {
+    src: "/images/hero/1.DOCTORA.png",
+    title: "ESTAMOS CUANDO MÁS IMPORTA",
+    subtitle: "RESPUESTA MÉDICA CON EXCELENCIA HUMANA",
+    objectPosition: "center top",
+  },
+  {
+    src: "/images/hero/2.ATENCIÓN.png",
+    title: "CUIDAMOS PERSONAS, ACOMPAÑAMOS SIEMPRE",
+    objectPosition: "center center",
+  },
+  {
+    src: "/images/hero/3.DESPACHO.png",
+    title: "TECNOLOGÍA Y COORDINACIÓN AL SERVICIO DE LA VIDA",
+    objectPosition: "center center",
+  },
+  {
+    src: "/images/hero/4.CATEDRAL.png",
+    title: "PRESENCIA Y COBERTURA TODO EL AÑO",
+    objectPosition: "center center",
+  },
+  {
+    src: "/images/hero/5.LA PLATA.png",
+    title: "DESDE HACE 40 AÑOS, CUIDANDO LA SALUD EN NUESTRA CIUDAD",
+    objectPosition: "center center",
+  },
 ];
 
 export function Hero() {
-  const [shuffledImages, setShuffledImages] = useState(HERO_IMAGES);
-  const [imageIndex, setImageIndex] = useState(0);
   const [slideIndex, setSlideIndex] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startInterval = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
-      setImageIndex(i => (i + 1) % shuffledImages.length);
+      setSlideIndex(i => (i + 1) % HERO_SLIDES.length);
     }, 5000);
   };
 
   useEffect(() => {
-    setShuffledImages(shuffleArray(HERO_IMAGES));
     startInterval();
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Auto-rotación info slides cada 4s
-  useEffect(() => {
-    const t = setInterval(() => setSlideIndex(i => (i + 1) % INFO_SLIDES.length), 4000);
-    return () => clearInterval(t);
-  }, []);
+  const currentSlide = HERO_SLIDES[slideIndex];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#002d5f]">
+    <>
+      {/* Carrusel full-width */}
+      <section className="relative w-full h-[calc(100vh-4rem)] mt-16 overflow-hidden">
 
-      {/* Background: gradiente + blobs */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2 }}
-        aria-hidden
-        className="absolute inset-0"
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(0,80,160,0.35),transparent)]" />
-        <div className="hero-blob hero-blob-1" />
-        <div className="hero-blob hero-blob-2" />
-        <div className="hero-blob hero-blob-3" />
-        <div className="hero-blob hero-blob-4" />
-      </motion.div>
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-8 px-6 max-w-[1400px] mx-auto w-full text-center lg:text-left">
-
-        {/* Left: text content */}
-        <div className="flex-1 flex flex-col items-center lg:items-start">
-          <motion.h1
-            {...appleReveal(0.45, 28)}
-            className="text-[clamp(3rem,10vw,7rem)] font-black text-white leading-[0.85] tracking-tighter mb-4 select-none"
+        {/* Imagen de fondo */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={slideIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="absolute inset-0"
           >
-            SUM
-          </motion.h1>
+            <Image
+              src={currentSlide.src}
+              alt={currentSlide.title}
+              fill
+              className="object-cover"
+              style={{ objectPosition: currentSlide.objectPosition }}
+              priority={slideIndex === 0}
+            />
+          </motion.div>
+        </AnimatePresence>
 
-          <div className="text-[clamp(1rem,2vw,1.6rem)] font-medium text-white/60 mb-8 leading-snug">
-            <motion.span {...appleReveal(0.75, 12)} className="block">
-              Siempre listos.
-            </motion.span>
-            <motion.span {...appleReveal(0.95, 12)} className="block">
-              Siempre cerca.
-            </motion.span>
+        {/* Overlay gradiente */}
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent pointer-events-none z-10" />
+
+        {/* Texto del slide — zona inferior izquierda */}
+        <div className="absolute inset-0 z-20 flex flex-col justify-end px-6 pb-28 md:px-16 lg:px-24 max-w-[1400px] mx-auto w-full">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={slideIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              <h1 className="text-[clamp(1.5rem,3.5vw,2.8rem)] font-black text-white leading-tight tracking-tight mb-3 max-w-2xl">
+                {currentSlide.title}
+              </h1>
+              <div className="w-10 h-0.5 bg-secondary mb-3" />
+              {currentSlide.subtitle && (
+                <p className="text-[clamp(0.85rem,1.5vw,1.1rem)] font-medium text-white/75 max-w-xl">
+                  {currentSlide.subtitle}
+                </p>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Dots de navegación — centrados abajo */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          {HERO_SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { setSlideIndex(i); startInterval(); }}
+              className={`rounded-full transition-all ${
+                i === slideIndex
+                  ? "w-5 h-1.5 bg-white"
+                  : "w-1.5 h-1.5 bg-white/40 hover:bg-white/70"
+              }`}
+              aria-label={`Slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Sección de acción — debajo del carrusel */}
+      <section className="bg-white px-6 py-5 md:px-16 lg:px-24 border-b border-gray-100">
+        <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+
+          {/* Stats */}
+          <div className="flex items-center gap-8">
+            {[
+              { value: "+40", label: "AÑOS" },
+              { value: "24/7", label: "DISPONIBILIDAD" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <div className="text-2xl font-black text-primary">{stat.value}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-primary/40 mt-0.5">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+            <div className="w-px h-8 bg-primary/15 hidden sm:block" />
+            <a
+              href={WHATSAPP_URL}
+              className="text-primary/50 font-semibold text-sm whitespace-nowrap hover:text-primary transition-colors hidden sm:block"
+            >
+              Hablá con nosotros →
+            </a>
           </div>
 
-          <motion.div
-            {...appleReveal(1.2, 8)}
-            className="flex flex-col sm:flex-row items-center lg:items-start gap-4"
-          >
+          {/* Botones */}
+          <div className="flex flex-col sm:flex-row items-center gap-4">
             <a
               href={`tel:${EMERGENCY_PHONE}`}
-              className="flex items-center gap-2 px-6 py-3.5 bg-secondary text-white rounded-2xl font-bold text-base whitespace-nowrap hover:bg-secondary-dark transition-all shadow-lg hover:-translate-y-0.5"
+              className="flex items-center gap-2 px-6 py-3.5 bg-secondary text-white rounded-2xl font-bold text-base whitespace-nowrap hover:bg-secondary-dark transition-all shadow-md hover:-translate-y-0.5"
             >
               <PhoneCall size={18} />
               {EMERGENCY_PHONE_DISPLAY}
@@ -118,146 +164,15 @@ export function Hero() {
 
             <Link
               href="/planes"
-              className="flex items-center gap-2 px-6 py-3.5 bg-white/10 text-white border border-white/15 rounded-2xl font-bold text-base whitespace-nowrap hover:bg-white/20 transition-all"
+              className="flex items-center gap-2 px-6 py-3.5 bg-primary/5 text-primary border border-primary/15 rounded-2xl font-bold text-base whitespace-nowrap hover:bg-primary/10 transition-all"
             >
               Ver Planes
               <ArrowRight size={16} />
             </Link>
-
-          </motion.div>
-
-          <motion.div
-            {...appleReveal(1.45, 6)}
-            className="mt-8 flex items-center gap-10"
-          >
-            {[
-              { value: "+30", label: "Años" },
-              { value: "24/7", label: "Disponibilidad" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <div className="text-2xl font-black text-white">{stat.value}</div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-white/30 mt-1">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-            <div className="w-px h-8 bg-white/10 hidden sm:block" />
-            <a
-              href={WHATSAPP_URL}
-              className="text-white/40 font-semibold text-sm whitespace-nowrap hover:text-white/80 transition-colors"
-            >
-              Hablá con nosotros →
-            </a>
-          </motion.div>
-
-          {/* Info slides strip */}
-          <motion.div
-            {...appleReveal(1.65, 6)}
-            className="mt-6 w-full max-w-sm"
-          >
-            <div className="relative overflow-hidden rounded-2xl h-24">
-              <AnimatePresence mode="wait">
-                {INFO_SLIDES.map((slide, i) =>
-                  i === slideIndex ? (
-                    <motion.div
-                      key={slide.title}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-                      className="flex items-start gap-4 p-5 bg-white/10 border border-white/20 rounded-2xl text-left"
-                    >
-                      <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-                        <slide.icon size={16} className="text-white/80" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-black text-white mb-0.5">{slide.title}</div>
-                        <div className="text-xs text-white/50 font-medium leading-relaxed">{slide.desc}</div>
-                      </div>
-                    </motion.div>
-                  ) : null
-                )}
-              </AnimatePresence>
-            </div>
-
-            <div className="flex items-center justify-center gap-2 mt-3">
-              {INFO_SLIDES.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setSlideIndex(i)}
-                  className={`rounded-full transition-all ${i === slideIndex ? "w-4 h-1.5 bg-white/70" : "w-1.5 h-1.5 bg-white/25 hover:bg-white/40"}`}
-                  aria-label={`Slide ${i + 1}`}
-                />
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Right: image carousel — landscape */}
-        <motion.div
-          {...appleReveal(0.5, 20)}
-          className="hidden lg:flex shrink-0 flex-col gap-3 mt-20"
-          style={{ width: "820px" }}
-        >
-          <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "16/10" }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={imageIndex}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.8 }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={shuffledImages[imageIndex]}
-                  alt="SUM Servicios de Urgencias Médicas"
-                  fill
-                  className="object-cover"
-                  priority={imageIndex === 0}
-                />
-              </motion.div>
-            </AnimatePresence>
-            {/* Fade overlays */}
-            <div className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-[#002d5f] to-transparent pointer-events-none z-10" />
-            <div className="absolute inset-y-0 left-0 w-10 bg-linear-to-r from-[#002d5f] to-transparent pointer-events-none z-10" />
-            <div className="absolute inset-y-0 right-0 w-10 bg-linear-to-l from-[#002d5f] to-transparent pointer-events-none z-10" />
           </div>
 
-          {/* Dots del carrusel */}
-          <div className="flex justify-center gap-2">
-            {shuffledImages.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  setImageIndex(i);
-                  startInterval();
-                }}
-                className={`rounded-full transition-all ${i === imageIndex ? "w-4 h-1.5 bg-white/70" : "w-1.5 h-1.5 bg-white/25 hover:bg-white/40"}`}
-                aria-label={`Imagen ${i + 1}`}
-              />
-            ))}
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-      >
-        <div className="w-px h-14 bg-white/10 relative overflow-hidden rounded-full">
-          <div
-            className="absolute inset-x-0 h-1/2 bg-linear-to-b from-transparent via-white/50 to-transparent"
-            style={{ animation: "scroll-line 1.8s linear infinite" }}
-          />
         </div>
-        <span className="text-white/20 text-[9px] font-bold uppercase tracking-[0.3em]">
-          Scroll
-        </span>
-      </motion.div>
-    </section>
+      </section>
+    </>
   );
 }
