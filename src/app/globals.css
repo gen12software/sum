@@ -105,6 +105,15 @@ h1, h2, h3, h4, h5, h6 {
   75%       { transform: translate(30px, 15px) scale(1.03); }
 }
 
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .hero-blob-1,
+  .hero-blob-2,
+  .hero-blob-3,
+  .hero-blob-4 {
+    animation: none;
+  }
+}
+
 /* Scroll indicator line */
 @keyframes scroll-line {
   0%   { transform: translateY(-100%); }

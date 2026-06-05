@@ -7,7 +7,8 @@ import { Phone, Mail, MapPin, Instagram, Facebook, ExternalLink } from "lucide-r
 import { DEPARTMENTS, WHATSAPP_MAIN } from "@/lib/contact";
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = React.useState(2025);
+  React.useEffect(() => { setCurrentYear(new Date().getFullYear()); }, []);
 
   return (
     <footer className="bg-[#004d8a] text-white overflow-hidden relative border-t border-white/10">
@@ -77,15 +78,15 @@ export function Footer() {
           </div>
 
           {/* Emergencias + certs */}
-          <div className="md:col-span-3 md:col-start-10 space-y-5">
-            <div className="flex flex-col gap-4">
-              <a href="https://auth.afip.gob.ar/contribuyente_/login.xhtml?action=SYSTEM&system=denuncias" target="_blank" rel="noopener noreferrer">
+          <div className="md:col-span-3 md:col-start-10">
+            <div className="flex flex-row md:flex-col items-center md:items-start gap-5">
+              <a href="https://auth.afip.gob.ar/contribuyente_/login.xhtml?action=SYSTEM&system=denuncias" target="_blank" rel="noopener noreferrer" className="shrink-0">
                 <Image
                   src="/images/data-fiscal-nuevo.png"
                   alt="Data Fiscal"
                   width={100}
                   height={100}
-                  className="h-24 w-auto object-contain rounded-lg hover:opacity-80 transition-opacity"
+                  className="h-20 w-auto object-contain rounded-lg"
                 />
               </a>
               <Image
@@ -93,7 +94,7 @@ export function Footer() {
                 alt="Certificación IRAM-IQNET ISO 9001:2015"
                 width={240}
                 height={80}
-                className="h-20 w-auto object-contain"
+                className="h-16 md:h-20 w-auto object-contain"
               />
             </div>
           </div>

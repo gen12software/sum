@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import { Check, Phone, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { WHATSAPP_URL } from "@/lib/contact";
@@ -16,6 +15,7 @@ const PLANS = [
       { name: "Emergencias Médicas (Código Rojo)", included: true },
       { name: "Urgencias Médicas (Código Amarillo)", included: true },
       { name: "Visita Programada (Código Verde)", included: true },
+      { name: "Telemedicina", included: true },
       { name: "Urgencias Odontológicas", included: false },
       { name: "Gabinete de Enfermería", included: false },
       { name: "Red SIEM Nacional", included: false },
@@ -32,6 +32,7 @@ const PLANS = [
       { name: "Emergencias Médicas (Código Rojo)", included: true },
       { name: "Urgencias Médicas (Código Amarillo)", included: true },
       { name: "Visita Programada (Código Verde)", included: true },
+      { name: "Telemedicina", included: true },
       { name: "Urgencias Odontológicas", included: true },
       { name: "Gabinete de Enfermería", included: true },
       { name: "Red SIEM Nacional", included: true },
@@ -46,11 +47,10 @@ const PLANS = [
     description: "Cobertura total con servicios exclusivos a domicilio.",
     features: [
       { name: "Todo lo incluido en Plan Integral", included: true },
+      { name: "Telemedicina", included: true },
       { name: "Electrocardiograma Programado", included: true },
       { name: "Enfermería Programada a Domicilio", included: true },
       { name: "Traslados de Baja Complejidad", included: true },
-      { name: "Hogar Protegido (Multifamiliar)", included: true },
-      { name: "Atención Prioritaria", included: true },
     ],
     highlight: false,
     cta: "Solicitar",
@@ -59,8 +59,8 @@ const PLANS = [
 
 export function Pricing() {
   return (
-    <section id="planes" className="py-24 bg-white">
-      <div className="container mx-auto px-4">
+    <section id="planes" className="py-12 md:py-24 bg-white">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-black text-primary mb-6">Planes a tu Medida</h2>
           <p className="text-xl text-primary/70 max-w-2xl mx-auto font-medium">
@@ -70,16 +70,12 @@ export function Pricing() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-          {PLANS.map((plan, index) => (
-            <motion.div
+          {PLANS.map((plan) => (
+            <div
               key={plan.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className={`relative p-8 rounded-[2.5rem] border ${
-                plan.highlight 
-                ? "border-primary bg-primary text-white shadow-2xl scale-105 z-10" 
+              className={`relative p-6 md:p-8 rounded-[2.5rem] border ${
+                plan.highlight
+                ? "border-primary bg-primary text-white shadow-2xl md:scale-[1.04] z-10"
                 : "border-border bg-surface text-primary"
               }`}
             >
@@ -131,20 +127,17 @@ export function Pricing() {
                 {plan.cta}
                 <ExternalLink size={18} />
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* SIEM & Regional Coverage */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <motion.a
+          <a
             href="https://siem.org.ar/"
             target="_blank"
             rel="noopener noreferrer"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="p-8 bg-surface rounded-4xl border border-border flex flex-col md:flex-row gap-6 items-center cursor-pointer hover:shadow-md transition-shadow"
+            className="p-6 md:p-8 bg-surface rounded-4xl border border-border flex flex-col md:flex-row gap-4 md:gap-6 items-center"
           >
             <div className="w-20 h-20 shrink-0 bg-white rounded-2xl shadow-sm p-2 flex items-center justify-center overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -157,16 +150,11 @@ export function Pricing() {
                 Tu seguridad te acompaña a donde vayas.
               </p>
             </div>
-          </motion.a>
+          </a>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="p-8 bg-primary text-white rounded-4xl shadow-premium flex flex-col md:flex-row gap-6 items-center"
-          >
+          <div className="p-6 md:p-8 bg-primary text-white rounded-4xl shadow-premium flex flex-col md:flex-row gap-4 md:gap-6 items-center">
             <div className="w-16 h-16 shrink-0 bg-white/10 rounded-2xl flex items-center justify-center">
-              <Phone className="animate-pulse" />
+              <Phone />
             </div>
             <div>
               <h4 className="text-xl font-bold mb-2">Asesoramiento Comercial</h4>
@@ -177,7 +165,7 @@ export function Pricing() {
                 <a href={WHATSAPP_URL} className="text-sm font-black underline underline-offset-4 hover:text-accent transition-colors">WhatsApp</a>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

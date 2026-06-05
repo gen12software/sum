@@ -312,19 +312,19 @@ export function ContactContent() {
                   href={`https://wa.me/${q.number.replace(/[^0-9]/g, "")}`}
                   className="p-5 bg-white border border-border rounded-2xl hover:border-secondary/30 hover:shadow-premium transition-all group"
                 >
-                  <Smartphone size={14} className="text-secondary mb-2 group-hover:scale-110 transition-transform" />
+                  <Smartphone size={14} className="text-secondary mb-2" />
                   <p className="text-[10px] font-black text-primary uppercase tracking-wider mb-1">{q.title}</p>
-                  <p className="text-sm font-bold text-primary/70">{q.number}</p>
+                  <p className="text-xs font-bold text-primary/70">{q.number}</p>
                   <p className="text-[10px] text-primary/30 font-bold uppercase mt-1">{q.hours}</p>
                 </a>
               ))}
               <a
                 href="mailto:computos@sumsa.com.ar"
-                className="p-5 bg-white border border-border rounded-2xl hover:border-secondary/30 hover:shadow-premium transition-all group"
+                className="p-5 bg-white border border-border rounded-2xl transition-all group overflow-hidden"
               >
-                <Mail size={14} className="text-secondary mb-2 group-hover:scale-110 transition-transform" />
+                <Mail size={14} className="text-secondary mb-2" />
                 <p className="text-[10px] font-black text-primary uppercase tracking-wider mb-1">Solicitud de Baja</p>
-                <p className="text-sm font-bold text-primary/70">computos@sumsa.com.ar</p>
+                <p className="text-xs font-bold text-primary/70 break-all">computos@sumsa.com.ar</p>
                 <p className="text-[10px] text-primary/30 font-bold uppercase mt-1">9:00 a 16:00 h.</p>
               </a>
             </motion.div>

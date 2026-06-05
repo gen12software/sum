@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, PhoneCall } from "lucide-react";
 import { EMERGENCY_PHONE } from "@/lib/contact";
 
@@ -62,56 +61,55 @@ function NavbarInner() {
           <div className="hidden md:flex items-center gap-4">
             <a
               href={`tel:${EMERGENCY_PHONE}`}
-              className="flex items-center justify-center w-11 h-11 rounded-full bg-secondary text-white hover:bg-secondary-dark transition-all shadow-md animate-pulse"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary text-white font-bold text-sm hover:bg-secondary-dark transition-all shadow-md animate-pulse"
             >
-              <PhoneCall size={20} />
+              <PhoneCall size={16} />
+              Emergencias
             </a>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            className="md:hidden p-2 text-white transition-colors duration-300"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          {/* Mobile: emergency button + hamburger */}
+          <div className="md:hidden flex items-center gap-2">
+            <a
+              href={`tel:${EMERGENCY_PHONE}`}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-secondary text-white font-bold text-xs"
+              aria-label="Llamar a emergencias"
+            >
+              <PhoneCall size={14} />
+              <span>Emergencias</span>
+            </a>
+            <button
+              className="p-2 text-white transition-colors duration-300"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Menú"
+            >
+              {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-primary border-t border-white/10 mt-3 overflow-hidden"
-          >
-            <div className="flex flex-col p-6 gap-6">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`text-lg font-black uppercase tracking-tight transition-colors ${
-                    pathname === link.href ? "text-white" : "text-white/70 hover:text-white"
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <div className="h-px bg-white/10" />
-              <a
-                href={`tel:${EMERGENCY_PHONE}`}
-                className="flex items-center justify-center gap-2 w-full py-4 rounded-xl border-2 border-secondary text-secondary font-bold"
-              >
-                <PhoneCall size={20} />
-                Llamar a Emergencias
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden bg-primary border-t border-white/10 mt-3 overflow-hidden transition-all duration-200 ${
+          isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="flex flex-col px-6 py-4 gap-5">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`text-lg font-black uppercase tracking-tight transition-colors ${
+                pathname === link.href ? "text-white" : "text-white/70"
+              }`}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      </div>
     </nav>
   );
 }

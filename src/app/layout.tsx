@@ -21,6 +21,12 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.sumsa.com.ar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "64x64", type: "image/png" },
+    ],
+    apple: "/images/logo_blanco.png",
+  },
   title: {
     default: "SUM | Servicios de Emergencia Médica",
     template: "%s | SUM",
@@ -49,7 +55,7 @@ export const metadata: Metadata = {
       "Servicios de emergencia médica premium en La Plata. Atención inmediata las 24 hs, gestión autónoma para afiliados.",
     images: [
       {
-        url: `${siteUrl}/images/nuevoLogoCeleste.png`,
+        url: `${siteUrl}/images/logo_blanco.png`,
         width: 1200,
         height: 630,
         alt: "SUM Servicios de Emergencia Médica",
@@ -61,7 +67,7 @@ export const metadata: Metadata = {
     title: "SUM | Servicios de Emergencia Médica",
     description:
       "Servicios de emergencia médica premium en La Plata. Atención inmediata las 24 hs.",
-    images: [`${siteUrl}/images/nuevoLogoCeleste.png`],
+    images: [`${siteUrl}/images/logo_blanco.png`],
   },
   robots: {
     index: true,
@@ -90,7 +96,7 @@ export default function RootLayout({
     name: "SUM S.A.",
     alternateName: "SUM Servicios de Urgencias Médicas",
     url: siteUrl,
-    logo: `${siteUrl}/images/nuevoLogoCeleste.png`,
+    logo: `${siteUrl}/images/logo_blanco.png`,
     telephone: ["(0221) 421-1226", "(0221) 421-2234"],
     email: "info@sumsa.com.ar",
     address: {
@@ -119,6 +125,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <body
+        suppressHydrationWarning
         className={`${inter.variable} ${poppins.variable} antialiased selection:bg-primary selection:text-white`}
       >
         <JsonLd data={organizationSchema} />

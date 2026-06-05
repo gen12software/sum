@@ -4,9 +4,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY } from "@/lib/contact";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
+import {
   Stethoscope,
-  Truck,
   Baby,
   Activity,
   PhoneCall,
@@ -15,7 +14,12 @@ import {
   Clock,
   AlertCircle,
   MapPin,
-  ClipboardList
+  ClipboardList,
+  Truck,
+  MessageCircle,
+  ExternalLink,
+  Sparkles,
+  Users
 } from "lucide-react";
 
 interface ServiceDetail {
@@ -27,6 +31,8 @@ interface ServiceDetail {
   extra?: string;
   whatsapp?: string;
   whatsappDisplay?: string;
+  link?: string;
+  linkDisplay?: string;
 }
 
 interface Category {
@@ -63,7 +69,8 @@ const SERVICES_CATEGORIES: Category[] = [
       {
         name: "Telemedicina",
         desc: "Consultas médicas telefónicas inmediatas para patologías leves (Código Verde).",
-        phone: "483-9781",
+        link: "https://sum.itconsultsa.com/login",
+        linkDisplay: "Acceder al servicio",
       },
     ]
   },
@@ -78,10 +85,11 @@ const SERVICES_CATEGORIES: Category[] = [
         hours: "Lun a Vie de 9:00 a 16:00 h.",
         phone: "483-9781 / 421-1226"
       },
-      { 
+      {
         name: "Kinesiología Domiciliaria",
         desc: "Rehabilitación personalizada post-quirúrgica, funcional y deportiva en la comodidad de tu hogar.",
-        phone: "+54 9 2216 74-9056"
+        whatsapp: "5492216749056",
+        whatsappDisplay: "+54 9 2216 74-9056"
       },
     ]
   },
@@ -110,18 +118,31 @@ const SERVICES_CATEGORIES: Category[] = [
         phone: "483-9781",
         requirements: ["Orden médica sin excepción", "Carencia de 30 días para socios nuevos"]
       },
-      { 
+      {
         name: "ECG a domicilio",
         desc: "Electrocardiogramas realizados por profesionales en tu domicilio.",
         hours: "8:00 a 16:00 h.",
-        phone: "421-1226 / 421-2234",
+        phone: "483-9781",
         requirements: ["Orden médica especificando domicilio", "Sin informe médico (puede solicitarlo en Plaza Italia 183)"]
       },
-      { 
-        name: "Gabinete Sede Central", 
+      {
+        name: "Gabinete Sede Central",
         desc: "Servicio de enfermería en nuestra sede de Plaza Italia 183.",
         hours: "Lun-Vie 9:00 a 16:00 h.",
         requirements: ["Orden médica sin excepción"]
+      },
+      {
+        name: "Ecografía a Domicilio",
+        desc: "Cómodo y accesible · Atención integral · Tecnología avanzada.",
+        whatsapp: "5492216749056",
+        whatsappDisplay: "221 674-9056"
+      },
+      {
+        name: "Acompañamiento Terapéutico en Domicilio",
+        desc: "Ofrecemos acompañamiento domiciliario personalizado con diferentes niveles de asistencia según el estado de salud y requerimientos de cada persona.",
+        extra: "Con o sin enfermero · Módulos de 8, 12 y 24 horas",
+        whatsapp: "5492216749056",
+        whatsappDisplay: "221 674-9056"
       },
     ]
   },
@@ -154,6 +175,24 @@ const SERVICES_CATEGORIES: Category[] = [
         desc: "Provisión, instalación y mantenimiento de DEA en su establecimiento. Incluye capacitación al personal para su correcto uso ante una emergencia cardíaca.",
         phone: "483-9797",
         extra: "Consulte disponibilidad y planes de cobertura para su empresa."
+      },
+    ]
+  },
+  {
+    id: "bienestar",
+    title: "Bienestar",
+    icon: <Sparkles size={20} />,
+    services: [
+      {
+        name: "Drenaje Linfático",
+        desc: "Pensamos en tu bienestar físico y emocional.",
+        requirements: [
+          "Estimula el sistema linfático",
+          "Favorece la eliminación de líquidos y toxinas",
+          "Mejora la circulación"
+        ],
+        whatsapp: "5492216749056",
+        whatsappDisplay: "221 674-9056"
       },
     ]
   }
@@ -236,67 +275,50 @@ function CoberturaGrandesObras() {
 
 export function ServicesContent() {
   const [activeTab, setActiveTab] = useState(SERVICES_CATEGORIES[0].id);
+  const contentRef = React.useRef<HTMLDivElement>(null);
+
+  function handleTabChange(id: string) {
+    setActiveTab(id);
+    contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   return (
     <section className="bg-white min-h-screen">
       {/* Dynamic Header */}
-      <div className="pt-40 pb-20 bg-linear-to-b from-primary/5 to-white border-b border-border/50">
-        <div className="container px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="max-w-3xl"
-            >
-              <h1 className="text-5xl md:text-8xl font-black text-primary mb-8 uppercase tracking-tighter leading-[0.9]">
-                Catálogo de <br/><span className="text-secondary">Servicios</span>
-              </h1>
-              <p className="text-xl text-primary/70 font-medium leading-relaxed max-w-2xl">
-                Toda la información técnica y administrativa sobre nuestra cobertura médica, 
-                horarios de atención y números de gestión.
-              </p>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="hidden lg:block p-10 bg-white rounded-4xl shadow-premium border border-secondary/10 max-w-xs"
-            >
-              <div className="flex items-center gap-3 mb-4 text-secondary">
-                <Truck size={24} />
-                <span className="font-black text-primary text-xs tracking-widest uppercase">Flota UTIM</span>
-              </div>
-              <p className="text-primary/60 text-xs font-bold leading-relaxed mb-6 not-italic">
-                &quot;Categorizamos nuestros traslados en 3 niveles de complejidad para tu seguridad.&quot;
-              </p>
-              <div className="space-y-3">
-                {["Baja", "Alta"].map(t => (
-                  <div key={t} className="flex items-center gap-3 text-[10px] font-black uppercase text-primary/40">
-                    <div className="w-2 h-2 rounded-full bg-secondary shadow-sm" /> {t} Complejidad
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
+      <div className="pt-24 pb-6 bg-linear-to-b from-primary/5 to-white border-b border-border/50">
+        <div className="container px-4 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="max-w-3xl"
+          >
+            <h1 className="text-3xl md:text-5xl font-black text-primary mb-4 uppercase tracking-tighter leading-[0.9]">
+              Catálogo de <span className="text-secondary">Servicios</span>
+            </h1>
+            <p className="text-base text-primary/70 font-medium leading-relaxed max-w-2xl">
+              Toda la información técnica y administrativa sobre nuestra cobertura médica,
+              horarios de atención y números de gestión.
+            </p>
+          </motion.div>
         </div>
       </div>
 
-      <div className="container px-8 py-32">
+      <div className="container px-4 md:px-8 py-8 md:py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Navigation */}
           <div className="w-full lg:w-80 shrink-0">
-            <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible gap-3 pb-4 lg:pb-0 scrollbar-hide">
+            <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible gap-2 pb-3 lg:pb-0 snap-x snap-mandatory lg:snap-none scrollbar-hide">
               {SERVICES_CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
-                  onClick={() => setActiveTab(cat.id)}
-                  className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all font-bold text-sm whitespace-nowrap lg:whitespace-normal group h-fit ${
-                    activeTab === cat.id 
-                      ? "bg-primary border-primary text-white shadow-lg lg:scale-[1.05]" 
-                      : "bg-surface border-transparent text-primary/60 hover:border-border hover:bg-white"
+                  onClick={() => handleTabChange(cat.id)}
+                  className={`flex items-center gap-2 lg:gap-4 px-3 py-2.5 lg:p-5 rounded-xl lg:rounded-2xl border-2 transition-all font-bold text-xs lg:text-sm whitespace-nowrap lg:whitespace-normal snap-start shrink-0 h-fit min-h-[44px] ${
+                    activeTab === cat.id
+                      ? "bg-primary border-primary text-white shadow-lg lg:scale-[1.05]"
+                      : "bg-surface border-transparent text-primary/60"
                   }`}
                 >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors shrink-0 ${
+                  <div className={`w-6 h-6 lg:w-8 lg:h-8 rounded-md lg:rounded-lg flex items-center justify-center transition-colors shrink-0 [&>svg]:w-4 [&>svg]:h-4 ${
                     activeTab === cat.id ? "bg-white/10" : "bg-white shadow-sm"
                   }`}>
                     {cat.icon}
@@ -306,31 +328,32 @@ export function ServicesContent() {
               ))}
             </div>
 
-            {/* Emergency Side CTA */}
+            {/* Emergency Side CTA — solo desktop */}
             <div className="mt-8 p-6 bg-secondary rounded-3xl text-white shadow-premium relative overflow-hidden hidden lg:block">
               <HeartPulse className="mb-4 text-white/40" size={32} />
               <h4 className="text-lg font-black mb-1 not-italic">¿Emergencia?</h4>
               <p className="text-white/80 text-xs font-medium mb-4">Atención inmediata las 24 horas.</p>
-              <a href={`tel:${EMERGENCY_PHONE}`} className="block w-full text-center bg-white text-secondary py-2 rounded-xl text-sm font-black hover:scale-105 transition-transform active:scale-95 shadow-lg">
+              <a href={`tel:${EMERGENCY_PHONE}`} className="block w-full text-center bg-white text-secondary py-2 rounded-xl text-sm font-black shadow-lg">
                 {EMERGENCY_PHONE_DISPLAY}
               </a>
             </div>
           </div>
 
           {/* Content area */}
-          <div className="grow min-h-[600px]">
+          <div ref={contentRef} className="grow min-h-[600px] scroll-mt-28">
             <AnimatePresence mode="wait">
               {SERVICES_CATEGORIES.map((cat) => activeTab === cat.id && (
                 <motion.div
                   key={cat.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
                   className="space-y-6"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {cat.services.map((service, idx) => (
-                      <div key={idx} className="bg-surface rounded-3xl p-8 border border-border flex flex-col hover:shadow-premium transition-all group">
+                      <div key={idx} className="bg-surface rounded-3xl p-5 md:p-8 border border-border flex flex-col group">
                         <div className="flex items-start justify-between gap-4 mb-4">
                            <h3 className="text-xl font-bold text-primary group-hover:text-secondary transition-colors">{service.name}</h3>
                            {service.hours && (
@@ -345,7 +368,7 @@ export function ServicesContent() {
                            {service.desc}
                         </p>
 
-                        {(service.phone || service.requirements || service.extra) && (
+                        {(service.phone || service.whatsapp || service.link || service.requirements || service.extra) && (
                           <div className="mt-auto pt-6 border-t border-border/50 space-y-4">
                             {service.requirements && (
                               <div className="space-y-1.5 text-[11px] font-bold text-primary/40 uppercase tracking-tight">
@@ -376,9 +399,18 @@ export function ServicesContent() {
                             {service.whatsapp && (
                               <div className="flex items-center justify-between">
                                 <div className="text-[10px] font-black text-primary/40 uppercase tracking-widest">WhatsApp</div>
-                                <a href={`https://wa.me/${service.whatsapp}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-secondary font-black hover:scale-105 transition-transform">
-                                  <PhoneCall size={14} />
+                                <a href={`https://wa.me/${service.whatsapp}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-green-600 font-black hover:scale-105 transition-transform">
+                                  <MessageCircle size={14} />
                                   {service.whatsappDisplay}
+                                </a>
+                              </div>
+                            )}
+                            {service.link && (
+                              <div className="flex items-center justify-between">
+                                <div className="text-[10px] font-black text-primary/40 uppercase tracking-widest">Acceso online</div>
+                                <a href={service.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-secondary font-black hover:scale-105 transition-transform">
+                                  <ExternalLink size={14} />
+                                  {service.linkDisplay ?? service.link}
                                 </a>
                               </div>
                             )}
@@ -410,7 +442,8 @@ export function ServicesContent() {
                   {cat.id === "empresas" && <CoberturaGrandesObras />}
 
                   {cat.id === "medicos" && (
-                     <div className="p-8 bg-surface rounded-4xl border border-dashed border-primary/20">
+                    <div className="space-y-4">
+                      <div className="p-8 bg-surface rounded-4xl border border-dashed border-primary/20">
                         <div className="flex flex-col md:flex-row items-center gap-8">
                            <Truck className="text-secondary shrink-0" size={48} />
                            <div>
@@ -427,7 +460,41 @@ export function ServicesContent() {
                               </div>
                            </div>
                         </div>
-                     </div>
+                      </div>
+
+                      <div className="p-8 bg-surface rounded-4xl border border-dashed border-secondary/30">
+                        <div className="flex flex-col md:flex-row items-start gap-6">
+                          <Users className="text-secondary shrink-0 mt-1" size={36} />
+                          <div className="flex-1">
+                            <p className="text-[10px] font-black text-secondary uppercase tracking-widest mb-1">Nuevo Servicio Adicional</p>
+                            <h4 className="text-primary font-black text-xl mb-2">Acompañamiento en Traslados Programados</h4>
+                            <p className="text-primary/60 text-sm font-medium mb-4">
+                              ¿Necesitás que te acompañen durante el traslado? Ofrecemos dos modalidades según el estado y requerimientos del paciente:
+                            </p>
+                            <div className="space-y-1.5 mb-4">
+                              <div className="flex items-center gap-2 text-xs font-bold text-primary/70">
+                                <AlertCircle size={10} className="text-secondary" />
+                                Acompañante durante el traslado
+                              </div>
+                              <div className="flex items-center gap-2 text-xs font-bold text-primary/70">
+                                <AlertCircle size={10} className="text-secondary" />
+                                Enfermero durante el traslado
+                              </div>
+                            </div>
+                            <p className="text-[11px] font-bold text-primary/50 uppercase tracking-wide mb-3">Consultá por programaciones y más información</p>
+                            <a
+                              href="https://wa.me/5492216749056"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 text-green-600 font-black hover:scale-105 transition-transform text-sm"
+                            >
+                              <MessageCircle size={14} />
+                              221-6749056
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   )}
                 </motion.div>
               ))}

@@ -1,61 +1,47 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { Check, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/contact";
 
 const PLANS = [
   {
     name: "Básico",
     description: "Emergencias y urgencias esenciales.",
-    highlight: "Código Rojo + Código Amarillo",
     featured: false,
   },
   {
     name: "Integral",
     description: "La mejor relación costo-beneficio.",
-    highlight: "Sin copago · Odontología · Red SIEM",
     featured: true,
   },
   {
     name: "Premium",
     description: "Cobertura total a domicilio.",
-    highlight: "Enfermería · ECG · Traslados",
     featured: false,
   },
 ];
 
 export function PlanesSection() {
   return (
-    <section className="py-16 bg-white">
-      <div className="container px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-20"
-        >
+    <section className="py-10 md:py-16 bg-white">
+      <div className="container px-4 md:px-8">
+        <div className="text-center mb-10 md:mb-20">
           <h2 className="text-[clamp(3rem,8vw,6rem)] font-black text-primary tracking-tighter leading-none mb-5">
             Planes
           </h2>
           <p className="text-xl text-primary/50 font-medium">
             Cobertura médica de emergencia para toda tu familia.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10 md:mb-14">
           {PLANS.map((plan, i) => (
-            <motion.div
+            <div
               key={plan.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={`relative p-10 rounded-4xl flex flex-col gap-5 transition-all ${plan.featured
+              className={`relative p-7 md:p-10 rounded-4xl flex flex-col gap-5 ${plan.featured
                   ? "bg-primary text-white shadow-2xl md:scale-[1.04] z-10"
-                  : "bg-surface border border-border hover:shadow-premium"
+                  : "bg-surface border border-border"
                 }`}
             >
               {plan.featured && (
@@ -77,33 +63,11 @@ export function PlanesSection() {
               >
                 {plan.description}
               </p>
-
-              <div
-                className={`mt-auto pt-5 border-t flex items-start gap-3 ${plan.featured ? "border-white/10" : "border-border"
-                  }`}
-              >
-                <Check
-                  size={16}
-                  className={`shrink-0 mt-0.5 ${plan.featured ? "text-accent" : "text-secondary"}`}
-                />
-                <span
-                  className={`text-sm font-bold ${plan.featured ? "text-white/80" : "text-primary"
-                    }`}
-                >
-                  {plan.highlight}
-                </span>
-              </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.35 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6"
-        >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
           <Link
             href="/planes"
             className="flex items-center gap-2 text-primary font-bold text-lg hover:text-secondary transition-colors group"
@@ -116,11 +80,11 @@ export function PlanesSection() {
           </Link>
           <a
             href={WHATSAPP_URL}
-            className="flex items-center gap-2 px-8 py-3 bg-primary text-white rounded-2xl font-bold hover:bg-primary-dark transition-all shadow-sm"
+            className="flex items-center gap-2 px-8 py-3 bg-primary text-white rounded-2xl font-bold shadow-sm w-full sm:w-auto justify-center"
           >
             Consultar por WhatsApp
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

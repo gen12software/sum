@@ -3,15 +3,15 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { PhoneCall, ArrowRight } from "lucide-react";
-import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY, WHATSAPP_URL } from "@/lib/contact";
+import { ArrowRight } from "lucide-react";
+import { WHATSAPP_URL } from "@/lib/contact";
 import { useState, useEffect, useRef } from "react";
 
 const HERO_SLIDES = [
   {
     src: "/images/hero/1.DOCTORA.png",
-    title: "ESTAMOS CUANDO MÁS IMPORTA",
-    subtitle: "RESPUESTA MÉDICA CON EXCELENCIA HUMANA",
+    title: "ESTAMOS CUIDANDO",
+    line2: "MÁS IMPORTA",
     objectPosition: "center top",
   },
   {
@@ -26,7 +26,8 @@ const HERO_SLIDES = [
   },
   {
     src: "/images/hero/4.CATEDRAL.png",
-    title: "PRESENCIA Y COBERTURA TODO EL AÑO",
+    title: "PRESENCIA Y COBERTURA",
+    line2: "TODO EL AÑO",
     objectPosition: "center center",
   },
   {
@@ -60,7 +61,7 @@ export function Hero() {
   return (
     <>
       {/* Carrusel full-width */}
-      <section className="relative w-full h-[calc(100vh-4rem)] mt-16 overflow-hidden">
+      <section className="relative w-full h-[60svh] md:h-[calc(100svh-4rem)] mt-16 overflow-hidden">
 
         {/* Imagen de fondo */}
         <AnimatePresence mode="wait">
@@ -69,7 +70,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.3 }}
             className="absolute inset-0"
           >
             <Image
@@ -87,24 +88,25 @@ export function Hero() {
         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent pointer-events-none z-10" />
 
         {/* Texto del slide — zona inferior izquierda */}
-        <div className="absolute inset-0 z-20 flex flex-col justify-end px-6 pb-28 md:px-16 lg:px-24 max-w-[1400px] mx-auto w-full">
+        <div className="absolute inset-0 z-20 flex flex-col justify-end px-4 pb-12 md:px-16 md:pb-28 lg:px-24 max-w-[1400px] mx-auto w-full">
           <AnimatePresence mode="wait">
             <motion.div
               key={slideIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
               <h1 className="text-[clamp(1.5rem,3.5vw,2.8rem)] font-black text-white leading-tight tracking-tight mb-3 max-w-2xl">
                 {currentSlide.title}
+                {currentSlide.line2 && (
+                  <>
+                    <br />
+                    {currentSlide.line2}
+                  </>
+                )}
               </h1>
               <div className="w-10 h-0.5 bg-secondary mb-3" />
-              {currentSlide.subtitle && (
-                <p className="text-[clamp(0.85rem,1.5vw,1.1rem)] font-medium text-white/75 max-w-xl">
-                  {currentSlide.subtitle}
-                </p>
-              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -127,11 +129,9 @@ export function Hero() {
       </section>
 
       {/* Sección de acción — debajo del carrusel */}
-      <section className="bg-white px-6 py-5 md:px-16 lg:px-24 border-b border-gray-100">
-        <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-
-          {/* Stats */}
-          <div className="flex items-center gap-8">
+      <section className="bg-white px-4 py-4 md:px-16 lg:px-24 border-b border-gray-100">
+        <div className="max-w-[1400px] mx-auto flex flex-wrap items-center justify-between gap-4 sm:justify-center sm:gap-10">
+          <div className="flex items-center gap-6">
             {[
               { value: "+40", label: "AÑOS" },
               { value: "24/7", label: "DISPONIBILIDAD" },
@@ -143,34 +143,22 @@ export function Hero() {
                 </div>
               </div>
             ))}
-            <div className="w-px h-8 bg-primary/15 hidden sm:block" />
-            <a
-              href={WHATSAPP_URL}
-              className="text-primary/50 font-semibold text-sm whitespace-nowrap hover:text-primary transition-colors hidden sm:block"
-            >
-              Hablá con nosotros →
-            </a>
           </div>
-
-          {/* Botones */}
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <a
-              href={`tel:${EMERGENCY_PHONE}`}
-              className="flex items-center gap-2 px-6 py-3.5 bg-secondary text-white rounded-2xl font-bold text-base whitespace-nowrap hover:bg-secondary-dark transition-all shadow-md hover:-translate-y-0.5"
-            >
-              <PhoneCall size={18} />
-              {EMERGENCY_PHONE_DISPLAY}
-            </a>
-
-            <Link
-              href="/planes"
-              className="flex items-center gap-2 px-6 py-3.5 bg-primary/5 text-primary border border-primary/15 rounded-2xl font-bold text-base whitespace-nowrap hover:bg-primary/10 transition-all"
-            >
-              Ver Planes
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-
+          <div className="w-px h-8 bg-primary/15 hidden sm:block" />
+          <a
+            href={WHATSAPP_URL}
+            className="text-primary/50 font-semibold text-sm whitespace-nowrap hover:text-primary transition-colors hidden sm:block"
+          >
+            Hablá con nosotros →
+          </a>
+          <div className="w-px h-8 bg-primary/15 hidden sm:block" />
+          <Link
+            href="/planes"
+            className="flex items-center gap-2 px-5 py-3 bg-primary/5 text-primary border border-primary/15 rounded-2xl font-bold text-sm whitespace-nowrap"
+          >
+            Ver Planes
+            <ArrowRight size={15} />
+          </Link>
         </div>
       </section>
     </>
