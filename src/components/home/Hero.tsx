@@ -35,6 +35,12 @@ const HERO_SLIDES = [
     title: "DESDE HACE 40 AÑOS, CUIDANDO LA SALUD EN NUESTRA CIUDAD",
     objectPosition: "center center",
   },
+  {
+    src: "/images/hero/6.CUARENTAAÑOS.jpeg",
+    title: "40 AÑOS PRESENTES",
+    line2: "CUANDO MÁS IMPORTA",
+    objectPosition: "center center",
+  },
 ];
 
 export function Hero() {
