@@ -19,7 +19,9 @@ import {
   MessageCircle,
   ExternalLink,
   Sparkles,
-  Users
+  Users,
+  HeartHandshake,
+  FileText
 } from "lucide-react";
 
 interface ServiceDetail {
@@ -33,6 +35,8 @@ interface ServiceDetail {
   whatsappDisplay?: string;
   link?: string;
   linkDisplay?: string;
+  flyerImage?: string;
+  flyerLabel?: string;
 }
 
 interface Category {
@@ -99,10 +103,16 @@ const SERVICES_CATEGORIES: Category[] = [
     icon: <Baby size={20} />,
     highlight: "pediatric",
     services: [
-      { 
+      {
         name: "Traslado Neonatal y Pediátrico",
         desc: "Servicio programado. Unidades UTIM altamente capacitadas para el traslado de bebés y niños de alto riesgo.",
         extra: "Médicos neonatólogos y enfermeros especializados en pediatría."
+      },
+      {
+        name: "Kinesiología Infantil a Domicilio",
+        desc: "Tratamientos personalizados para acompañar el desarrollo y la recuperación de los más pequeños, sin salir de casa.",
+        whatsapp: "5492216749056",
+        whatsappDisplay: "221 674-9056"
       }
     ]
   },
@@ -137,12 +147,33 @@ const SERVICES_CATEGORIES: Category[] = [
         whatsapp: "5492216749056",
         whatsappDisplay: "221 674-9056"
       },
+    ]
+  },
+  {
+    id: "cuidados-domiciliarios",
+    title: "Cuidados Domiciliarios",
+    icon: <HeartHandshake size={20} />,
+    services: [
       {
-        name: "Acompañamiento Terapéutico en Domicilio",
+        name: "Acompañamiento Terapéutico",
         desc: "Ofrecemos acompañamiento domiciliario personalizado con diferentes niveles de asistencia según el estado de salud y requerimientos de cada persona.",
-        extra: "Con o sin enfermero · Módulos de 8, 12 y 24 horas",
-        whatsapp: "5492216749056",
-        whatsappDisplay: "221 674-9056"
+        extra: "Módulo mínimo 6 horas",
+        phone: "221 6710641",
+        flyerImage: "/images/FLYER_ACOMPAÑAMIENTO TERAPEUTICO.png",
+      },
+      {
+        name: "Enfermero en Casa",
+        desc: "La atención integral que necesita. Un sólo profesional para acompañar, cuidar y brindar atención de enfermería.",
+        extra: "Módulo mínimo 6 horas",
+        phone: "221 6710641",
+        flyerImage: "/images/flyer_ENFERMERO EN CASA.png",
+      },
+      {
+        name: "Cuidador en Domicilio",
+        desc: "Acompañamiento, cuidado y tranquilidad para cada día.",
+        extra: "Módulo mínimo 6 horas",
+        phone: "221 6710641",
+        flyerImage: "/images/flyer_CUIDADOR EN CASA.png",
       },
     ]
   },
@@ -197,6 +228,65 @@ const SERVICES_CATEGORIES: Category[] = [
     ]
   }
 ];
+
+function FlyerButton({
+  image,
+  label,
+  alt,
+}: {
+  image: string;
+  label: string;
+  alt: string;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-xs font-black rounded-xl hover:bg-primary/90 transition-colors"
+      >
+        <FileText size={14} />
+        {label}
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-6 cursor-zoom-out"
+            onClick={() => setOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              className="relative max-h-full"
+              style={{ maxWidth: "min(90vw, 500px)" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={image}
+                alt={alt}
+                width={400}
+                height={560}
+                className="w-full h-auto rounded-2xl shadow-2xl"
+                style={{ maxHeight: "90vh", objectFit: "contain" }}
+              />
+              <button
+                onClick={() => setOpen(false)}
+                className="absolute top-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center font-black text-sm transition-colors"
+              >
+                ✕
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
 
 function CoberturaGrandesObras() {
   const [open, setOpen] = useState(false);
@@ -368,7 +458,7 @@ export function ServicesContent() {
                            {service.desc}
                         </p>
 
-                        {(service.phone || service.whatsapp || service.link || service.requirements || service.extra) && (
+                        {(service.phone || service.whatsapp || service.link || service.requirements || service.extra || service.flyerImage) && (
                           <div className="mt-auto pt-6 border-t border-border/50 space-y-4">
                             {service.requirements && (
                               <div className="space-y-1.5 text-[11px] font-bold text-primary/40 uppercase tracking-tight">
@@ -413,6 +503,13 @@ export function ServicesContent() {
                                   {service.linkDisplay ?? service.link}
                                 </a>
                               </div>
+                            )}
+                            {service.flyerImage && (
+                              <FlyerButton
+                                image={service.flyerImage}
+                                label={service.flyerLabel ?? "Ver flyer completo"}
+                                alt={service.name}
+                              />
                             )}
                           </div>
                         )}
