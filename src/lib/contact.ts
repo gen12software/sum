@@ -1,7 +1,7 @@
 // Centralized contact data — update here, reflects everywhere
 
-export const EMERGENCY_PHONE = "02214211226";
-export const EMERGENCY_PHONE_DISPLAY = "(0221) 421-1226 / 421-2234";
+export const EMERGENCY_PHONE = "2215395883";
+export const EMERGENCY_PHONE_DISPLAY = "221 539-5883 / 221 598-1808";
 
 export const WHATSAPP_MAIN = "5492216754608";
 export const WHATSAPP_MAIN_DISPLAY = "+54 9 221 675-4608";

@@ -22,7 +22,8 @@ const CODES = [
     icon: <AlertTriangle className="text-red-600" />,
     title: "Emergencias Médicas 24H",
     desc: "Situaciones con riesgo inminente de vida. Máxima prioridad.",
-    tel: "(0221) 421-1226 / 421-2234"
+    tel: "(0221) 421-1226 / 421-2234",
+    emergencyTel: "221 539-5883 / 221 598-1808"
   },
   {
     type: "AMARILLO",
@@ -30,7 +31,8 @@ const CODES = [
     icon: <Info className="text-yellow-500" />,
     title: "Urgencias Médicas 24H",
     desc: "Menor prioridad que la emergencia. Situaciones sin riesgo inminente.",
-    tel: "(0221) 421-1226 / 421-2234"
+    tel: "(0221) 421-1226 / 421-2234",
+    emergencyTel: "221 539-5883 / 221 598-1808"
   },
   {
     type: "VERDE",
@@ -38,7 +40,8 @@ const CODES = [
     icon: <CheckCircle2 className="text-green-500" />,
     title: "Visitas Médicas 24H",
     desc: "Atención domiciliaria de patologías menores.",
-    tel: "(0221) 483-9781"
+    tel: "(0221) 483-9781",
+    emergencyTel: ""
   }
 ];
 
@@ -59,10 +62,31 @@ export function EmergenciesContent() {
                 <p className="text-white/70 font-medium mb-8">
                   Para afiliados, atención inmediata las 24 horas, los 365 días del año.
                 </p>
+                <div className="mb-6">
+                  <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-2">Líneas de emergencia</p>
+                  <div className="flex flex-wrap gap-3">
+                    <a
+                      href="tel:2215395883"
+                      className="inline-flex items-center gap-3 bg-secondary text-white px-5 py-3 rounded-2xl text-lg md:text-2xl font-black shadow-lg active:scale-95"
+                    >
+                      <Phone size={18} />
+                      221 539-5883
+                    </a>
+                    <a
+                      href="tel:2215981808"
+                      className="inline-flex items-center gap-3 bg-secondary text-white px-5 py-3 rounded-2xl text-lg md:text-2xl font-black shadow-lg active:scale-95"
+                    >
+                      <Phone size={18} />
+                      221 598-1808
+                    </a>
+                  </div>
+                </div>
+                <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-2">Teléfonos principales</p>
                 <a
                   href="tel:02214211226"
-                  className="inline-flex items-center gap-3 bg-secondary text-white px-5 py-3 rounded-2xl text-lg md:text-2xl font-black shadow-lg active:scale-95"
+                  className="inline-flex items-center gap-2 bg-white/10 text-white px-4 py-2 rounded-xl text-base md:text-xl font-black active:scale-95"
                 >
+                  <Phone size={16} className="text-secondary" />
                   (0221) 421-1226 / 421-2234
                 </a>
               </div>
@@ -121,12 +145,18 @@ export function EmergenciesContent() {
                   </div>
                   <h3 className="text-xl font-bold text-primary mb-2">{code.title}</h3>
                   <p className="text-primary/60 font-medium mb-6">{code.desc}</p>
+                  {code.emergencyTel && (
+                    <div className="mb-4 p-4 rounded-2xl bg-red-50 border border-red-200">
+                      <p className="text-[10px] font-black text-red-600 uppercase tracking-widest mb-1">Líneas de emergencia</p>
+                      <p className="text-red-700 font-bold">{code.emergencyTel}</p>
+                    </div>
+                  )}
                   <div className="pt-6 border-t border-border flex items-center justify-between">
                     <div>
                       <p className="text-[10px] font-black text-primary/40 uppercase tracking-widest mb-1">Teléfonos alternativos</p>
                       <p className="text-primary font-bold">{code.tel}</p>
                     </div>
-                    <a href={`tel:${code.tel.split(' / ')[0].replace(/[^0-9]/g, '')}`} className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-md hover:scale-110 transition-transform active:scale-95">
+                    <a href={`tel:${(code.emergencyTel || code.tel).split(' / ')[0].replace(/[^0-9]/g, '')}`} className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-md hover:scale-110 transition-transform active:scale-95">
                       <Phone size={20} className="text-secondary" />
                     </a>
                   </div>
