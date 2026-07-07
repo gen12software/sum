@@ -32,7 +32,7 @@ const HERO_SLIDES = [
   },
   {
     src: "/images/hero/5.LA PLATA.png",
-    title: "DESDE HACE 40 AÑOS, CUIDANDO LA SALUD EN NUESTRA CIUDAD",
+    title: "CUIDANDO LA SALUD EN NUESTRA CIUDAD",
     objectPosition: "center center",
   },
   {
