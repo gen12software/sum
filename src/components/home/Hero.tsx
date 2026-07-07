@@ -10,8 +10,8 @@ import { useState, useEffect, useRef } from "react";
 const HERO_SLIDES = [
   {
     src: "/images/hero/1.DOCTORA.png",
-    title: "ESTAMOS CUANDO",
-    line2: "MÁS IMPORTA",
+    title: "A TU LADO",
+    line2: "CUANDO MÁS LO NECESITÁS",
     objectPosition: "center top",
   },
   {
