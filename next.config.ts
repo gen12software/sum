@@ -8,7 +8,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 // El dominio de Storage es específico de cada proyecto de Supabase, así que se
 // deriva de la variable de entorno en lugar de hardcodearse. Sin esto, el CSP
 // bloquea los videos y next/image rechaza las imágenes.
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseHost = supabaseUrl ? new URL(supabaseUrl).hostname : undefined;
 const supabaseOrigin = supabaseHost ? `https://${supabaseHost}` : "";
 

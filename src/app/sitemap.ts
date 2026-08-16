@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { getNovedadesPublicadas } from "@/lib/novedades/queries";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.sumsa.com.ar";
+const siteUrl = process.env.SITE_URL || "https://www.sumsa.com.ar";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes = [

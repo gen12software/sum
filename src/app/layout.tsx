@@ -16,10 +16,10 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.sumsa.com.ar";
+const siteUrl = process.env.SITE_URL || "https://www.sumsa.com.ar";
 
 const metaDomainVerification =
-  process.env.NEXT_PUBLIC_META_DOMAIN_VERIFICATION ?? "4lys5ssbhelfrkhxdv2kvmi34r6ke0";
+  process.env.META_DOMAIN_VERIFICATION ?? "4lys5ssbhelfrkhxdv2kvmi34r6ke0";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

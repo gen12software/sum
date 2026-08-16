@@ -10,9 +10,12 @@ declare global {
   }
 }
 
-const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "1074134285367824";
-
-export function MetaPixel() {
+/**
+ * El ID llega por prop desde el layout (componente de servidor) en lugar de
+ * leerse acá con process.env: sin el prefijo NEXT_PUBLIC_ la variable no existe
+ * en el bundle del navegador, y así ninguna var de entorno queda expuesta.
+ */
+export function MetaPixel({ pixelId: PIXEL_ID }: { pixelId: string }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   // El script inline ya dispara el PageView de la carga inicial: el efecto
@@ -26,7 +29,7 @@ export function MetaPixel() {
       return;
     }
     window.fbq?.("track", "PageView");
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, PIXEL_ID]);
 
   if (!PIXEL_ID) return null;
 

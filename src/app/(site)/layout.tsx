@@ -17,11 +17,15 @@ import { MetaPixelNoscript } from "@/components/analytics/MetaPixelNoscript";
  * armaran árboles distintos.
  */
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
+  // Se lee acá, en el servidor, y baja por prop: así la variable no necesita el
+  // prefijo NEXT_PUBLIC_ para llegar al componente de cliente.
+  const pixelId = process.env.META_PIXEL_ID ?? "1074134285367824";
+
   return (
     <>
-      <MetaPixelNoscript />
+      <MetaPixelNoscript pixelId={pixelId} />
       <Suspense fallback={null}>
-        <MetaPixel />
+        <MetaPixel pixelId={pixelId} />
       </Suspense>
       <div className="flex min-h-screen flex-col">{children}</div>
       <FloatingWhatsApp />

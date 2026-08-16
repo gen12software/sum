@@ -1,5 +1,3 @@
-const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "1074134285367824";
-
 /**
  * Beacon de imagen para visitantes sin JavaScript.
  *
@@ -7,7 +5,7 @@ const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "1074134285367824";
  * bailout a cliente por usar useSearchParams, y todo lo que quede adentro
  * desaparece del HTML prerenderizado — justo el caso que este fallback cubre.
  */
-export function MetaPixelNoscript() {
+export function MetaPixelNoscript({ pixelId: PIXEL_ID }: { pixelId: string }) {
   if (!PIXEL_ID) return null;
 
   return (
