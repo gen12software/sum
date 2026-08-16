@@ -7,12 +7,21 @@ import { usePathname } from "next/navigation";
 import { Menu, X, PhoneCall } from "lucide-react";
 import { EMERGENCY_PHONE } from "@/lib/contact";
 
-const NAV_LINKS = [
+/**
+ * `destacado` marca el ítem que debe resaltarse sobre el resto. Es una marca en
+ * los datos y no un caso especial por href, así el render sigue siendo genérico
+ * y el énfasis puede moverse a otra sección sin tocar el componente.
+ */
+const NAV_LINKS: { name: string; href: string; destacado?: boolean }[] = [
   { name: "Inicio", href: "/" },
   { name: "Emergencias", href: "/emergencias" },
   { name: "Planes", href: "/planes" },
   { name: "Servicios", href: "/servicios" },
   { name: "Contacto", href: "/contacto" },
+  // Va al final para quedar entre Contacto y el botón de Emergencias, que es
+  // la acción crítica del sitio. El realce usa el acento de marca —no rojo—
+  // para destacarse sin competir con ese botón.
+  { name: "Novedades", href: "/novedades", destacado: true },
 ];
 
 function NavbarInner() {
@@ -39,10 +48,33 @@ function NavbarInner() {
           <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
+
+              if (link.destacado) {
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-bold ring-1 transition-all duration-300 ${
+                      isActive
+                        ? "bg-accent text-white ring-accent"
+                        : "bg-accent/15 text-white ring-accent/60 hover:bg-accent/30"
+                    }`}
+                  >
+                    <span
+                      className="h-1.5 w-1.5 rounded-full bg-accent ring-2 ring-white/70"
+                      aria-hidden="true"
+                    />
+                    {link.name}
+                  </Link>
+                );
+              }
+
               return (
                 <div key={link.name} className="relative group">
                   <Link
                     href={link.href}
+                    aria-current={isActive ? "page" : undefined}
                     className={`text-sm font-bold transition-colors duration-300 py-2 ${
                       isActive ? "text-white" : "text-white/70 hover:text-white"
                     }`}
@@ -96,18 +128,45 @@ function NavbarInner() {
         }`}
       >
         <div className="flex flex-col px-6 py-4 gap-5">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={`text-lg font-black uppercase tracking-tight transition-colors ${
-                pathname === link.href ? "text-white" : "text-white/70"
-              }`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {link.name}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const isActive = pathname === link.href;
+
+            if (link.destacado) {
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-lg font-black uppercase tracking-tight ring-1 transition-colors ${
+                    isActive
+                      ? "bg-accent text-white ring-accent"
+                      : "bg-accent/15 text-white ring-accent/60"
+                  }`}
+                >
+                  <span
+                    className="h-2 w-2 rounded-full bg-accent ring-2 ring-white/70"
+                    aria-hidden="true"
+                  />
+                  {link.name}
+                </Link>
+              );
+            }
+
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                aria-current={isActive ? "page" : undefined}
+                className={`text-lg font-black uppercase tracking-tight transition-colors ${
+                  isActive ? "text-white" : "text-white/70"
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </nav>

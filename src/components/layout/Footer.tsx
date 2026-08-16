@@ -47,6 +47,7 @@ export function Footer() {
                 { name: "Servicios", href: "/servicios" },
                 { name: "Planes", href: "/planes" },
                 { name: "Emergencias", href: "/emergencias" },
+                { name: "Novedades", href: "/novedades" },
                 { name: "Contacto", href: "/contacto" },
               ].map((item) => (
                 <li key={item.name}>

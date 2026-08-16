@@ -5,6 +5,13 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
+// El dominio de Storage es específico de cada proyecto de Supabase, así que se
+// deriva de la variable de entorno en lugar de hardcodearse. Sin esto, el CSP
+// bloquea los videos y next/image rechaza las imágenes.
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseHost = supabaseUrl ? new URL(supabaseUrl).hostname : undefined;
+const supabaseOrigin = supabaseHost ? `https://${supabaseHost}` : "";
+
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -26,6 +33,9 @@ const securityHeaders = [
       "img-src 'self' data: blob: https:",
       "frame-src 'self' www.google.com",
       "connect-src 'self' https:",
+      // default-src es 'self', por lo que sin media-src el navegador bloquea
+      // los videos servidos desde Supabase Storage.
+      `media-src 'self' blob: ${supabaseOrigin}`.trim(),
     ].join("; "),
   },
 ];
@@ -36,6 +46,15 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
+    remotePatterns: supabaseHost
+      ? [
+          {
+            protocol: "https" as const,
+            hostname: supabaseHost,
+            pathname: "/storage/v1/object/public/**",
+          },
+        ]
+      : [],
   },
   async headers() {
     return [

@@ -8,7 +8,8 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/"],
+        // El panel además responde con X-Robots-Tag: noindex desde el middleware.
+        disallow: ["/api/", "/admin"],
       },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,

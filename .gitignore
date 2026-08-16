@@ -43,3 +43,6 @@ next-env.d.ts
 .agent
 openspec
 .claude
+
+# Credenciales del panel: contiene la contraseña en claro
+supabase/migrations/0002_usuario_inicial.sql

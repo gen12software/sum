@@ -10,6 +10,14 @@
   --color-accent: #00a0e3;
   --color-surface: #f8fafc;
   --color-border: #e2e8f0;
+
+  /* Dorado de las novedades destacadas. El realce va sobre el contenedor de la
+     tarjeta y no sobre la portada: así se percibe contra la superficie de la
+     página, que es constante, y no contra la imagen, que puede ser de
+     cualquier color —incluido un celeste igual al de la marca—. */
+  --color-gold: #c9971b;
+  --color-gold-dark: #a37812;
+  --color-gold-soft: #fdf6e3;
   
   --font-heading: var(--font-outfit), ui-sans-serif, system-ui;
   --font-body: var(--font-inter), ui-sans-serif, system-ui;

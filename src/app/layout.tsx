@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
-import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
 import { JsonLd } from "@/components/JsonLd";
 
 const inter = Inter({
@@ -18,6 +17,9 @@ const poppins = Poppins({
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.sumsa.com.ar";
+
+const metaDomainVerification =
+  process.env.NEXT_PUBLIC_META_DOMAIN_VERIFICATION ?? "4lys5ssbhelfrkhxdv2kvmi34r6ke0";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -83,6 +85,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+  ...(metaDomainVerification
+    ? { other: { "facebook-domain-verification": metaDomainVerification } }
+    : {}),
 };
 
 export default function RootLayout({
@@ -129,10 +134,10 @@ export default function RootLayout({
         className={`${inter.variable} ${poppins.variable} antialiased selection:bg-primary selection:text-white`}
       >
         <JsonLd data={organizationSchema} />
-        <div className="flex min-h-screen flex-col">
-          {children}
-        </div>
-        <FloatingWhatsApp />
+        {/* El chrome del sitio público (pixel, WhatsApp flotante y el
+            contenedor flex) vive en src/app/(site)/layout.tsx, para que el
+            panel de administración no lo herede. */}
+        {children}
       </body>
     </html>
   );
