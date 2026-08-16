@@ -13,7 +13,12 @@ import {
  * una espera comprensible y una pantalla que parece colgada.
  */
 
-export type TipoArchivo = "imagen" | "video";
+/**
+ * El tipo determina qué valida el cliente y a qué bucket va el archivo. Las
+ * imágenes del pop-up del inicio se validan igual que las de una novedad y solo
+ * difieren en el destino, que resuelve la ruta que emite la URL firmada.
+ */
+export type TipoArchivo = "imagen" | "video" | "popup-imagen";
 
 export type ArchivoSubido = {
   url: string;
@@ -40,7 +45,19 @@ const REGLAS = {
     formatos: "MP4 o WebM",
     sugerencia: " Probá comprimirlo antes de subirlo.",
   },
+  "popup-imagen": {
+    maxBytes: IMAGEN_MAX_BYTES,
+    mimeTypes: IMAGEN_MIME_TYPES as readonly string[],
+    etiqueta: "La imagen",
+    formatos: "JPG, PNG o WebP",
+    sugerencia: "",
+  },
 } as const;
+
+/** Las dimensiones solo se miden en archivos de imagen. */
+function esImagen(tipo: TipoArchivo): boolean {
+  return tipo !== "video";
+}
 
 /**
  * Valida antes de pedir la URL firmada, para que el error aparezca de inmediato
@@ -172,7 +189,7 @@ export async function subirArchivo(
   // Se mide antes de transferir, en paralelo con el pedido de la URL firmada:
   // el archivo ya está local y así no se suma latencia a la subida.
   const [dimensiones, firmada] = await Promise.all([
-    tipo === "imagen" ? medirImagen(file) : Promise.resolve(undefined),
+    esImagen(tipo) ? medirImagen(file) : Promise.resolve(undefined),
     pedirUrlFirmada(file, tipo),
   ]);
 

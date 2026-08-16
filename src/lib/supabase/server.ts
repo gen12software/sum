@@ -15,7 +15,7 @@ import { env } from "@/lib/env";
  * (ver requireSession en @/lib/auth/session).
  */
 export const supabaseAdmin = createClient(
-  env.NEXT_PUBLIC_SUPABASE_URL,
+  env.SUPABASE_URL,
   env.SUPABASE_SERVICE_ROLE_KEY,
   {
     auth: {
@@ -29,3 +29,10 @@ export const supabaseAdmin = createClient(
 
 export const BUCKET_IMAGENES = "novedades-imagenes";
 export const BUCKET_VIDEOS = "novedades-videos";
+
+/**
+ * Bucket propio para el pop-up del inicio, separado del de novedades: así
+ * borrar el contenido de un dominio nunca puede alcanzar al otro, y el uso de
+ * almacenamiento queda legible por separado.
+ */
+export const BUCKET_POPUP_IMAGENES = "popup-imagenes";

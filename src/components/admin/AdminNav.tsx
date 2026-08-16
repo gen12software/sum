@@ -2,13 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Newspaper } from "lucide-react";
+import { MessageSquareWarning, Newspaper } from "lucide-react";
 
 /**
- * Una única opción de contenido, según lo definido para el panel. El acceso a
- * la cuenta vive en la cabecera, no acá.
+ * Las secciones de contenido del panel. El acceso a la cuenta vive en la
+ * cabecera, no acá.
  */
-const LINKS = [{ href: "/admin/novedades", label: "Novedades", Icon: Newspaper }];
+const LINKS = [
+  { href: "/admin/novedades", label: "Novedades", Icon: Newspaper },
+  { href: "/admin/popup", label: "Pop-up", Icon: MessageSquareWarning },
+];
 
 export function AdminNav() {
   const pathname = usePathname();

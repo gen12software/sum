@@ -145,3 +145,6 @@ Entrá a editar la novedad, tocá la cruz sobre la miniatura y guardá.
 
 **¿Otra persona puede tener su propio usuario?**
 Hoy hay un solo usuario compartido. Si necesitan accesos separados, es un desarrollo adicional que podemos cotizar.
+
+**Quiero que un aviso se vea sí o sí, no perdido entre las novedades.**
+Para eso está el pop-up: un cartel que se abre sobre la página de inicio. Se administra desde la solapa **Pop-up** del panel — ver **[Panel de Pop-up](panel-popup.md)**.

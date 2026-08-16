@@ -298,7 +298,16 @@ export function NovedadesList({ novedades }: { novedades: Novedad[] }) {
     <div className="space-y-3">
       {error && <Alert kind="error">{error}</Alert>}
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      {/* El id va explícito: sin él, dnd-kit lo genera con un contador global
+          que arranca de cero en cada render del servidor pero sigue creciendo
+          en el cliente. Los aria-describedby quedaban distintos entre uno y
+          otro y React reportaba un error de hidratación al abrir el panel. */}
+      <DndContext
+        id="novedades-list"
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext items={items.map((item) => item.id)} strategy={verticalListSortingStrategy}>
           <ul className="space-y-2">
             {items.map((novedad) => (

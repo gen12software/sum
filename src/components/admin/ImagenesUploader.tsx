@@ -25,7 +25,11 @@ import {
   type NovedadImagen,
   type OrientacionImagen,
 } from "@/lib/novedades/types";
-import { subirArchivo, validarArchivo } from "@/lib/novedades/upload-client";
+import {
+  subirArchivo,
+  validarArchivo,
+  type TipoArchivo,
+} from "@/lib/novedades/upload-client";
 import { Alert } from "@/components/admin/ui";
 
 type EnCurso = { id: string; nombre: string; progreso: number };
@@ -40,6 +44,15 @@ type Props = {
   value: NovedadImagen[];
   onChange: (imagenes: NovedadImagen[]) => void;
   disabled?: boolean;
+  /**
+   * Destino de la subida. Cambia el bucket, no las reglas: el pop-up del inicio
+   * admite los mismos formatos y el mismo límite que una novedad.
+   */
+  tipo?: Extract<TipoArchivo, "imagen" | "popup-imagen">;
+  /** Reemplaza la nota al pie del área de carga cuando no aplica "portada". */
+  ayuda?: string;
+  /** La primera imagen solo es portada en una novedad. */
+  marcarPortada?: boolean;
 };
 
 function Miniatura({
@@ -47,11 +60,13 @@ function Miniatura({
   index,
   onRemove,
   disabled,
+  marcarPortada,
 }: {
   imagen: NovedadImagen;
   index: number;
   onRemove: () => void;
   disabled?: boolean;
+  marcarPortada?: boolean;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: imagen.path,
@@ -63,7 +78,9 @@ function Miniatura({
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
       className={`group relative aspect-square overflow-hidden rounded-xl border bg-surface ${
-        index === 0 ? "border-primary/40 ring-2 ring-primary/15" : "border-border"
+        index === 0 && marcarPortada
+          ? "border-primary/40 ring-2 ring-primary/15"
+          : "border-border"
       } ${isDragging ? "z-10 opacity-80 shadow-premium" : ""}`}
     >
       {/* La celda es cuadrada para que la grilla quede pareja, pero la imagen
@@ -77,7 +94,7 @@ function Miniatura({
         className="object-contain"
       />
 
-      {index === 0 && (
+      {index === 0 && marcarPortada && (
         <span className="absolute left-1.5 top-1.5 inline-flex items-center gap-1 rounded-md bg-primary/90 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white">
           <Star size={9} className="fill-current" />
           Portada
@@ -116,7 +133,16 @@ function Miniatura({
   );
 }
 
-export function ImagenesUploader({ value, onChange, disabled }: Props) {
+export function ImagenesUploader({
+  value,
+  onChange,
+  disabled,
+  // Los valores por omisión reproducen el comportamiento con el que nació el
+  // componente, para que el formulario de novedades no cambie en nada.
+  tipo = "imagen",
+  ayuda = "JPG, PNG o WebP. Hasta 10 MB cada una. La primera se usa como portada.",
+  marcarPortada = true,
+}: Props) {
   const [enCurso, setEnCurso] = useState<EnCurso[]>([]);
   const [errores, setErrores] = useState<string[]>([]);
   const [arrastrando, setArrastrando] = useState(false);
@@ -140,7 +166,7 @@ export function ImagenesUploader({ value, onChange, disabled }: Props) {
     const validos: File[] = [];
 
     for (const file of lista) {
-      const error = validarArchivo(file, "imagen");
+      const error = validarArchivo(file, tipo);
       if (error) nuevosErrores.push(`${file.name}: ${error}`);
       else validos.push(file);
     }
@@ -154,7 +180,7 @@ export function ImagenesUploader({ value, onChange, disabled }: Props) {
       setEnCurso((prev) => [...prev, { id, nombre: file.name, progreso: 0 }]);
 
       try {
-        const { url, path, ancho, alto } = await subirArchivo(file, "imagen", (progreso) => {
+        const { url, path, ancho, alto } = await subirArchivo(file, tipo, (progreso) => {
           setEnCurso((prev) => prev.map((item) => (item.id === id ? { ...item, progreso } : item)));
         });
 
@@ -228,9 +254,7 @@ export function ImagenesUploader({ value, onChange, disabled }: Props) {
             elegilas desde tu dispositivo
           </button>
         </p>
-        <p className="mt-1 text-xs font-medium text-primary/35">
-          JPG, PNG o WebP. Hasta 10 MB cada una. La primera se usa como portada.
-        </p>
+        <p className="mt-1 text-xs font-medium text-primary/35">{ayuda}</p>
 
         <input
           ref={inputRef}
@@ -280,8 +304,18 @@ export function ImagenesUploader({ value, onChange, disabled }: Props) {
         </ul>
       )}
 
+      {/* El id del DndContext va explícito por la misma razón que en
+          NovedadesList: sin él, dnd-kit lo genera con un contador global que no
+          coincide entre el servidor y el cliente, y React reporta un error de
+          hidratación. Se deriva del tipo para que dos uploaders distintos no
+          compartan id. */}
       {value.length > 0 && (
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <DndContext
+          id={`imagenes-uploader-${tipo}`}
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
           <SortableContext items={value.map((imagen) => imagen.path)} strategy={rectSortingStrategy}>
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5">
               {value.map((imagen, index) => (
@@ -290,6 +324,7 @@ export function ImagenesUploader({ value, onChange, disabled }: Props) {
                   imagen={imagen}
                   index={index}
                   disabled={disabled}
+                  marcarPortada={marcarPortada}
                   onRemove={() => quitar(imagen.path)}
                 />
               ))}

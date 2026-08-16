@@ -2,7 +2,12 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { getSession } from "@/lib/auth/guard";
-import { BUCKET_IMAGENES, BUCKET_VIDEOS, supabaseAdmin } from "@/lib/supabase/server";
+import {
+  BUCKET_IMAGENES,
+  BUCKET_POPUP_IMAGENES,
+  BUCKET_VIDEOS,
+  supabaseAdmin,
+} from "@/lib/supabase/server";
 import {
   IMAGEN_MAX_BYTES,
   IMAGEN_MIME_TYPES,
@@ -20,7 +25,7 @@ import {
  */
 
 const requestSchema = z.object({
-  tipo: z.enum(["imagen", "video"]),
+  tipo: z.enum(["imagen", "video", "popup-imagen"]),
   nombre: z.string().min(1).max(255),
   contentType: z.string().min(1),
   size: z.number().int().positive(),
@@ -40,6 +45,15 @@ const REGLAS = {
     mimeTypes: VIDEO_MIME_TYPES as readonly string[],
     etiqueta: "El video",
     formatos: "MP4 o WebM",
+  },
+  // Mismos formatos y mismo límite que las imágenes de una novedad; lo único
+  // que cambia es el bucket de destino.
+  "popup-imagen": {
+    bucket: BUCKET_POPUP_IMAGENES,
+    maxBytes: IMAGEN_MAX_BYTES,
+    mimeTypes: IMAGEN_MIME_TYPES as readonly string[],
+    etiqueta: "La imagen",
+    formatos: "JPG, PNG o WebP",
   },
 } as const;
 
