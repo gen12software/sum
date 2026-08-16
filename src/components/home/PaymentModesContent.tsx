@@ -21,11 +21,16 @@ const DATA_NEEDED = [
   "CBU (22 dígitos), Banco y Titular (si es cuenta bancaria)"
 ];
 
+/** Los WhatsApp se normalizan a la misma forma { tel, display } que los departamentos. */
+const whatsappPhone = (numero: string) => [
+  { tel: numero.replace(/[^0-9]/g, ""), display: numero },
+];
+
 const CONTACTS = [
-  { name: "Administración", tel: DEPARTMENTS[1].tel, email: DEPARTMENTS[1].email, hours: DEPARTMENTS[1].hours },
-  { name: "Departamento Cobranzas", tel: DEPARTMENTS[2].tel, email: DEPARTMENTS[2].email, hours: DEPARTMENTS[2].hours },
-  { name: "Informar Pago (WhatsApp)", tel: QUICK_WHATSAPP[0].number, hours: QUICK_WHATSAPP[0].hours },
-  { name: "Pedir Factura (WhatsApp)", tel: QUICK_WHATSAPP[1].number, hours: QUICK_WHATSAPP[1].hours },
+  { name: "Administración", tels: DEPARTMENTS[1].tels, email: DEPARTMENTS[1].email, hours: DEPARTMENTS[1].hours },
+  { name: "Departamento Cobranzas", tels: DEPARTMENTS[2].tels, email: DEPARTMENTS[2].email, hours: DEPARTMENTS[2].hours },
+  { name: "Informar Pago (WhatsApp)", tels: whatsappPhone(QUICK_WHATSAPP[0].number), hours: QUICK_WHATSAPP[0].hours },
+  { name: "Pedir Factura (WhatsApp)", tels: whatsappPhone(QUICK_WHATSAPP[1].number), hours: QUICK_WHATSAPP[1].hours },
 ];
 
 export function PaymentModesContent() {
@@ -135,10 +140,12 @@ export function PaymentModesContent() {
                 {CONTACTS.map((contact, i) => (
                   <div key={i} className="space-y-3 pb-8 border-b border-border last:border-0 last:pb-0">
                     <h4 className="text-xs font-black text-primary/40 uppercase tracking-widest">{contact.name}</h4>
-                    <div className="flex items-center gap-3 text-lg font-bold text-primary">
-                      <PhoneCall size={18} className="text-secondary" />
-                      {contact.tel && <a href={`tel:${contact.tel.replace(/[^0-9]/g, '')}`} className="hover:text-secondary transition-colors not-italic">{contact.tel}</a>}
-                    </div>
+                    {contact.tels?.map((phone) => (
+                      <div key={phone.tel} className="flex items-center gap-3 text-lg font-bold text-primary">
+                        <PhoneCall size={18} className="text-secondary" />
+                        <a href={`tel:${phone.tel}`} className="hover:text-secondary transition-colors not-italic">{phone.display}</a>
+                      </div>
+                    ))}
                     {contact.email && (
                       <div className="flex items-center gap-3 text-sm font-bold text-primary/60">
                         <Mail size={16} className="text-primary/30" />

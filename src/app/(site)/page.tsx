@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/NavbarWrapper";
 import { Hero } from "@/components/home/Hero";
 import { PlanesSection } from "@/components/home/PlanesSection";
 import { ServiciosSection } from "@/components/home/ServiciosSection";
+import { TelemedicinaSection } from "@/components/home/TelemedicinaSection";
 import { NovedadesSection } from "@/components/home/NovedadesSection";
 import { ContactoSection } from "@/components/home/ContactoSection";
 import { PopupAviso } from "@/components/home/PopupAviso";
@@ -24,6 +25,7 @@ export default async function Home() {
       <Navbar />
       <main className="grow">
         <Hero imagenes={heroImagenes} />
+        <TelemedicinaSection />
         <PlanesSection />
         <ServiciosSection />
         <NovedadesSection />

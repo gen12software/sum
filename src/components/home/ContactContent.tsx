@@ -20,7 +20,8 @@ import {
   Baby,
   MapPin,
 } from "lucide-react";
-import { DEPARTMENTS as DEPT_DATA, EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY } from "@/lib/contact";
+import { DEPARTMENTS as DEPT_DATA } from "@/lib/contact";
+import { EmergencyPhones } from "@/components/contact/EmergencyCall";
 import { submitContactForm } from "@/app/actions";
 
 const DEPARTMENTS = [
@@ -154,21 +155,23 @@ export function ContactContent() {
 
           {/* Quick contacts — lateral */}
           <div className="lg:col-span-5 flex flex-col gap-4">
-            <motion.a
-              href={`tel:${EMERGENCY_PHONE}`}
+            <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.15 }}
-              className="flex items-center gap-5 p-6 bg-secondary text-white rounded-3xl hover:bg-secondary-dark transition-all group"
+              className="flex items-center gap-5 p-6 bg-secondary text-white rounded-3xl"
             >
-              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center shrink-0">
                 <PhoneCall size={22} />
               </div>
               <div>
                 <div className="text-[10px] font-black uppercase tracking-widest text-white/70 mb-1">Emergencias 24H</div>
-                <div className="text-xl font-black">{EMERGENCY_PHONE_DISPLAY}</div>
+                <EmergencyPhones
+                  className="flex flex-col sm:flex-row sm:flex-wrap gap-1 sm:gap-3"
+                  itemClassName="text-xl font-black hover:underline"
+                />
               </div>
-            </motion.a>
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -235,11 +238,11 @@ export function ContactContent() {
               </div>
               <h3 className="text-sm font-black text-primary uppercase tracking-tight leading-tight mb-3">{dept.name}</h3>
               <div className="space-y-2">
-                {dept.tel && (
-                  <a href={`tel:${dept.tel}`} className="flex items-center gap-2 text-xs font-bold text-primary/60 hover:text-secondary transition-colors">
-                    <PhoneCall size={12} className="text-primary/30" />{dept.tel}
+                {dept.tels?.map((phone) => (
+                  <a key={phone.tel} href={`tel:${phone.tel}`} className="flex items-center gap-2 text-xs font-bold text-primary/60 hover:text-secondary transition-colors">
+                    <PhoneCall size={12} className="text-primary/30" />{phone.display}
                   </a>
-                )}
+                ))}
                 {dept.whatsapp && (
                   <a href={`https://wa.me/${dept.whatsapp.replace(/[^0-9]/g, '')}`} className="flex items-center gap-2 text-xs font-bold text-primary/60 hover:text-secondary transition-colors">
                     <Smartphone size={12} className="text-primary/30" />{dept.whatsapp}

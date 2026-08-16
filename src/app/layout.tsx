@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { JsonLd } from "@/components/JsonLd";
+import { EMERGENCY_PHONES } from "@/lib/contact";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -102,7 +103,7 @@ export default function RootLayout({
     alternateName: "SUM Servicios de Urgencias Médicas",
     url: siteUrl,
     logo: `${siteUrl}/images/logo_blanco.png`,
-    telephone: ["(0221) 421-1226", "(0221) 421-2234"],
+    telephone: EMERGENCY_PHONES.map((p) => p.tel),
     email: "info@sumsa.com.ar",
     address: {
       "@type": "PostalAddress",

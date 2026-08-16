@@ -67,10 +67,12 @@ export function Footer() {
                 <MapPin size={15} className="text-white/70 shrink-0 mt-0.5" />
                 <span className="text-white/90 text-sm font-medium">Plaza Italia 183, La Plata<br />Provincia de Buenos Aires</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone size={15} className="text-white/70 shrink-0" />
-                <a href={`tel:${DEPARTMENTS[1].tel?.replace(/[^0-9]/g, '')}`} className="text-white/90 text-sm font-medium hover:text-white transition-colors">{DEPARTMENTS[1].tel}</a>
-              </li>
+              {DEPARTMENTS[1].tels?.map((phone) => (
+                <li key={phone.tel} className="flex items-center gap-3">
+                  <Phone size={15} className="text-white/70 shrink-0" />
+                  <a href={`tel:${phone.tel}`} className="text-white/90 text-sm font-medium hover:text-white transition-colors">{phone.display}</a>
+                </li>
+              ))}
               <li className="flex items-center gap-3">
                 <Mail size={15} className="text-white/70 shrink-0" />
                 <a href="mailto:infosum@sumsa.com.ar" className="text-white/90 text-sm font-medium hover:text-white transition-colors">infosum@sumsa.com.ar</a>

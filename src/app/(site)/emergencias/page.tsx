@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/NavbarWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { EmergenciesContent } from "@/components/home/EmergenciesContent";
+import { EMERGENCY_PHONES_DISPLAY } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "Emergencias",
   description:
-    "Servicio de emergencias médicas 24 hs de SUM. Ambulancias equipadas y médicos especializados listos para atenderte. Llamá al (0221) 421-1226 / 421-2234.",
+    `Servicio de emergencias médicas 24 hs de SUM. Ambulancias equipadas y médicos especializados listos para atenderte. Llamá al ${EMERGENCY_PHONES_DISPLAY}.`,
   alternates: { canonical: "/emergencias" },
   openGraph: {
     title: "Emergencias | SUM",
-    description: "Emergencias médicas 24 hs. Ambulancias equipadas. Llamá al (0221) 421-1226 / 421-2234.",
+    description: `Emergencias médicas 24 hs. Ambulancias equipadas. Llamá al ${EMERGENCY_PHONES_DISPLAY}.`,
     url: "/emergencias",
   },
 };

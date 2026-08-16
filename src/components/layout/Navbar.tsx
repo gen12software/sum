@@ -5,7 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, PhoneCall } from "lucide-react";
-import { EMERGENCY_PHONE } from "@/lib/contact";
+import { EMERGENCY_PHONES } from "@/lib/contact";
+import { EmergencyCallLink } from "@/components/contact/EmergencyCall";
 
 /**
  * `destacado` marca el ítem que debe resaltarse sobre el resto. Es una marca en
@@ -91,25 +92,25 @@ function NavbarInner() {
 
           {/* Action Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <a
-              href={`tel:${EMERGENCY_PHONE}`}
+            <EmergencyCallLink
+              tel={EMERGENCY_PHONES[0].tel}
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary text-white font-bold text-sm hover:bg-secondary-dark transition-all shadow-md animate-pulse"
             >
               <PhoneCall size={16} />
               Emergencias
-            </a>
+            </EmergencyCallLink>
           </div>
 
           {/* Mobile: emergency button + hamburger */}
           <div className="md:hidden flex items-center gap-2">
-            <a
-              href={`tel:${EMERGENCY_PHONE}`}
+            <EmergencyCallLink
+              tel={EMERGENCY_PHONES[0].tel}
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-secondary text-white font-bold text-xs"
               aria-label="Llamar a emergencias"
             >
               <PhoneCall size={14} />
               <span>Emergencias</span>
-            </a>
+            </EmergencyCallLink>
             <button
               className="p-2 text-white transition-colors duration-300"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

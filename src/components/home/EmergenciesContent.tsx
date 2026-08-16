@@ -3,6 +3,9 @@
 import React from "react";
 import { Phone, Clock, Shield, CheckCircle2, AlertTriangle, Info, Truck } from "lucide-react";
 
+import { DISPATCH_LABEL } from "@/lib/contact";
+import { EmergencyPhones } from "@/components/contact/EmergencyCall";
+
 const CALL_STEPS = [
   "Indicar el número de teléfono desde el cual se está llamando.",
   "Decir: 'Estamos en una emergencia'.",
@@ -22,8 +25,6 @@ const CODES = [
     icon: <AlertTriangle className="text-red-600" />,
     title: "Emergencias Médicas 24H",
     desc: "Situaciones con riesgo inminente de vida. Máxima prioridad.",
-    tel: "(0221) 421-1226 / 421-2234",
-    emergencyTel: "221 539-5883 / 221 598-1808"
   },
   {
     type: "AMARILLO",
@@ -31,17 +32,13 @@ const CODES = [
     icon: <Info className="text-yellow-500" />,
     title: "Urgencias Médicas 24H",
     desc: "Menor prioridad que la emergencia. Situaciones sin riesgo inminente.",
-    tel: "(0221) 421-1226 / 421-2234",
-    emergencyTel: "221 539-5883 / 221 598-1808"
   },
   {
     type: "VERDE",
     color: "bg-green-500",
     icon: <CheckCircle2 className="text-green-500" />,
     title: "Visitas Médicas 24H",
-    desc: "Atención domiciliaria de patologías menores.",
-    tel: "(0221) 483-9781",
-    emergencyTel: ""
+    desc: "Atención domiciliaria de patologías menores. El pedido se realiza a la cabina de despacho.",
   }
 ];
 
@@ -64,31 +61,16 @@ export function EmergenciesContent() {
                 </p>
                 <div className="mb-6">
                   <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-2">Líneas de emergencia</p>
-                  <div className="flex flex-wrap gap-3">
-                    <a
-                      href="tel:2215395883"
-                      className="inline-flex items-center gap-3 bg-secondary text-white px-5 py-3 rounded-2xl text-lg md:text-2xl font-black shadow-lg active:scale-95"
-                    >
-                      <Phone size={18} />
-                      221 539-5883
-                    </a>
-                    <a
-                      href="tel:2215981808"
-                      className="inline-flex items-center gap-3 bg-secondary text-white px-5 py-3 rounded-2xl text-lg md:text-2xl font-black shadow-lg active:scale-95"
-                    >
-                      <Phone size={18} />
-                      221 598-1808
-                    </a>
-                  </div>
+                  <EmergencyPhones
+                    className="flex flex-col sm:flex-row sm:flex-wrap gap-3"
+                    itemClassName="inline-flex items-center gap-3 bg-secondary text-white px-5 py-3 rounded-2xl text-lg md:text-2xl font-black shadow-lg active:scale-95"
+                    conIcono
+                  />
                 </div>
-                <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-2">Teléfonos principales</p>
-                <a
-                  href="tel:02214211226"
-                  className="inline-flex items-center gap-2 bg-white/10 text-white px-4 py-2 rounded-xl text-base md:text-xl font-black active:scale-95"
-                >
-                  <Phone size={16} className="text-secondary" />
-                  (0221) 421-1226 / 421-2234
-                </a>
+                <p className="text-white/70 text-xs font-medium">
+                  Todos los servicios —emergencias, visitas médicas y traslados— se solicitan a la{" "}
+                  {DISPATCH_LABEL.toLowerCase()}.
+                </p>
               </div>
               <div className="w-full md:w-2/5 flex justify-center">
                 <div className="relative">
@@ -145,20 +127,14 @@ export function EmergenciesContent() {
                   </div>
                   <h3 className="text-xl font-bold text-primary mb-2">{code.title}</h3>
                   <p className="text-primary/60 font-medium mb-6">{code.desc}</p>
-                  {code.emergencyTel && (
-                    <div className="mb-4 p-4 rounded-2xl bg-red-50 border border-red-200">
-                      <p className="text-[10px] font-black text-red-600 uppercase tracking-widest mb-1">Líneas de emergencia</p>
-                      <p className="text-red-700 font-bold">{code.emergencyTel}</p>
-                    </div>
-                  )}
-                  <div className="pt-6 border-t border-border flex items-center justify-between">
-                    <div>
-                      <p className="text-[10px] font-black text-primary/40 uppercase tracking-widest mb-1">Teléfonos alternativos</p>
-                      <p className="text-primary font-bold">{code.tel}</p>
-                    </div>
-                    <a href={`tel:${(code.emergencyTel || code.tel).split(' / ')[0].replace(/[^0-9]/g, '')}`} className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-md hover:scale-110 transition-transform active:scale-95">
-                      <Phone size={20} className="text-secondary" />
-                    </a>
+                  <div className="pt-6 border-t border-border">
+                    <p className="text-[10px] font-black text-primary/40 uppercase tracking-widest mb-2">{DISPATCH_LABEL}</p>
+                    <EmergencyPhones
+                      className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-3"
+                      itemClassName="inline-flex items-center gap-2 text-primary font-bold hover:text-secondary transition-colors"
+                      conIcono
+                      iconSize={16}
+                    />
                   </div>
                 </div>
               ))}

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Home, PhoneCall } from "lucide-react";
+import { Home } from "lucide-react";
 import { Navbar } from "@/components/layout/NavbarWrapper";
 import { Footer } from "@/components/layout/Footer";
-import { EMERGENCY_PHONE, EMERGENCY_PHONE_DISPLAY } from "@/lib/contact";
+import { EmergencyPhones } from "@/components/contact/EmergencyCall";
 
 export default function NotFound() {
   return (
@@ -27,13 +27,12 @@ export default function NotFound() {
               <Home size={20} />
               Volver al Inicio
             </Link>
-            <a
-              href={`tel:${EMERGENCY_PHONE}`}
-              className="flex items-center justify-center gap-2 px-8 py-4 bg-secondary text-white rounded-2xl font-bold hover:bg-secondary-dark transition-all shadow-lg"
-            >
-              <PhoneCall size={20} />
-              {EMERGENCY_PHONE_DISPLAY}
-            </a>
+            <EmergencyPhones
+              className="flex flex-col gap-4"
+              itemClassName="flex items-center justify-center gap-2 px-8 py-4 bg-secondary text-white rounded-2xl font-bold hover:bg-secondary-dark transition-all shadow-lg"
+              conIcono
+              iconSize={20}
+            />
           </div>
         </div>
       </main>

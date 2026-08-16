@@ -42,7 +42,10 @@ n.callMethod.apply(n,arguments):n.queue.push(arguments)};
 if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
 n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
+// El snippet oficial asume que siempre hay un <script> con padre en el
+// documento. Si un bloqueador lo quitó, s es null y rompe con
+// "Cannot read properties of null (reading 'parentNode')".
+if(s&&s.parentNode){s.parentNode.insertBefore(t,s)}else{(b.head||b.documentElement).appendChild(t)}}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '${PIXEL_ID}');
 fbq('track', 'PageView');

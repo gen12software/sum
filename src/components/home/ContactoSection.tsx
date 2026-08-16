@@ -3,12 +3,8 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { PhoneCall, MessageCircle, MapPin, ArrowRight } from "lucide-react";
-import {
-  EMERGENCY_PHONE,
-  EMERGENCY_PHONE_DISPLAY,
-  WHATSAPP_URL,
-  WHATSAPP_MAIN_DISPLAY,
-} from "@/lib/contact";
+import { WHATSAPP_URL, WHATSAPP_MAIN_DISPLAY } from "@/lib/contact";
+import { EmergencyPhones } from "@/components/contact/EmergencyCall";
 
 export function ContactoSection() {
   return (
@@ -31,22 +27,25 @@ export function ContactoSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-14">
           {/* Emergencias */}
-          <motion.a
-            href={`tel:${EMERGENCY_PHONE}`}
+          <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="p-10 bg-secondary text-white rounded-4xl flex flex-col items-center text-center gap-5 hover:bg-secondary-dark transition-all group cursor-pointer"
+            className="p-10 bg-secondary text-white rounded-4xl flex flex-col items-center text-center gap-5"
           >
-            <PhoneCall size={32} className="group-hover:scale-110 transition-transform" />
+            <PhoneCall size={32} />
             <div>
               <div className="text-[10px] font-black uppercase tracking-[0.25em] mb-2 text-white/70">
                 Emergencias 24H
               </div>
-              <div className="text-2xl font-black">{EMERGENCY_PHONE_DISPLAY}</div>
+              {/* Un enlace por línea: apilados en mobile, en fila desde sm. */}
+              <EmergencyPhones
+                className="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-2"
+                itemClassName="text-2xl font-black rounded-xl px-3 py-1 hover:bg-white/15 transition-colors"
+              />
             </div>
-          </motion.a>
+          </motion.div>
 
           {/* WhatsApp */}
           <motion.a

@@ -2,6 +2,8 @@ import { ImageResponse } from "next/og";
 import { readFileSync } from "fs";
 import { join } from "path";
 
+import { EMERGENCY_PHONES_DISPLAY } from "@/lib/contact";
+
 export const alt = "SUM Servicios de Emergencia Médica";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -84,7 +86,7 @@ export default function OgImage() {
 
         {/* Info */}
         <div style={{ fontSize: 28, color: "white", fontWeight: 700 }}>
-          (0221) 421-1226 / 421-2234
+          {EMERGENCY_PHONES_DISPLAY}
         </div>
         <div style={{ fontSize: 18, color: "rgba(255,255,255,0.5)", marginTop: 12 }}>
           La Plata, Buenos Aires · Emergencias 24H
