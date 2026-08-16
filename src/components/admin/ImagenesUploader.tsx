@@ -45,14 +45,21 @@ type Props = {
   onChange: (imagenes: NovedadImagen[]) => void;
   disabled?: boolean;
   /**
-   * Destino de la subida. Cambia el bucket, no las reglas: el pop-up del inicio
-   * admite los mismos formatos y el mismo límite que una novedad.
+   * Destino de la subida. Cambia el bucket, no las reglas: el pop-up y el
+   * carrusel del inicio admiten los mismos formatos y el mismo límite que una
+   * novedad.
    */
-  tipo?: Extract<TipoArchivo, "imagen" | "popup-imagen">;
+  tipo?: Extract<TipoArchivo, "imagen" | "popup-imagen" | "hero-imagen">;
   /** Reemplaza la nota al pie del área de carga cuando no aplica "portada". */
   ayuda?: string;
   /** La primera imagen solo es portada en una novedad. */
   marcarPortada?: boolean;
+  /**
+   * Tope de imágenes. Sin valor no hay límite, que es como nació el
+   * componente. Alcanzado el tope, la carga se cierra en vez de aceptar
+   * archivos que después habría que descartar en silencio.
+   */
+  max?: number;
 };
 
 function Miniatura({
@@ -142,6 +149,7 @@ export function ImagenesUploader({
   tipo = "imagen",
   ayuda = "JPG, PNG o WebP. Hasta 10 MB cada una. La primera se usa como portada.",
   marcarPortada = true,
+  max,
 }: Props) {
   const [enCurso, setEnCurso] = useState<EnCurso[]>([]);
   const [errores, setErrores] = useState<string[]>([]);
@@ -155,11 +163,28 @@ export function ImagenesUploader({
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 8 } }),
   );
 
+  // El tope se mide contra lo que ya hay cargado, no contra lo que se acaba de
+  // soltar: arrastrar diez archivos con dos lugares libres debe subir dos y
+  // decir por qué se descartaron los otros, no fallar entero.
+  const lugaresLibres = max === undefined ? Infinity : Math.max(0, max - value.length);
+  const completo = lugaresLibres === 0;
+
   async function procesar(files: FileList | File[]) {
-    const lista = Array.from(files);
-    if (!lista.length) return;
+    const todos = Array.from(files);
+    if (!todos.length) return;
 
     setErrores([]);
+
+    const lista = todos.slice(0, lugaresLibres);
+    const descartados = todos.length - lista.length;
+
+    if (descartados > 0) {
+      setErrores([
+        `Se ${descartados === 1 ? "descartó 1 imagen" : `descartaron ${descartados} imágenes`}: el máximo es ${max}.`,
+      ]);
+    }
+
+    if (!lista.length) return;
 
     // Se validan todos primero para que los rechazos aparezcan de una sola vez.
     const nuevosErrores: string[] = [];
@@ -171,7 +196,8 @@ export function ImagenesUploader({
       else validos.push(file);
     }
 
-    if (nuevosErrores.length) setErrores(nuevosErrores);
+    // Se suman a los que pudo dejar el tope, en lugar de reemplazarlos.
+    if (nuevosErrores.length) setErrores((prev) => [...prev, ...nuevosErrores]);
 
     const subidas: NovedadImagen[] = [];
 
@@ -236,24 +262,32 @@ export function ImagenesUploader({
         onDrop={(event) => {
           event.preventDefault();
           setArrastrando(false);
-          if (!disabled) void procesar(event.dataTransfer.files);
+          if (!disabled && !completo) void procesar(event.dataTransfer.files);
         }}
         className={`rounded-xl border-2 border-dashed p-6 text-center transition-colors ${
-          arrastrando ? "border-accent bg-accent/5" : "border-border bg-white"
-        }`}
+          arrastrando && !completo ? "border-accent bg-accent/5" : "border-border bg-white"
+        } ${completo ? "opacity-60" : ""}`}
       >
         <ImagePlus size={22} className="mx-auto mb-2 text-primary/30" />
-        <p className="text-sm font-medium text-primary/60">
-          Arrastrá las imágenes acá o{" "}
-          <button
-            type="button"
-            onClick={() => inputRef.current?.click()}
-            disabled={disabled}
-            className="font-bold text-secondary underline underline-offset-2 hover:text-primary"
-          >
-            elegilas desde tu dispositivo
-          </button>
-        </p>
+
+        {completo ? (
+          <p className="text-sm font-medium text-primary/60">
+            Llegaste al máximo de {max} imágenes. Para agregar otra, quitá alguna de las cargadas.
+          </p>
+        ) : (
+          <p className="text-sm font-medium text-primary/60">
+            Arrastrá las imágenes acá o{" "}
+            <button
+              type="button"
+              onClick={() => inputRef.current?.click()}
+              disabled={disabled}
+              className="font-bold text-secondary underline underline-offset-2 hover:text-primary"
+            >
+              elegilas desde tu dispositivo
+            </button>
+          </p>
+        )}
+
         <p className="mt-1 text-xs font-medium text-primary/35">{ayuda}</p>
 
         <input

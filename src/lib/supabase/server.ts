@@ -36,3 +36,6 @@ export const BUCKET_VIDEOS = "novedades-videos";
  * almacenamiento queda legible por separado.
  */
 export const BUCKET_POPUP_IMAGENES = "popup-imagenes";
+
+/** Bucket del carrusel del inicio, separado por el mismo criterio. */
+export const BUCKET_HERO_IMAGENES = "hero-imagenes";

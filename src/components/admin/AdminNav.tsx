@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MessageSquareWarning, Newspaper } from "lucide-react";
+import { GalleryHorizontalEnd, MessageSquareWarning, Newspaper } from "lucide-react";
 
 /**
  * Las secciones de contenido del panel. El acceso a la cuenta vive en la
@@ -11,6 +11,7 @@ import { MessageSquareWarning, Newspaper } from "lucide-react";
 const LINKS = [
   { href: "/admin/novedades", label: "Novedades", Icon: Newspaper },
   { href: "/admin/popup", label: "Pop-up", Icon: MessageSquareWarning },
+  { href: "/admin/inicio", label: "Inicio", Icon: GalleryHorizontalEnd },
 ];
 
 export function AdminNav() {

@@ -15,10 +15,11 @@ import {
 
 /**
  * El tipo determina qué valida el cliente y a qué bucket va el archivo. Las
- * imágenes del pop-up del inicio se validan igual que las de una novedad y solo
- * difieren en el destino, que resuelve la ruta que emite la URL firmada.
+ * imágenes del pop-up y las del carrusel del inicio se validan igual que las de
+ * una novedad y solo difieren en el destino, que resuelve la ruta que emite la
+ * URL firmada.
  */
-export type TipoArchivo = "imagen" | "video" | "popup-imagen";
+export type TipoArchivo = "imagen" | "video" | "popup-imagen" | "hero-imagen";
 
 export type ArchivoSubido = {
   url: string;
@@ -46,6 +47,13 @@ const REGLAS = {
     sugerencia: " Probá comprimirlo antes de subirlo.",
   },
   "popup-imagen": {
+    maxBytes: IMAGEN_MAX_BYTES,
+    mimeTypes: IMAGEN_MIME_TYPES as readonly string[],
+    etiqueta: "La imagen",
+    formatos: "JPG, PNG o WebP",
+    sugerencia: "",
+  },
+  "hero-imagen": {
     maxBytes: IMAGEN_MAX_BYTES,
     mimeTypes: IMAGEN_MIME_TYPES as readonly string[],
     etiqueta: "La imagen",

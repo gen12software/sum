@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { getSession } from "@/lib/auth/guard";
 import {
+  BUCKET_HERO_IMAGENES,
   BUCKET_IMAGENES,
   BUCKET_POPUP_IMAGENES,
   BUCKET_VIDEOS,
@@ -25,7 +26,7 @@ import {
  */
 
 const requestSchema = z.object({
-  tipo: z.enum(["imagen", "video", "popup-imagen"]),
+  tipo: z.enum(["imagen", "video", "popup-imagen", "hero-imagen"]),
   nombre: z.string().min(1).max(255),
   contentType: z.string().min(1),
   size: z.number().int().positive(),
@@ -50,6 +51,14 @@ const REGLAS = {
   // que cambia es el bucket de destino.
   "popup-imagen": {
     bucket: BUCKET_POPUP_IMAGENES,
+    maxBytes: IMAGEN_MAX_BYTES,
+    mimeTypes: IMAGEN_MIME_TYPES as readonly string[],
+    etiqueta: "La imagen",
+    formatos: "JPG, PNG o WebP",
+  },
+  // Ídem para el carrusel del inicio: mismas reglas, distinto bucket.
+  "hero-imagen": {
+    bucket: BUCKET_HERO_IMAGENES,
     maxBytes: IMAGEN_MAX_BYTES,
     mimeTypes: IMAGEN_MIME_TYPES as readonly string[],
     etiqueta: "La imagen",
