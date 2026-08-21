@@ -27,8 +27,8 @@ export const HERO_FALLBACK: HeroSlideFallback[] = [
   {
     src: "/images/hero/1.DOCTORA.png",
     alt: "Médica de SUM S.A. en un pasillo del centro de atención",
-    titulo: "ESTAMOS CUIDANDO",
-    linea2: "MÁS IMPORTA",
+    titulo: "A TU LADO CUANDO",
+    linea2: "MÁS LO NECESITÁS",
     // La cara queda en la mitad superior: centrar el recorte la dejaría fuera
     // de cuadro en pantallas anchas.
     foco: "50% 0%",
@@ -55,7 +55,7 @@ export const HERO_FALLBACK: HeroSlideFallback[] = [
   {
     src: "/images/hero/5.LA PLATA.png",
     alt: "Vista de la ciudad de La Plata",
-    titulo: "DESDE HACE 40 AÑOS, CUIDANDO LA SALUD EN NUESTRA CIUDAD",
+    titulo: "CUIDANDO LA SALUD EN NUESTRA CIUDAD",
     foco: "50% 50%",
   },
   {
