@@ -169,14 +169,16 @@ const SERVICES_CATEGORIES: Category[] = [
         name: "Enfermero en Casa",
         desc: "La atención integral que necesita. Un sólo profesional para acompañar, cuidar y brindar atención de enfermería.",
         extra: "Módulo mínimo 6 horas",
-        phone: "221 671-0641",
+        whatsapp: "5492216710641",
+        whatsappDisplay: "221 671-0641",
         flyerImage: "/images/flyer_ENFERMERO EN CASA.png",
       },
       {
         name: "Cuidador en Domicilio",
         desc: "Acompañamiento, cuidado y tranquilidad para cada día.",
         extra: "Módulo mínimo 6 horas",
-        phone: "221 671-0641",
+        whatsapp: "5492216710641",
+        whatsappDisplay: "221 671-0641",
         flyerImage: "/images/flyer_CUIDADOR EN CASA.png",
       },
     ]
