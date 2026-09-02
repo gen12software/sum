@@ -599,7 +599,7 @@ export function ServicesContent() {
                               className="inline-flex items-center gap-2 text-green-600 font-black hover:scale-105 transition-transform text-sm"
                             >
                               <MessageCircle size={14} />
-                              221-6749056
+                              221-6710641
                             </a>
                           </div>
                         </div>
