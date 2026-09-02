@@ -96,7 +96,7 @@ const SERVICES_CATEGORIES: Category[] = [
         name: "Kinesiología Domiciliaria",
         desc: "Rehabilitación personalizada post-quirúrgica, funcional y deportiva en la comodidad de tu hogar.",
         whatsapp: "5492216749056",
-        whatsappDisplay: "+54 9 2216 74-9056"
+        whatsappDisplay: "221 674-9056"
       },
     ]
   },
@@ -161,21 +161,21 @@ const SERVICES_CATEGORIES: Category[] = [
         name: "Acompañamiento Terapéutico",
         desc: "Ofrecemos acompañamiento domiciliario personalizado con diferentes niveles de asistencia según el estado de salud y requerimientos de cada persona.",
         extra: "Módulo mínimo 6 horas",
-        phone: "221 6710641",
+        phone: "221 671-0641",
         flyerImage: "/images/FLYER_ACOMPAÑAMIENTO TERAPEUTICO.png",
       },
       {
         name: "Enfermero en Casa",
         desc: "La atención integral que necesita. Un sólo profesional para acompañar, cuidar y brindar atención de enfermería.",
         extra: "Módulo mínimo 6 horas",
-        phone: "221 6710641",
+        phone: "221 671-0641",
         flyerImage: "/images/flyer_ENFERMERO EN CASA.png",
       },
       {
         name: "Cuidador en Domicilio",
         desc: "Acompañamiento, cuidado y tranquilidad para cada día.",
         extra: "Módulo mínimo 6 horas",
-        phone: "221 6710641",
+        phone: "221 671-0641",
         flyerImage: "/images/flyer_CUIDADOR EN CASA.png",
       },
     ]
@@ -189,14 +189,14 @@ const SERVICES_CATEGORIES: Category[] = [
         name: "Área Protegida",
         desc: "Cobertura de emergencia inmediata para todas las personas dentro de tu establecimiento, permanentes u ocasionales.",
         whatsapp: "5492216754608",
-        whatsappDisplay: "+54 9 221 675-4608",
+        whatsappDisplay: "221 675-4608",
         extra: "Solicite promotor para asesoramiento comercial."
       },
       {
         name: "Medicina Laboral",
         desc: "Control de ausentismo y exámenes preocupacionales exhaustivos.",
         whatsapp: "5492216754608",
-        whatsappDisplay: "+54 9 221 675-4608",
+        whatsappDisplay: "221 675-4608",
         extra: "Consúltenos por planes a medida para su empresa."
       },
       {
