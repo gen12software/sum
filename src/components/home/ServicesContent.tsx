@@ -161,7 +161,8 @@ const SERVICES_CATEGORIES: Category[] = [
         name: "Acompañamiento Terapéutico",
         desc: "Ofrecemos acompañamiento domiciliario personalizado con diferentes niveles de asistencia según el estado de salud y requerimientos de cada persona.",
         extra: "Módulo mínimo 6 horas",
-        phone: "221 671-0641",
+        whatsapp: "5492216710641",
+        whatsappDisplay: "221 671-0641",
         flyerImage: "/images/FLYER_ACOMPAÑAMIENTO TERAPEUTICO.png",
       },
       {
