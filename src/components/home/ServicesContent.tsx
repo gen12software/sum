@@ -593,7 +593,7 @@ export function ServicesContent() {
                             </div>
                             <p className="text-[11px] font-bold text-primary/50 uppercase tracking-wide mb-3">Consultá por programaciones y más información</p>
                             <a
-                              href="https://wa.me/5492216749056"
+                              href="https://wa.me/5492216710641"
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-2 text-green-600 font-black hover:scale-105 transition-transform text-sm"
