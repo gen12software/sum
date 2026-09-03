@@ -51,7 +51,6 @@ const PLANS = [
     features: [
       { name: "Todo lo incluido en Plan Integral", included: true },
       { name: "Traslados de Baja Complejidad", included: true },
-      { name: "SIN COPAGO en Visitas Médicas", included: true },
     ],
     highlight: false,
     cta: "Solicitar",
