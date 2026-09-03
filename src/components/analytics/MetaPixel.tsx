@@ -31,6 +31,46 @@ export function MetaPixel({ pixelId: PIXEL_ID }: { pixelId: string }) {
     window.fbq?.("track", "PageView");
   }, [pathname, searchParams, PIXEL_ID]);
 
+  // Eventos custom por clic (WhatsApp de consulta, Planes, Telemedicina).
+  // Delegado a document para cubrir contenido montado dinámicamente y
+  // registrado una sola vez: las reglas de matching son sobre el DOM,
+  // no dependen de la ruta actual.
+  useEffect(() => {
+    if (!PIXEL_ID) return;
+
+    function handleClick(e: MouseEvent) {
+      if (typeof window.fbq !== "function") return;
+      const target = e.target as HTMLElement;
+
+      const wa = target.closest('a[href*="wa.me"]');
+      if (wa) {
+        const href = wa.getAttribute("href") ?? "";
+        if (
+          href.indexOf("baja") === -1 &&
+          href.indexOf("desafiliaci") === -1 &&
+          href.indexOf("arrepentimiento") === -1
+        ) {
+          window.fbq("track", "Contact");
+        }
+        return;
+      }
+
+      const planes = target.closest('a[href*="/planes"]');
+      if (planes) {
+        window.fbq("track", "ViewContent", { content_name: "Planes" });
+        return;
+      }
+
+      const telemed = target.closest('a[href*="itconsultsa.com"]');
+      if (telemed) {
+        window.fbq("track", "Lead", { content_name: "Telemedicina" });
+      }
+    }
+
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [PIXEL_ID]);
+
   if (!PIXEL_ID) return null;
 
   return (
