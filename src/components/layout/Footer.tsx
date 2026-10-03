@@ -6,6 +6,10 @@ import Image from "next/image";
 import { Phone, Mail, MapPin, Instagram, Facebook, ExternalLink } from "lucide-react";
 import { DEPARTMENTS, WHATSAPP_MAIN } from "@/lib/contact";
 
+// El fijo (0221) 421-6002 sigue vigente en /contacto, pero el cliente pidió no mostrarlo en el footer.
+const FOOTER_HIDDEN_TELS = ["+542214216002"];
+const FOOTER_TELS = DEPARTMENTS[1].tels?.filter((phone) => !FOOTER_HIDDEN_TELS.includes(phone.tel));
+
 export function Footer() {
   const [currentYear, setCurrentYear] = React.useState(2025);
   React.useEffect(() => { setCurrentYear(new Date().getFullYear()); }, []);
@@ -67,7 +71,7 @@ export function Footer() {
                 <MapPin size={15} className="text-white/70 shrink-0 mt-0.5" />
                 <span className="text-white/90 text-sm font-medium">Plaza Italia 183, La Plata<br />Provincia de Buenos Aires</span>
               </li>
-              {DEPARTMENTS[1].tels?.map((phone) => (
+              {FOOTER_TELS?.map((phone) => (
                 <li key={phone.tel} className="flex items-center gap-3">
                   <Phone size={15} className="text-white/70 shrink-0" />
                   <a href={`tel:${phone.tel}`} className="text-white/90 text-sm font-medium hover:text-white transition-colors">{phone.display}</a>
